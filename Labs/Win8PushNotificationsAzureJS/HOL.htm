@@ -1,0 +1,583 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Sending Windows 8 Push Notifications using Windows Azure and the Windows Push Notification Service (JS)</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-Windows8NotificationsHTMLJS/" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-Windows8NotificationsHTMLJS/" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="HOLTop"></a></p>
+
+<h1 id="Sending_Windows_8_Push_Notifications_using_Windows_Azure_and_the_Windows_Push_Notification_Service_JS">Sending Windows 8 Push Notifications using Windows Azure and the Windows Push Notification Service (JS)</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>In this hands-on lab, you will learn how to deploy a version of the <a href="http://watwindows8.codeplex.com/">Windows Azure Toolkit for Windows 8</a> to Windows Azure and then utilize this deployment to send notifications to your client application via the <a href="http://msdn.microsoft.com/en-us/library/windows/apps/hh465460(v=vs.85).aspx">Windows Push Notification Service (WNS)</a>. By the end of this lab you will have a fully functional portal capable of sending Toast, Tile and Badge notifications to your Windows Metro Style client application.</p>
+
+<p><img src="images/windows-azure-toolkit-for-windows-8-deliverin.png?raw=true" alt="Windows Azure Toolkit for Windows 8 delivering a notification via WNS" />
+</p>
+
+<p><em>Windows Azure Toolkit for Windows 8 delivering a notification via WNS</em></p>
+
+<p>If you would like to learn more about how this lab works please see <a href="http://channel9.msdn.com/Events/TechDays/TechDays-2012-Belgium/272">this video</a>.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li>Use the Windows Azure Management Portal to create storage accounts and hosted service components.</li>
+<li>Use the Windows Push Notification and Live Connect Portal to request credentials for use with WNS.</li>
+<li>Deploy web site using Web Deploy.</li>
+<li>Configure a Windows Metro Style client to receive notifications</li>
+<li>Test sending notifications to your client app via WNS using the Windows Azure Toolkit for Windows 8 portal.</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>You must have the following items to complete this lab:</p>
+
+<ul>
+<li><a href="http://msdn.microsoft.com/en-us/windows/apps/hh852659">Visual Studio 2012 Express for Windows 8</a> or greater.</li>
+<li>A Windows Azure subscription with the Web Sites Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 8 Operating System.</p>
+</blockquote>
+<p><a name="Setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>source</strong> folder.</p></li>
+<li><p>Execute the <strong>Setup.cmd</strong> file with Administrator privileges to launch the setup process that will configure your environment.</p></li>
+<li><p>If the User Account Control dialog is shown, confirm the action to proceed.</p></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Make sure you have checked all the dependencies for this lab before running the setup.</p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ul>
+<li>  <a href="#GettingStarted">Getting Started: Deploying the Notification App Server Using Web Deploy</a></li>
+<li>  <a href="#Exercise1">Exercise 1: Configure a Windows Metro Style Client application for Push Notifications</a></li>
+<li>  <a href="#Exercise2">Exercise 2: Sending Push Notifications</a></li>
+</ul>
+
+<p>Estimated time to complete this lab: <strong>45 minutes</strong>.</p>
+
+<p><a name="GettingStarted"></a></p>
+
+<h3 id="Getting_Started_Deploying_the_Notification_App_Server_Using_Web_Deploy">Getting Started: Deploying the Notification App Server Using Web Deploy</h3>
+
+<p>In this exercise, you deploy the notification app server to Windows Azure using Web Deploy. To do this, you provision the required service components at the management portal, request credentials from the WNS and Live Connect portal and deploy to Windows Azure using Web Deploy.   </p>
+
+<p><a name="GSTask1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_Storage_Account_and_Web_Site">Task 1 - Creating a Storage Account and Web Site</h4>
+
+<p>The application you deploy in this exercise requires a Web Site and a Storage Account. In this task, you create a new storage account to allow the application to persist its data. In addition, you define a Web Site to host the notification app server.</p>
+
+<ol>
+<li><p>Navigate to <a href="https://manage.windowsazure.com"><a href="https://manage.windowsazure.com">https://manage.windowsazure.com</a></a> using a Web browser and sign in using the Microsoft Account associated with your Windows Azure account.</p>
+
+<p><img src="images/signing-in-to-the-windows-azure-platform-mana.png?raw=true" alt="Signing in to the Windows Azure platform Management portal" />
+</p>
+
+<p><em>Signing in to the Windows Azure platform Management portal</em></p></li>
+<li><p>First, you will create the <strong>Storage Account</strong> that the application will use to store its data. In the Windows Azure Management Portal, click <strong>New</strong> | <strong>Storage Account</strong> | <strong>Quick Create</strong>.</p></li>
+<li><p>Set a unique <strong>URL</strong>, for example <em>myNotificationAppServer</em>, and click the <strong>Tick</strong> to continue.</p>
+
+<p><img src="images/creating-a-new-storage-account.png?raw=true" alt="Creating a new storage account" />
+</p>
+
+<p><em>Creating a new storage account</em></p>
+<blockquote>
+<p><strong>Note:</strong> The URL used for the storage account corresponds to a DNS name and is subject to standard DNS naming rules. Moreover, the name is publicly visible and must therefore be unique. The portal ensures that the name is valid by verifying that the name complies with the naming rules and is currently available. A validation error will be shown if you enter a name that does not satisfy the rules.</p>
+
+<p><img src="images/url-validation.png?raw=true" alt="URL Validation" />
+</p>
+</blockquote></li>
+<li><p>Wait until the Storage Account is created. Click your storage account's name to go to its <strong>Dashboard</strong>.</p>
+
+<p><img src="images/storage-accounts-page.png?raw=true" alt="Storage Accounts page" title="Storage Accounts page" />
+</p>
+
+<p><em>Storage Accounts page</em></p></li>
+<li><p>In the <strong>Dashboard</strong> page, you will see the <strong>URL</strong> assigned to each service in the storage account. Record the public storage account name, this is the first segment of the URL assigned to your endpoints.</p>
+
+<p><img src="images/storage-account-dashboard-page.png?raw=true" alt="Storage Account Dashboard page" title="Storage Account Dashboard page" />
+</p>
+
+<p><em>Storage Account Dashboard page</em></p></li>
+<li><p>Click <strong>Manage Keys</strong> at the bottom of the page in order to show the storage account's access keys.</p></li>
+<li><p>Copy the <strong>Primary access key</strong> value. You will use this value later on to configure the application.</p>
+
+<p><img src="images/manage-storage-account-keys.png?raw=true" alt="Manage Storage Account Keys" title="Manage Storage Account Keys" />
+</p>
+
+<p><em>Manage Storage Account Keys</em></p>
+<blockquote>
+<p><strong>Note:</strong> The <strong>Primary Access Key</strong> and <strong>Secondary</strong> Access <strong>Key</strong> both provide a shared secret that you can use to access storage. The secondary key gives the same access as the primary key and is used for backup purposes. You can regenerate each key independently in case either one is compromised.</p>
+</blockquote></li>
+<li><p>Go back to the portal home page, and select <strong>Web Sites</strong>.</p></li>
+<li><p>Select <strong>New</strong>, then select <strong>Web Site</strong> from the list and then <strong>Quick Create</strong>.</p></li>
+<li><p>Choose a name for your Web Site and then select <strong>Create Web Site</strong></p>
+
+<p><img src="images/creating-a-new-web-site.png?raw=true" alt="Creating a new Web Site" />
+</p>
+
+<p><em>Creating a new Web Site</em></p></li>
+</ol>
+
+<p><a name="GSTask2"></a></p>
+
+<h4 id="Task_2_-_Updating_the_application_with_your_Storage_Account_Name_and_Key">Task 2 - Updating the application with your Storage Account Name and Key</h4>
+
+<p>In this task, you will update the Connection String values within the web configuration file using the Storage Account you created in the previous task.</p>
+
+<ol>
+<li><p>In a new instance of <strong>Visual Studio 2012</strong>, open <strong>Services.sln</strong> located in the <strong>Assets</strong> folder.  This is the Notification App Server.</p></li>
+<li><p>Open <strong>Web.config</strong>.  In the <strong>appsettings</strong> section, replace the value of the <strong>DataConnectionString</strong> setting using the recommended format as shown in the commented lines in the snippet below.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#008000">&lt;!--
+      When deploying to Windows Azure, replace the DataConnectionString setting with the
+      connection string for your Windows Azure Storage account. For example:
+      &quot;DefaultEndpointsProtocol=https;AccountName={your storage account name};AccountKey={your storage account key}&quot;
+      --&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;DataConnectionString&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;DefaultEndpointsProtocol=https;AccountName={your storage account};AccountKey={your storage account key}&quot;</span>/
+
+</code></pre></li>
+<li><p>Save your changes.</p></li>
+<li><p>Open the <strong>Package Manager Console</strong>, and in the Package Sources window add the subfolders located in the <strong>Assets/Server/Nugets</strong> folder as new sources.</p></li>
+<li><p>Change the Package source in the Package Manager Console to <strong>All</strong>.</p></li>
+<li><p>Build the solution.</p></li>
+</ol>
+
+<p><a name="GSTask3"></a></p>
+
+<h4 id="Task_3_-_Requesting_WNS_Credentials_and_updating_the_Webconfig">Task 3 - Requesting WNS Credentials and updating the Web.config</h4>
+
+<p>In this task, you will obtain the Windows Push Notification Services (WNS) credentials and use them to update the Web Configuration file.</p>
+
+<ol>
+<li><p>To request <strong>WNS</strong> credentials you will require your publisher credentials for your metro style app.  In a new instance of <strong>Visual Studio 2012</strong>, open your existing HTML5/JS Metro Style application or create a new application. </p>
+<blockquote>
+<p><strong>Note:</strong>  If you do not have an existing client application for step 1 in Visual Studio 2012 for Windows 8 Express you can use <strong>File</strong> | <strong>New Project</strong> | Select <strong>Templates</strong> | <strong>Javascript</strong> and then <strong>Blank Application</strong>. Press <strong>OK</strong>.</p>
+</blockquote></li>
+<li><p>In solution explorer open your <strong>package.appxmanifest</strong> and select the <strong>packaging</strong> tab.  We will use the <strong>Package Display Name</strong> and <strong>Publisher</strong> fields for creating your <strong>WNS</strong> Credentials.</p>
+
+<p><img src="images/opening-packageappxmanifest.png?raw=true" alt="Opening package.appxmanifest" />
+</p>
+
+<p><em>Opening package.appxmanifest</em></p></li>
+<li><p>Navigate to the <strong>Windows Push Notifications &amp; Live Connect</strong> portal (<a href="http://manage.dev.live.com/build">http://manage.dev.live.com/build</a>).</p>
+
+<p><img src="images/login-to-request-wns-credentials.png?raw=true" alt="Login to request WNS credentials" />
+</p>
+
+<p><em>Login to request WNS credentials</em></p></li>
+<li><p>Sign in using your <strong>Microsoft Account</strong>.</p></li>
+<li><p>Follow the <strong>Step 1</strong> and <strong>Step 2</strong> provided in the portal to supply your Package Name and Certificate Name (CN).</p>
+
+<p><img src="images/requesting-wns-credentials.png?raw=true" alt="Requesting WNS Credentials" />
+</p>
+
+<p><em>Requesting WNS Credentials</em></p>
+<blockquote>
+<p><strong>Note:</strong>  Make sure you have copied the publisher to the portal correctly, otherwise, you will get a 403 unauthorized error when trying to send notifications.</p>
+</blockquote>
+<p><img src="images/credentials-supplied-for-auth-against-wns.png?raw=true" alt="Credentials supplied for Auth against WNS" />
+</p>
+
+<p><em>Credentials supplied for Auth against WNS</em></p>
+<blockquote>
+<p><strong>Note:</strong> Keep this browser open until the end of the lab as it can be used in subsequent steps.  If you prefer to close the browser, copy the three credentials to notepad for later use.</p>
+</blockquote></li>
+<li><p>Switch to the Notification App Server, open <strong>Web.config</strong> file and replace <em>[YOUR_WNS_PACKAGE_SID]</em> with the <strong>Package Security Identifier (SID)</strong>  and <em>[YOUR_WNS_CLIENT_SECRET]</em> with the <strong>Client secret</strong>.</p>
+
+<p><img src="images/updating-webconfig-with-wns-cred.png?raw=true" alt="Updating Web.config with WNS Credentials" />
+</p>
+
+<p><em>Updating Web.config with WNS Credentials</em></p>
+<blockquote>
+<p><strong>Note:</strong> Ensure you have not copied a white space on the start or end of the values in the <strong>Web.config</strong> and that the <strong>Package SID</strong> and <strong>Client Secret</strong> were pasted into the correct fields.</p>
+</blockquote></li>
+<li><p>Your Notification App Server is now ready to deploy to Windows Azure. Note if your account is limited to one core.</p></li>
+</ol>
+
+<p><a name="GSTask4"></a></p>
+
+<h4 id="Task_4_-_Deploy_your_Notification_App_Server_to_Windows_Azure_using_Web_Deploy">Task 4 - Deploy your Notification App Server to Windows Azure using Web Deploy</h4>
+
+<p>In this task, you will deploy the Notification App Server to Windows Azure using Web Deploy.</p>
+
+<ol>
+<li><p>In the Windows Azure Portal, select <strong>Web Sites</strong>, and then select your Web Site to open the <strong>Dashboard</strong>.  In the <strong>Dashboard</strong> page, under the <strong>quick glance</strong> section, click the <strong>Download publish profile</strong> link and save the file to a known location. You will use theses settings later to publish the web site from Visual Studio 2012.</p>
+<blockquote>
+<p><strong>Note:</strong> The <em>publish profile</em> contains all of the information required to publish a web application to a Windows Azure website for each enabled publication method. The publish profile contains the URLs, user credentials and database strings required to connect to and authenticate against each of the endpoints for which a publication method is enabled. <strong>Microsoft Visual Studio</strong> supports reading publish profiles to automate the publishing configuration for web applications to Windows Azure Web Sites.</p>
+</blockquote>
+<p><img src="images/download-publish-profile.png?raw=true" alt="Downloading the publish profile" title="Downloading the publish profile" />
+</p>
+
+<p><em>Downloading the publish profile</em></p></li>
+<li><p>In Visual Studio's Solution Explorer, right-click the <strong>Notification App Server</strong> project node and select <strong>Publish</strong> to open the Publish Web wizard.</p>
+
+<p><img src="images/publishing-the-service.png?raw=true" alt="Publishing the service" title="Publishing the service" />
+</p>
+
+<p><em>Publishing the service</em></p></li>
+<li><p>In the <strong>Profile</strong> page, click the <strong>Import</strong> button and select your publishing profile file. Click <strong>Next</strong>.</p>
+
+<p><img src="images/publishing-profile-profile-selection.png?raw=true" alt="Publising profile profile selection" />
+</p>
+
+<p><em>Selecting a publishing profile file</em></p></li>
+<li><p>In the <strong>Connection page</strong>, leave the imported values and click <strong>Next</strong>.</p>
+
+<p><img src="images/publishing-profile-imported.png?raw=true" alt="Publishing profile imported" title="Publishing profile imported" />
+</p>
+
+<p><em>Publishing profile imported</em></p></li>
+<li><p>In the <strong>Settings</strong> page, leave the default values and click <strong>Next</strong>.</p>
+
+<p><img src="images/publishing-profile-settings-page.png?raw=true" alt="Publishing profile, Settings page" title="Publishing profile, Settings page" />
+</p>
+
+<p><em>Publishing profile - Settings</em></p></li>
+<li><p>In the <strong>Preview</strong> page, click <strong>Publish</strong>.</p>
+
+<p><img src="images/publishing-profile-preview-page.png?raw=true" alt="Publishing Profile - Preview Page" title="Publishing Profile - Preview Page" />
+</p>
+
+<p><em>Publishing Profile - Preview Page</em></p>
+<blockquote>
+<p><strong>Note:</strong> If this is the first time you deploy the web site, you will be prompted to accept a certificate. After the message appears, click <strong>Accept</strong>. </p>
+
+<p><img src="images/publishing-certificate-error.png?raw=true" alt="Publishing certificate error" title="Publishing certificate error" />
+</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Configure_a_Windows_Metro_Style_Client_application_for_Notifications">Exercise 1: Configure a Windows Metro Style Client application for Notifications</h3>
+
+<p>In this exercise, you will configure your client application to request a notification channel from the WNS and register this channel with your Notification App Server running in Windows Azure.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Configuring_the_packageappmanifest_for_Push_Notifications">Task 1 - Configuring the package.appmanifest for Push Notifications</h4>
+
+<p>In this task, you will update the package.appmanifest to receive Wide Tile notifications using Visual Studio 2012.</p>
+
+<ol>
+<li> Return to your Windows Metro Style client application in <strong>Visual Studio 2012</strong>. </li>
+<li><p>In <strong>Solution Explorer</strong> double click <strong>package.appmanifest</strong>.</p>
+
+<p><img src="images/updating-your-client-app-with-wns-credentials.png?raw=true" alt="Updating your client app with WNS credentials" />
+</p>
+
+<p><em>Updating your client app with WNS credentials</em></p></li>
+<li><p>In order to enable your application to receive <strong>Wide Tile</strong> notifications, click <strong>Browse</strong> on Wide Logo and navigate to the <strong>Assets/Client</strong> folder. Then, select <strong>widelogo.png</strong> and click <strong>Open</strong>.</p>
+
+<p><img src="images/adding-a-wide-logo-to-your-application.png?raw=true" alt="Adding a wide logo to your application" />
+</p>
+
+<p><em>Adding a wide logo to your application</em></p></li>
+<li><p>Scroll down and change the <strong>Toast Capable</strong> dropdown to be <em>Yes</em>.</p>
+
+<p><img src="images/configuring-your-client-application-to-allow.png?raw=true" alt="Configuring your client application to allow Toast Notifications" />
+</p>
+
+<p><em>Configuring your client application to allow Toast Notifications</em></p></li>
+<li><p>Select the <strong>Packaging</strong> tab of <strong>package.appmanifest</strong>.</p></li>
+<li><p>Update the <strong>Package Name</strong> to the Package name created during the prior task in the <strong>WNS &amp; Live Connect Portal</strong> (<a href="https://manage.dev.live.com/build">https://manage.dev.live.com/build</a>) as depicted in the following figure. </p>
+
+<p><img src="images/configuring-your-packageappmanifest-package-n.png?raw=true" alt="Configuring your package.appmanifest package name" />
+</p>
+
+<p><em>Configuring your package.appmanifest package name</em></p></li>
+<li><p><strong>Close</strong> and <strong>Save</strong> changes to <strong>package.appmanifest</strong>.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Updating_the_Client_Codebase_for_Notifications">Task 2 - Updating the Client Codebase for Notifications</h4>
+
+<p>In this task, you will update your client application to be able to send push notifications using the Notification App Server.</p>
+
+<ol>
+<li> In Solution Explorer <strong>Right click</strong> on the <strong>js</strong> folder and select add existing item.</li>
+<li><p>Browse to the <strong>Assets/Client</strong>  folder, select <strong>notifications.js</strong> and click <strong>Add</strong>.</p>
+
+<p><img src="images/add-notificationsjs-to-your-client-applicatio.png?raw=true" alt="Add notifications.js to your client application" />
+</p>
+
+<p><em>Add notifications.js to your client application</em></p></li>
+<li><p>Open <strong>notifications.js</strong> file and update the url to point to the correct endpoint.  Update the <strong>serverUrl</strong> value <em>[YOUR_DNS_NAME]</em> in http://<em>[YOUR_WEBSITE_DOMAIN]</em>/endpoints.  You obtain the <strong>DNS</strong> value from the web site you created in the <strong>Winows Azure Management Portal</strong> in the previous exercise.</p>
+
+<p><code>var serverUrl = &quot;http://[YOUR_WEBSITE_DOMAIN]/endpoints&quot;;</code></p></li>
+<li><p>Open <strong>default.html</strong> within the Solution Explorer and add a <strong>script reference</strong> to <em>/js/notifications.js</em> and a <strong>div</strong> tag with id <em>statusMessage</em>.</p>
+
+<!-- mark:15,18     -->
+
+<span class="codelanguage">HTML</span><pre><code class="HTML"><span style="color:#0000FF">&lt;</span>!DOCTYPE html<span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">html</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">head</span><span style="color:#0000FF">&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">meta</span> <span style="color:#FF0000">charset</span>=<span style="color:#0000FF">&quot;utf-8&quot;</span><span style="color:#0000FF">&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">title</span><span style="color:#0000FF">&gt;</span>Application21<span style="color:#0000FF">&lt;/</span><span style="color:#800000">title</span><span style="color:#0000FF">&gt;</span>
+
+     <span style="color:#008000">&lt;!-- WinJS references --&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">link</span> <span style="color:#FF0000">href</span>=<span style="color:#0000FF">&quot;//Microsoft.WinJS.0.6/css/ui-dark.css&quot;</span> <span style="color:#FF0000">rel</span>=<span style="color:#0000FF">&quot;stylesheet&quot;</span><span style="color:#0000FF">&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">script</span> <span style="color:#FF0000">src</span>=<span style="color:#0000FF">&quot;//Microsoft.WinJS.0.6/js/base.js&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">script</span><span style="color:#0000FF">&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">script</span> <span style="color:#FF0000">src</span>=<span style="color:#0000FF">&quot;//Microsoft.WinJS.0.6/js/ui.js&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">script</span><span style="color:#0000FF">&gt;</span>
+
+     <span style="color:#008000">&lt;!-- Application21 references --&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">link</span> <span style="color:#FF0000">href</span>=<span style="color:#0000FF">&quot;/css/default.css&quot;</span> <span style="color:#FF0000">rel</span>=<span style="color:#0000FF">&quot;stylesheet&quot;</span><span style="color:#0000FF">&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">script</span> <span style="color:#FF0000">src</span>=<span style="color:#0000FF">&quot;/js/default.js&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">script</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">     <span style="color:#0000FF">&lt;</span><span style="color:#800000">script</span> <span style="color:#FF0000">src</span>=<span style="color:#0000FF">&quot;/js/notifications.js&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">script</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">head</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">body</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">id</span>=<span style="color:#0000FF">&quot;statusMessage&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">body</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">html</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Open <strong>default.js</strong> within <strong>js</strong> folder, and add a call to the <strong>openNotificationsChannel()</strong> of <strong>notifications.js</strong>.</p>
+
+<p><img src="images/adding-a-call-to-opennotificationschannel-to.png?raw=true" alt="Adding a call to openNotificationsChannel() to ensure your channel is requested from WNS and Registered with your Notification App Server" />
+</p>
+
+<p><em>Adding a call to openNotificationsChannel() to ensure your channel is requested from WNS and Registered with your Notification App Server</em></p></li>
+<li><p>Save all the changes from <strong>File</strong> | <strong>Save All</strong> (or by pressing <strong>Ctrl + Shift + S</strong>).</p></li>
+<li><p>In the <strong>Build</strong> menu, click <strong>Build Solution</strong> to ensure your builds.</p></li>
+<li><p>Open <strong>notifications.js</strong> and locate the <strong>openNotificationsChannel()</strong> method. This method will create a Push Notification Channel for the Notification App Server.</p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Sending_Push_Notifications">Exercise 2: Sending Push Notifications</h3>
+
+<p>This section describes how to run your client application and send notifications to it through the notification app server deployed to Windows Azure in the previous exercises.  </p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Confirm_your_Web_Site_deployment_to_Windows_Azure_is_complete">Task 1 - Confirm your Web Site deployment to Windows Azure is complete</h4>
+
+<p>In this task, you will verify that your application was correctly deployed to Windows Azure.</p>
+
+<ol>
+<li><p>Navigate to your deployed web site http://<strong>&lt;notificationsappserver&gt;</strong>.cloudapp.net.</p>
+
+<p><img src="images/notification-app-server-portal-running-in-win.png?raw=true" alt="Notification App Server portal running in Windows Azure" />
+</p>
+
+<p><em>Notification App Server portal running in Windows Azure</em></p></li>
+</ol>
+
+<p><a name="Ex2Task2"></a></p>
+
+<h4 id="Task_2_-_Running_the_Notification_enabled_Windows_Metro_Style_App">Task 2 - Running the Notification enabled Windows Metro Style App</h4>
+
+<p>In this task, you will run the client application you created in the previous exercise to create a channel for the WNS and register it with the Notification App Server.</p>
+
+<ol>
+<li> Return to your Windows Metro Style App where you configured the notifications.</li>
+<li><p>Once the solution has opened press <strong>F5</strong>. Due the configuration you made previously when the application launches it will call <strong>openNotificationsChannel()</strong> method. This will request a channel from <strong>WNS</strong> and submit it to the <strong>Notifications App Server</strong> you deployed to Windows Azure.  In the <strong>statusMessage</strong> div, you will see that the <strong>Channel URI</strong> was sent successfully to your service.</p>
+
+<p><img src="images/client-output-after-successful-channel-reques.png?raw=true" alt="Client output after successful channel request from WNS and registering with notification app server" />
+</p>
+
+<p><em>Client output after successful channel request from WNS and registering with notification app server</em></p></li>
+</ol>
+
+<p><a name="Ex2Task3"></a></p>
+
+<h4 id="Task_3_-_Sending_Push_Notifications_using_the_ASP_NET_MVC_4_Portal">Task 3 - Sending Push Notifications using the ASP .NET MVC 4 Portal</h4>
+
+<p>Now that a channel has been successfully requested from WNS and registered with your Notification App Server we can now start to send notifications through the portal.</p>
+
+<ol>
+<li><p>Switch to the Web browser and log into your deployed application (e.g: http://<em>[YOUR_SUBDOMAIN]</em>/.cloudapp.net), using the following credentials:</p>
+
+<ol>
+<li>User Name: <strong>admin</strong></li>
+<li>Password: <img src="images/password.png?raw=true" alt="password" />
+ (with a zero)</li>
+</ol></li>
+<li><p>Once logged in, additional menu options are displayed to allow you to send push notifications and manage the images (blobs) used when sending notifications.</p>
+
+<p><img src="images/notification-app-server-home-page.png?raw=true" alt="Notification App Server Home Page" />
+</p>
+
+<p><em>Notification App Server Home Page</em></p></li>
+<li><p>Click the <strong>Push Notifications</strong> menu option. Here you will see the channel that you requested using the sample Metro app that registered with your Web Role.</p>
+
+<p><img src="images/pushing-notifications.png?raw=true" alt="Pushing Notifications" />
+</p>
+
+<p><em>Pushing Notifications</em></p>
+<blockquote>
+<p><strong>Note:</strong> If you re-register your channel from your client app while this page is open it is worthwhile refreshing the page to ensure that you have captured the latest channel uri.</p>
+</blockquote></li>
+<li><p>You can now send your first <em>toast</em> notification to this channel. Click <strong>Send Notification</strong> button to open the notifications template dialog window.</p></li>
+<li><p>Select <strong>Toast</strong> in the first drop-down list and then select the <strong>ToastImageAndText01</strong> template.</p></li>
+<li><p>Configure the template column with your Square <strong>WindowsAzureLogo.png</strong> and type some text into <strong>Regular text</strong> as per below:</p>
+
+<p><img src="images/selecting-notification-type-and-template.png?raw=true" alt="Selecting notification type and template" />
+</p>
+
+<p><em>Selecting notification type and template</em></p></li>
+<li><p>Click <strong>Send</strong> and observe that the Web portal indicates that the message was successfully delivered to <strong>WNS</strong> and the <em>Toast</em> notification arrives to the Client application.</p>
+
+<p><img src="images/notification-sent-confirmation.png?raw=true" alt="Notification sent confirmation" />
+</p>
+
+<p><em>Notification sent confirmation</em></p>
+<blockquote>
+<p><strong>Note:</strong>  If you are getting a 403 unauthorized or no notifications showing up please try refreshing the page to ensure that the channel that you are sending to is refreshed.  Following this, please check that you created your WNS credentials with the correct CN from your package.appxmanifest and that you have configured your package.appxmanifest and Web.config correctly.</p>
+</blockquote></li>
+<li><p>Now you will see how to send a <em>Tile</em> notification. Select <strong>Tile</strong> in the first drop-down and then select the <strong>TileWideImageAndText01</strong> template.</p></li>
+<li><p>Configure the template column with:</p>
+
+<ol>
+<li> Your wide logo <strong>WindowsAzureLogoWide.png</strong>.</li>
+<li> Custom text to be displayed in <strong>Large Text</strong> and <strong>Regular Text</strong>.</li>
+<li><p>Click <strong>Send</strong>.</p>
+
+<p><img src="images/pushing-a-tile-notification.png?raw=true" alt="Pushing a Tile notification" />
+</p>
+
+<p><em>Pushing a Tile notification</em></p></li>
+</ol></li>
+<li><p>Return to <strong>Start</strong> by pressing the <strong>Windows key</strong> ( <img src="images/start.png?raw=true" alt="start" />
+) and observe that your <em>Tile</em> notification has now been delivered and is being displayed.</p>
+
+<p><img src="images/delivered-tile-notification.png?raw=true" alt="Delivered Tile notification" />
+</p>
+
+<p><em>Delivered Tile notification</em></p></li>
+<li><p>Now you will see how to send a <em>Badge</em> notification. Select <strong>Badge</strong> in the first drop-down list and then select the <strong>Glyph</strong> template.</p></li>
+<li><p>In the template column select the <strong>NewMessage</strong> option and click <strong>Send</strong>.</p>
+
+<p><img src="images/pushing-a-badge-notification.png?raw=true" alt="Pushing a Badge notification" />
+</p>
+
+<p><em>Pushing a Badge notification</em></p></li>
+<li><p>Return to <strong>Start</strong> by pressing the <strong>Windows key</strong> ( <img src="images/start.png?raw=true" alt="start" />
+) and observe that your <em>Tile</em> has now the <em>Badge</em> updated to see the NewMessage Glyph type:</p>
+
+<p><img src="images/updated-tile-notification-with-a-badge.png?raw=true" alt="Updated Tile notification with a Badge" />
+</p>
+
+<p><em>Updated Tile notification with a Badge</em></p>
+<blockquote>
+<p><strong>Note:</strong> This concludes the overview of how to send Toast, Tile and Badge notifications using the Windows Azure Toolkit for Windows 8. As an exercise, it's recommended to spend some time both exploring the rich set of templates available to each of the different notification types and how you can use blob storage to store your image assets for notifications.</p>
+</blockquote></li>
+</ol>
+
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>By completing this Hands-On Lab you have learned how to:</p>
+
+<ul>
+<li>   Use the Windows Azure Management Portal to create storage accounts and web site components.</li>
+<li>  Use the WNS and Live Connect Portal to request credentials for use with WNS.</li>
+<li>  Deploy a web site using Web Deploy.</li>
+<li>  Configure a Windows Metro Style client to receive notifications.</li>
+<li>  Test sending notifications to your client app via WNS using the Windows Azure Toolkit for Windows 8 portal.</li>
+</ul>
+
+<p>If you would like the full codebase for the <strong>Notification App Server</strong> to update for your own applications please download the <strong>Windows Azure Training Kit for Windows 8</strong> (<a href="http://watwindows8.codeplex.com">http://watwindows8.codeplex.com</a>).</p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-Windows8NotificationsHTMLJS//issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

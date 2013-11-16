@@ -1,0 +1,14 @@
+{
+  "name": "mynodejsapp",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./server.js",
+  "devDependencies": {
+	"mongoose": "2.5.12",
+      	"express": "*",
+      	"jade": "0.25.0",
+      	"mongodb": "0.9.9-7",
+	"hooks": "0.2.1"
+  },
+  "engines": { "node": ">= 0.6.0" }
+}

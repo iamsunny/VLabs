@@ -1,0 +1,514 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Building and Publishing Node.js Applications with Windows Azure Web Sites (Windows)</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-NodejsAzureWebSites" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-NodejsAzureWebSites" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="Title"></a></p>
+
+<h1 id="Building_and_Publishing_Nodejs_Applications_with_Windows_Azure_Web_Sites_Windows">Building and Publishing Node.js Applications with Windows Azure Web Sites (Windows)</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>In this hands-on lab, you will learn the basics of the Windows Azure Web Sites service for Node.js applications. In Exercise 1, you will see how to use the Windows Azure Management Portal for creating a web site and then publish a &quot;Hello World&quot; Node.js application using GIT. In Exercise 2, you will learn how to use the Windows Azure Command-Line Tools for publishing applications. Finally, in exercise 3 you will explore the WebMatrix 2 features for building and publishing Node.js web applications in Windows Azure.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to create and publish a Node.js application using:</p>
+
+<ul>
+<li>Git</li>
+<li>Windows Azure Command-Line Tools</li>
+<li>WebMatrix 2</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><a href="http://git-scm.com/">Git Version Control System</a> </li>
+<li><a href="http://go.microsoft.com/?linkid=9809776">Microsoft WebMatrix 2</a> (for exercise 3 only)</li>
+<li><a href="http://nodejs.org/#download">Node.js</a> </li>
+<li><p><a href="https://www.windowsazure.com/en-us/develop/nodejs/how-to-guides/command-line-tools/">Windows Azure Command-Line Tools</a> (for exercise 2 only)</p>
+<blockquote>
+<p><strong>Note:</strong> If you do not have Windows Azure Command-Line Tools installed, open a command prompt with administrator privileges and run the following command:</p>
+
+<span class="codelanguage">PowerShell</span><pre><code class="PowerShell">npm install azure -g
+</code></pre>
+
+<p>By using -g, Windows Azure Command-Line Tools will install on your machine globally. That means, you will be able to execute azure commands from any location.</p>
+</blockquote></li>
+<li><p>A Windows Azure subscription with the Web Sites Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></p></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<p><a name="Setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</p></li>
+<li><p>Right-click the <strong>Setup.cmd</strong> file and click <strong>Run as administrator</strong>. This will launch the setup process that will automatically check and install all the requirements.</p></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li><a href="#Exercise1">Building and Publishing a Node.js Web Site using GIT</a></li>
+<li><a href="#Exercise2">Building and publishing a Node.js Web Site using the Command-Line Tools</a></li>
+<li><a href="#Exercise3">Building and Publishing a Node.js Web Site using WebMatrix 2</a></li>
+</ol>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Building_and_Publishing_a_Nodejs_Web_Site_using_GIT">Exercise 1: Building and Publishing a Node.js Web Site using GIT</h3>
+
+<p>In the first exercise you will create a new web site from the Windows Azure portal, create a 'Hello World' Node.js application and finally deploy it taking advantage of the new GIT publishing feature provided by Windows Azure.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Web_Site_Hosted_in_Windows_Azure">Task 1 - Creating a New Web Site Hosted in Windows Azure</h4>
+
+<ol>
+<li><p>Go to the <a href="https://manage.windowsazure.com/">Windows Azure portal</a> and sign in using your <strong>Microsoft Account</strong> credentials associated with your subscription.</p>
+
+<p><img src="images/log-in-into-windows-azure-portal.png?raw=true" alt="Sign in to Windows Azure Management portal" title="Sign in to Windows Azure Management portal" />
+</p>
+
+<p><em>Sign in to Windows Azure Management portal</em></p></li>
+<li><p>Click <strong>New</strong> at the bottom of the page.</p>
+
+<p><img src="images/creating-a-new-web-site.png?raw=true" alt="Creating a new Web Site" title="Creating a new Web Site" />
+</p>
+
+<p><em>Creating a new Web site</em></p></li>
+<li><p>Click <strong>Web Site</strong> and then <strong>Quick Create</strong>.  Provide an available URL for the new Web Site and click <strong>Create Web Site</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> A Windows Azure Web Site is the host for a web application running in the cloud that you can control and manage. The Quick Create option allows you to deploy a completed web application to the Windows Azure Web Site from outside the portal. It does not include steps for setting up a database.</p>
+</blockquote>
+<p><img src="images/creating-a-new-web-site-using-quick-create-op.png?raw=true" alt="Creating a new Web Site using Quick Create " title="Creating a new Web Site using Quick Create" />
+</p>
+
+<p><em>Creating a new Web Site using Quick Create</em></p></li>
+<li><p>Wait until the new web site is created.</p>
+
+<p><img src="images/creating-new-web-site-status.png?raw=true" alt="Creating new web site status" title="Creating new web site status" />
+</p>
+
+<p><em>Creating new web site status</em></p></li>
+<li><p>Once the web site is created click the link under the <strong>URL</strong> column. Check that the new web site is working.</p>
+
+<p><img src="images/browsing-to-new-site.png?raw=true" alt="Browsing to the new web site" title="Browsing to the new web site" />
+</p>
+
+<p><em>Browsing to the new web site</em></p>
+
+<p><img src="images/web-site-running.png?raw=true" alt="Web site running" title="Web site running" />
+</p>
+
+<p><em>Web site running</em></p></li>
+<li><p>Go back to the portal and click the name of the web site under the <strong>Name</strong> column to display the management pages for the web site.</p>
+
+<p><img src="images/selecting-the-dashboard-tab.png?raw=true" alt="Opening the web site management pages" title="Openining the web site management pages" />
+</p>
+
+<p><em>Opening the web site management pages</em></p></li>
+<li><p>In the <strong>Dashboard</strong> page, under the <strong>quick glance</strong> section, click the <strong>Set up Git publishing</strong> link.</p>
+
+<p><img src="images/setting-up-git-publishing.png?raw=true" alt="Setting up Git Publishing" title="Setting up Git Publishing" />
+</p>
+
+<p><em>Setting up Git Publishing</em></p>
+<blockquote>
+<p><strong>Note:</strong> Git is a free, open-source, distributed version control system that handles small to very large projects. After you set up Git publishing, each .Git push initiates a new deployment.</p>
+</blockquote></li>
+<li><p>Wait a few seconds until the Git repository is ready.</p>
+<blockquote>
+<p><strong>Tip:</strong> After the Git repository is ready you will see a quick start page with the set of commands you need to execute for pushing your web application files to Windows Azure. </p>
+</blockquote>
+<p><img src="images/git-repository-created.png?raw=true" alt="Git repository created" title="Git repository created" />
+</p>
+
+<p><em>Git repository created</em></p></li>
+<li><p>Do not close the management portal.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Creating_a_New_Nodejs_Web_Application">Task 2 - Creating a New Node.js Web Application</h4>
+
+<ol>
+<li><p>Create a new <strong>node</strong> folder in your <em>C:\</em> drive, or in another location that can be easily accessed.</p></li>
+<li><p>Create a new text file with a text editor and add the following code that will send the string <em>Hello World</em> to the browser. Save the file as <strong>server.js</strong> in the folder you created (in this case <em>C:\node</em>).</p>
+
+<span class="codelanguage">Javascript</span><pre><code class="Javascript"><span style="color:#0000FF">var</span> http = require(&#39;http&#39;);
+<span style="color:#0000FF">var</span> port = process.env.port || 1337;
+http.createServer(<span style="color:#0000FF">function</span> (req, res) {
+                  res.writeHead(200, { &#39;Content-Type&#39;: &#39;text/plain&#39; });
+                  res.end(&#39;Hello World\n&#39;);
+}).listen(port);
+</code></pre></li>
+<li><p>Create a new text file with a text editor and add the following code. Save the file as <strong>package.json</strong> in the <strong>node</strong> folder.</p>
+
+<span class="codelanguage">Json</span><pre><code class="Json">{
+  &quot;name&quot;: &quot;HelloWorld&quot;,
+  &quot;version&quot;: &quot;0.0.1&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;./server.js&quot;,
+  &quot;engines&quot;: { &quot;node&quot;: &quot;&gt;= 0.6.0&quot; }
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The package.json file tells the Node.js package manager (npm) how your package is structured, and which are the module dependencies. As this application is very simple it does not require dependencies, but in more complex apps you will probably need to specify a &quot;dependencies&quot; property. When publishing apps with Git, Windows Azure platform automatically installs all the dependencies declared in this file.</p>
+</blockquote></li>
+<li><p>Create another text file with a text editor and add the following code. Save the file as <strong>web.config</strong> in your web site folder (in this case <em>C:\node</em>). This configuration indicates that the <strong>server.js</strong> file is a Node.js application
+to be handled by the iisnode module.</p>
+<blockquote>
+<p><strong>Note:</strong> The <a href="https://github.com/tjanczuk/iisnode">iisnode</a> project provides a native IIS 7.x module that allows hosting of node.js applications in IIS 7.x and IIS 7.x Express (WebMatrix).</p>
+</blockquote>
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;?</span>xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;<span style="color:#0000FF">?&gt;</span>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span>
+          <span style="color:#0000FF">&lt;</span><span style="color:#800000">modules</span> <span style="color:#FF0000">runAllManagedModulesForAllRequests</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#0000FF">/&gt;</span>
+
+          <span style="color:#008000">&lt;!-- indicates that the server.js file is a node.js application 
+            to be handled by the iisnode module --&gt;</span>
+          <span style="color:#0000FF">&lt;</span><span style="color:#800000">handlers</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;iisnode&quot;</span> <span style="color:#FF0000">path</span>=<span style="color:#0000FF">&quot;server.js&quot;</span> <span style="color:#FF0000">verb</span>=<span style="color:#0000FF">&quot;*&quot;</span> <span style="color:#FF0000">modules</span>=<span style="color:#0000FF">&quot;iisnode&quot;</span> <span style="color:#0000FF">/&gt;</span>
+          <span style="color:#0000FF">&lt;/</span><span style="color:#800000">handlers</span><span style="color:#0000FF">&gt;</span>
+          <span style="color:#0000FF">&lt;</span><span style="color:#800000">rewrite</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;</span><span style="color:#800000">rules</span><span style="color:#0000FF">&gt;</span>
+              <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span> <span style="color:#0000FF">/&gt;</span>
+              <span style="color:#0000FF">&lt;</span><span style="color:#800000">rule</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;app&quot;</span> <span style="color:#FF0000">enabled</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#FF0000">patternSyntax</span>=<span style="color:#0000FF">&quot;ECMAScript&quot;</span> <span style="color:#FF0000">stopProcessing</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">&gt;</span>
+                <span style="color:#0000FF">&lt;</span><span style="color:#800000">match</span> <span style="color:#FF0000">url</span>=<span style="color:#0000FF">&quot;server\.js.+&quot;</span> <span style="color:#FF0000">negate</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#0000FF">/&gt;</span>
+                <span style="color:#0000FF">&lt;</span><span style="color:#800000">conditions</span> <span style="color:#FF0000">logicalGrouping</span>=<span style="color:#0000FF">&quot;MatchAll&quot;</span> <span style="color:#FF0000">trackAllCaptures</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#0000FF">/&gt;</span>
+                <span style="color:#0000FF">&lt;</span><span style="color:#800000">action</span> <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Rewrite&quot;</span> <span style="color:#FF0000">url</span>=<span style="color:#0000FF">&quot;server.js&quot;</span> <span style="color:#0000FF">/&gt;</span>
+              <span style="color:#0000FF">&lt;/</span><span style="color:#800000">rule</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">rules</span><span style="color:#0000FF">&gt;</span>
+          <span style="color:#0000FF">&lt;/</span><span style="color:#800000">rewrite</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Publishing_the_Nodejs_Application_using_Git">Task 3 - Publishing the Node.js Application using Git</h4>
+
+<ol>
+<li><p>Go back to the Windows Azure Management Portal. Open the site's <strong>Dashboard</strong> and under the <strong>quick glance</strong> section, copy the <strong>Git Clone Url</strong> value.</p>
+
+<p><img src="images/git-clone-url.png?raw=true" alt="Git Clone Url" />
+</p>
+
+<p><em>Copying the Git Clone Url</em></p></li>
+<li><p>In order to publish your local files, open a <strong>Git BASH</strong> console, CD into your application folder (in this case <em>C:\node</em>) and run the following commands.</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">git init
+git add .
+git commit -m &quot;initial commit&quot;
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You can learn more about Git commands in the project documentation <a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a>.</p>
+</blockquote></li>
+<li><p>To add the remote Windows Azure repository and push the files, run the following commands. Replace the <em>{Git Clone Url}</em> placeholder with the value obtained from the portal.</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">git remote add azure {Git Clone Url}
+git push azure master
+</code></pre></li>
+<li><p>Enter the deployment credentials when prompted.</p>
+<blockquote>
+<p><strong>Note:</strong> Deployment credentials are other than the Microsoft Account associated with your Windows Azure subscription and are valid for use with all Windows Azure web sites associated with your subscription. If you don't know your deployment credentials you can easily reset them using the management portal. Open the web site's <strong>Dashboard</strong> page and click the <strong>Reset deployment credentials</strong> link. Provide a new password and click Ok.</p>
+
+<p><img src="images/setting-the-username-and-password.png?raw=true" alt="Resetting the deployment credentials" title="Resetting the deployment credentials" />
+</p>
+
+<p><em>Resetting the deployment credentials</em></p>
+</blockquote></li>
+<li><p>Go to the site's <strong>Dashboard</strong> page and click the <strong>Site Url</strong> link under the <strong>quick glance</strong> section to ensure that the site is running.</p>
+
+<p><img src="images/running-the-nodejs-application.png?raw=true" alt="Running the Node.js application" title="Running the Node.js application" />
+</p>
+
+<p><em>Running the Node.js application</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Building_and_Publishing_a_Nodejs_Web_Site_using_the_Command-Line_Tools">Exercise 2: Building and Publishing a Node.js Web Site using the Command-Line Tools</h3>
+
+<p>In this exercise, you will learn how to manage web sites using the Windows Azure Command-Line Tools. </p>
+<blockquote>
+<p><strong>Note:</strong> In the prerequisites section of this lab you will find the instructions to install the Command-Line Tools.</p>
+</blockquote>
+<ol>
+<li><p>Open a Command Prompt with administrator privileges and execute the following command to download your account <em>publish profile</em> file. A new browser window will pop up and you must login using your <strong>Microsoft Account</strong> credentials. </p>
+
+<p>Once logged in, save the publish profile file in a known location (for example, 'C:\')</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">azure account download
+</code></pre>
+
+<p><img src="images/download-publishsettings.png?raw=true" alt="Downloading the account publish profile" title="Downloading the account publish profile" />
+</p>
+
+<p><em>Downloading the account publish profile</em></p></li>
+<li><p>Go back to the Command Prompt and import the file downloaded in the step above by running the following command, specifying the publish profile file location in the <em>{publish_profile_file}</em> placeholder (in this case <em>'C:\'</em>).</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">azure account import {publish_profile_file}
+</code></pre></li>
+<li><p>Execute <a href="#Ex1Task2">Task 2 from Exercise 1</a> to create a Node.js site, but place the files in a different folder than exercise 1 (for example <em>C:\NodeCLI</em>).</p></li>
+<li><p>Open a Windows Command Prompt and CD to the folder where you placed the site (in this case <em>C:\NodeCLI</em>).</p></li>
+<li><p>Run the following command to create the Windows Azure hosted site.</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">azure site create --git
+</code></pre>
+
+<p>Provide a site name when prompted, for example, <em>NodeCLI</em>. Then select a region and proceed.</p>
+
+<p><img src="images/new-web-site-cli.png?raw=true" alt="Creating a new Web Site using the Command-Line Tools" title="Creating a new Web Site using the Command-Line Tools" />
+</p>
+
+<p><em>Creating a new Web Site using the Command-Line Tools</em></p>
+<blockquote>
+<p><strong>Note:</strong> By specifying <strong>--git</strong> when running the command <strong>site create</strong> you don't need to run additional commands to initialize the Git repository or add the git remote, since these two tasks will be done automatically by the command line tools.</p>
+</blockquote></li>
+<li><p>Now you will add the current files to the Git repository and push them. To do this, go back to the command prompt and execute the following commands. When prompted, provide your deployment credentials.</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">git add .
+git commit -m &quot;initial commit&quot;
+git push azure master
+</code></pre>
+
+<p><img src="images/push-site.png?raw=true" alt="Pushing the site files" title="Pushing the site files" />
+</p>
+
+<p><em>Pushing the site files</em></p>
+<blockquote>
+<p><strong>Note:</strong> Deployment credentials are other than the Microsoft Account associated with your Windows Azure subscription and are valid for use with all Windows Azure web sites associated with your subscription. If you don't know your deployment credentials you can easily reset them using the management portal. Open the web site's <strong>Dashboard</strong> page and click the <strong>Reset deployment credentials</strong> link. Provide a new password and click Ok.</p>
+
+<p><img src="images/reset-credentials-cli.png?raw=true" alt="Resetting the deployment credentials" title="Resetting the deployment credentials" />
+</p>
+
+<p><em>Resetting the deployment credentials</em></p>
+</blockquote></li>
+<li><p>Let's check that the publishing was successful. Run the following command to open the site in the Windows Azure Management portal and provide your Microsoft Account credentials associated with the subscription to sign in.</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">azure site portal
+</code></pre>
+
+<p>In the Windows Azure portal, click your site in the Web Site list and open the <strong>Deployments</strong> page of the site. Check out the latest deployment.</p>
+
+<p><img src="images/site-deployments.png?raw=true" alt="Web Site deployments" title="Web Site deployments" />
+</p>
+
+<p><em>Web Site deployments</em></p></li>
+<li><p>Now execute the following command to browse to the web site and make sure it runs successfully.</p>
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt">azure site browse
+</code></pre>
+
+<p><img src="images/website-working-cli.png?raw=true" alt="Published web site" title="Published web site" />
+</p>
+
+<p><em>Published web site</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercise3"></a></p>
+
+<h3 id="Exercise_3_Building_and_Publishing_a_Nodejs_Web_Site_using_WebMatrix_2">Exercise 3: Building and Publishing a Node.js Web Site using WebMatrix 2</h3>
+
+<p>In this exercise you will learn how to build and publish web sites in Windows Azure with WebMatrix 2. You will use the new Node.js web site templates to create a simple Node.js web application and publish it to Windows Azure using WebMatrix publishing features.</p>
+
+<h4 id="Task_1_-_Creating_a_New_Nodejs_Web_Application_in_WebMatrix_2">Task 1 - Creating a New Node.js Web Application in WebMatrix 2</h4>
+
+<ol>
+<li><p>Execute <a href="#Ex1Task1">Task 1 from Exercise 1</a> to create a new Web Site (e.g. <em>web-matrix-test</em>) in the Windows Azure Management Portal.</p></li>
+<li><p>Open <strong>WebMatrix 2</strong>.</p>
+
+<p><img src="images/web-matrix.png?raw=true" alt="Starting WebMatrix 2" title="Starting WebMatrix 2" />
+</p>
+
+<p><em>Starting WebMatrix 2</em></p></li>
+<li><p>Select the <strong>Templates</strong> option and under the <strong>Node</strong> category select the <strong>Express Site</strong> template. Type a name for the site and click <strong>Next</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> This template provides a basic Node.js Web application with routing and templating that uses Express, an MVC-style application framework.</p>
+</blockquote>
+<p><img src="images/express-template.png?raw=true" alt="Creating a site with the Express Site template" title="Creating a site with the Express Site template" />
+</p>
+
+<p><em>Creating a site with the Express Site template</em></p>
+<blockquote>
+<p><strong>Note:</strong> 
+If this is the first time you use the Express Site template, WebMatrix will install IISNode for IIS Express. </p>
+
+<p><img src="images/iisnode-install.png?raw=true" alt="IISNode for IIS Express" title="IISNode for IIS Express" />
+</p>
+</blockquote></li>
+<li><p>Click the <strong>Run</strong> button from the ribbon bar to check if the site is running successfully.</p>
+
+<p><img src="images/express-template-running.png?raw=true" alt="Running the web site" title="Running the web site" />
+</p>
+
+<p><em>Running the web site</em></p></li>
+</ol>
+
+<h4 id="Task_2_-_Publishing_the_Web_Application_to_Windows_Azure">Task 2 - Publishing the Web Application to Windows Azure</h4>
+
+<ol>
+<li><p>Go back to the Windows Azure Portal and open the <strong>Dashboard</strong> of the web site you've created.</p>
+
+<p><img src="images/website-dashboard.png?raw=true" alt="Opening the Dashboard" title="Opening the Dashboard" />
+</p>
+
+<p><em>Opening the Dashboard</em></p></li>
+<li><p>Click the <strong>Download publish profile</strong> link from the <strong>quick glance</strong> section and save the file to a known location.</p>
+<blockquote>
+<p><strong>Note:</strong> The <em>publish profile</em> contains all of the information required to publish a web application to a Windows Azure website for each enabled publication method. The publish profile contains the URLs, user credentials and database strings required to connect to and authenticate against each of the endpoints for which a publication method is enabled. Both <strong>Microsoft WebMatrix</strong> and <strong>Microsoft Visual Web Developer</strong> support reading publish profiles to automate configuration of these programs for publishing web applications to Windows Azure websites.</p>
+</blockquote>
+<p><img src="images/download-publish-profile.png?raw=true" alt="Downloading the publish profile" title="Downloading the publish profile" />
+</p>
+
+<p><em>Downloading the publish profile</em></p></li>
+<li><p>Back in WebMatrix, click the <strong>Publish</strong> button from the ribbon bar.</p></li>
+<li><p>In the <strong>Publish Settings</strong> dialog, click the <strong>Import publish settings</strong> link. Open the file you've just downloaded.</p>
+
+<p><img src="images/import-publish-profile.png?raw=true" alt="Opening the publish settings" title="Opening the publish settings" />
+</p>
+
+<p><em>Opening the publish settings</em></p></li>
+<li><p>Click the <strong>Validate Connection</strong> and make sure the validation runs successfully. Click <strong>Save</strong>.</p>
+
+<p><img src="images/validating-publish-settings.png?raw=true" alt="Validating the publish profile" title="Validating the publish profile" />
+</p>
+
+<p><em>Validating the publish profile</em></p></li>
+<li><p>If a <strong>Publish Compatibility</strong> dialog is displayed, click <strong>Yes</strong> to test compatibility. Once the test runs, click <strong>Continue</strong>.</p>
+
+<p><img src="images/publish-compatibility.png?raw=true" alt="Testing the publish compatibility" title="Testing the publish compatibility" />
+</p>
+
+<p><em>Testing the publish compatibility</em></p></li>
+<li><p>On the <strong>Publish Preview</strong> step, make sure all the files are selected and click <strong>Continue</strong>.</p>
+
+<p><img src="images/publish-preview.png?raw=true" alt="Preview of the files to be published" title="Preview of the files to be published" />
+</p>
+
+<p><em>Preview of the files to be published</em></p></li>
+<li><p>Make sure the publishing completes successfully.</p>
+
+<p><img src="images/publish-successfully.png?raw=true" alt="Publishing the web site" title="Publishing the web site" />
+</p>
+
+<p><em>Publishing the web site</em></p></li>
+<li><p>Click the site link in the notification message to browse to the published site.</p>
+
+<p><img src="images/published-site.png?raw=true" alt="Browsing to the published site" title="Browsing to the published site" />
+</p>
+
+<p><em>Browsing to the published site</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>In this hands-on lab, you learned the basics of the Windows Azure Web Sites service for Node.js applications. In Exercise 1, you saw how to use the Windows Azure Management Portal for creating a web site and then published a &quot;Hello World&quot; Node.js application using GIT. In Exercise 2, you learned how to use the Windows Azure Command-Line Tools for publishing applications. Finally, in exercise 3 you explored the WebMatrix 2 features for building and publishing Node.js web applications in Windows Azure. At the end, you had a working Node.js site running on Windows Azure. </p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-NodejsAzureWebSites/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

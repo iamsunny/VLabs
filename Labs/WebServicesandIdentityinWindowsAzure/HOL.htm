@@ -1,0 +1,910 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Web Services and Identity in Windows Azure</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-WebServiceAndIdentity" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-WebServiceAndIdentity" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="HOLTitle"></a></p>
+
+<h1 id="Web_Services_and_Identity_in_Windows_Azure">Web Services and Identity in Windows Azure</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>Windows Identity Foundation can simplify access to your Windows Communication Foundation (WCF) services, by providing the usual claims-based identity arsenal of good practices: authentication externalization, location independence, decoupling from credential types and many others. There is no reason for you not to enjoy the same advantages when you host your WCF services in Windows Azure: there are few practicalities that are intrinsic to the hosting platform, but the steps you need to follow are largely the same whether you are deploying your services on-premises or in the cloud. If you want to be fully aware of the differences between the two cases, you can optionally go through the lab &quot;Web Services and Identity for Visual Studio 2010 Developers&quot; from the <a href="http://msdn.microsoft.com/en-us/IdentityTrainingCourse">Identity Training Course</a> and learn about how to use WCF and WIF on-premises before starting the current lab: please note that it is entirely optional, as this HOL is self-contained and independent.</p>
+
+<p>This lab is a step by step guide that will help you to use claims-based identity for handling authentication and access management for your WCF services hosted in Windows Azure; it will show you how you can still take advantage of local identities for authenticating your users, despite the fact that your services are now hosted in the cloud. The lab will walk you through all the practicalities of taking advantage of the unique characteristics of the Windows Azure environment from your Windows Identity Foundation settings.</p>
+
+<p>More precisely, you will learn how to:</p>
+
+<ul>
+<li>Use Windows Identity Foundation with WCF services hosted in Windows Azure</li>
+<li>Trusting an on-premises STS from a WCF service hosted in Windows Azure</li>
+<li>Using WIF &amp; WCF tracing for a WCF service hosted in Windows Azure, taking advantage of blob storage for the traces</li>
+<li>Configure a WCF service to use load balancing</li>
+<li>Deploy a WCF service secured via WIF to the Windows Azure cloud</li>
+</ul>
+
+<p>Windows Identity Foundation can do much more than what we cover in this lab: we hope that the skills you will learn here will help you in your further explorations of identity development.</p>
+
+<p>The first lab will show you the process to configure a weather service to trust an on-premises development STS, and run the entire solution in the Compute Emulator. The second lab will add diagnostics and load balancing features to the WCF service implemented in the first lab. Finally, the third lab will walk you through the steps for running the solution to Windows Azure, which trusts an on-premises STS, generates diagnostic logs, and provides load balancing facilities. As shown on the figure below, an already provided client will be used to consume the WCF service running on the Compute emulator and afterwards in Windows Azure.</p>
+
+<p><img src="./images/A-visual-summary-of-what-you-will-build-in-this-lab.png?raw=true" alt="A visual summary of what you will build in this lab" title="A visual summary of what you will build in this lab" />
+</p>
+
+<p><em>A visual summary of what you will build in this lab</em></p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li>Use Windows Identity Foundation for handling access to a WCF service hosted in the Windows Azure DevFabric by reusing on-premises identities</li>
+<li>Add STS references on a WCF service hosted in Windows Azure</li>
+<li>Add service references to a client which points to a WCF service hosted in Windows Azure</li>
+<li>Configure a WCF service to emit WIF and WCF traces in blob storage, and retrieve traces for offline analysis</li>
+<li>Provide custom SecurityTokenHandler and ServiceBehavior classes for enabling a WCF service to take advantage of load balancers</li>
+<li>Deploy to the Windows Azure staging and production evnironments a WCF service secured via WIF</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>You must have the following items to complete this lab:</p>
+
+<ul>
+<li>Microsoftc Internet Information Services (IIS) 7.0 (with ASP.NET component, Static Content Support, and a Localhost SSL certificate installed)</li>
+<li><a href="http://go.microsoft.com/fwlink/?linkid=186916">Microsoftc .NET Framework 4.0</a></li>
+<li><a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions">Microsoftc Visual Studio 2010</a></li>
+<li><a href="http://www.microsoft.com/windowsazure/sdk/">Windows Azure Tools for Microsoft Visual Studio 1.7</a></li>
+<li><a href="http://support.microsoft.com/kb/974405">Microsoftc Windows Identity Foundation Runtime</a></li>
+<li><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=c148b2df-c7af-46bb-9162-2c9422208504">Microsoftc Windows Identity Foundation SDK</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<p><a name="Setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+<blockquote>
+<p><strong>Note:</strong> Make sure you have checked all the dependencies for this lab before running the setup.</p>
+</blockquote>
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</p></li>
+<li><p>Right click the <strong>Setup.cmd</strong> file and click <strong>Run as administrator</strong>. This will launch the setup process that will configure your environment and install the Visual Studio code snippets for this lab.</p></li>
+<li><p>Once you passed all the dependencies, the setup script will proceed with the certificates installation. Press <strong>Y</strong> if you want to continue with the required certificates installation.</p>
+<blockquote>
+<p><strong>Note:</strong> If you already have a &quot;localhost&quot; certificate needed by another application, ensure to make a backup copy of it before continue with the lab's certificates installation.</p>
+</blockquote>
+<p><img src="./images/Certificates-installation-finished.png?raw=true" alt="Certificates installation finished" title="Certificates installation finished" />
+</p>
+
+<p><em>Certificates installation finished</em></p>
+<blockquote>
+<p><strong>Note:</strong> If you are running Windows 7 you might not see this window.</p>
+</blockquote></li>
+<li><p>When finished press any key to close the setup console.</p></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> In addition to the setup script, inside the <strong>Source\Setup</strong> folder of this lab, there is a <strong>Cleanup.cmd</strong> file you can use to uninstall all the code snippets installed by setup scripts.</p>
+
+<p>When you first start Visual Studio, you must select one of the predefined settings collections. Every predefined collection is designed to match a particular development style and determines window layouts, editor behavior, IntelliSense code snippets, and dialog box options. The procedures in this lab describe the actions necessary to accomplish a given task in Visual Studio when using the <strong>General Development Settings</strong> collection. If you choose a different settings collection for your development environment, there may be differences in these procedures that you need to take into account.</p>
+</blockquote>
+<p><a name="CodeSnippets"></a></p>
+
+<h3 id="Using_the_Code_Snippets">Using the Code Snippets</h3>
+
+<p>Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2010 to avoid having to add it manually. </p>
+
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>The following exercises make up this hands-on lab:</p>
+
+<ol>
+<li>Using the Windows Identity Foundation with a WCF Service in Windows Azure</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Each exercise is accompanied by a starting solution located in the Begin folder of the exercise that allows you to follow each exercise independently of the others. Please be aware that the code snippets that are added during an exercise are missing from these starting solutions and that they will not necessarily work until you complete the exercise. Inside the source code for an exercise, you will also find an End folder containing a Visual Studio solution with the code that results from completing the steps in the corresponding exercise. You can use these solutions as guidance if you need additional help as you work through this hands-on lab.</p>
+</blockquote>
+<p>Estimated time to complete this lab: <strong>60 minutes</strong></p>
+
+<p><a name="GettingStarted"></a></p>
+
+<h2 id="Getting_Started_Setting_up_the_Certificates_and_Local_STS">Getting Started: Setting up the Certificates and Local STS</h2>
+
+<p><a name="GettingStartedTask1"></a></p>
+
+<h4 id="Task_1_-_Generating_the_Required_Certificates">Task 1 - Generating the Required Certificates</h4>
+
+<p>During this task, you will create an X.509 certificate used by the service you will implement in the Exercises of this lab. Your service will need a certificate in order to be able to publish endpoints on a SSL channel; the same certificate will be used for handling token encryption and decryption. Windows Azure expects to find X.509 certificates for cloud solutions in specific stores, hence it will be necessary to register your service certificate accordingly.</p>
+
+<p>Note that in a real application you would probably obtain a certificate from a trusted certificate authority, and that the subject name would follow whatever DNS name you want to ultimately assign to your service. For the sake of simplicity, in this lab we will provide you with scripts for generating self-signed certificates which are not suitable for production use.</p>
+
+<p>To do this, you will execute a script provided as part of the assets of the Lab.</p>
+
+<ol>
+<li><p>Open a <strong>Microsoft Visual Studio 2010 Command Prompt</strong> with administrator privileges. From <strong>Start | All Programs | Microsoft Visual Studio 2010 | Visual Studio Tools</strong>, right-click <strong>Visual Studio 2010 Command Prompt</strong> and select <strong>Run as administrator</strong>.</p></li>
+<li><p>Navigate to the <strong>Assets\AzureCertificates</strong> folder inside the <strong>Source</strong> folder of this Lab.</p></li>
+<li><p>Execute the <strong>SetupCertificates.cmd</strong> script. The name you provide will be used as the subject of the generated certificate, in the form <em><strong>{yourprojectname}.cloudapp.net</strong></em>. Since we plan to use SSL, the subject must correspond to the URI of the application if you want to prevent warnings about mismatches. Remember that if you plan to deploy to the cloud, the name you pick must be unique: we suggest to use a name of a form that will remind you of the project's purpose, such as <strong>wifwcfwazlab<em>{companyname}</em>.cloudapp.net</strong>. Make sure to use only lower case letters.</p>
+<blockquote>
+<p><strong>Note:</strong> During this lab, &quot;foo&quot; will be used as sample service project name. When you see it, you should provide the name that you used to create your Cloud Service.</p>
+
+<p><strong>IMPORTANT:</strong> If the name you pick at this point will end up being already in use, if you want to perform the last task of the lab (deploy to the public cloud) you will need to choose a new, unique name and repeat various steps in the lab.</p>
+</blockquote>
+<span class="codelanguage">CMD</span><pre><code class="CMD">SetupCertificates.cmd
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> This script will perform the following tasks:</p>
+
+<p>- Create a certificate for your Relying Party (RP) application using the <strong>MakeCert</strong> command and store it in the <strong>LocalMachine\Personal</strong> store.</p>
+
+<p>- Copy the generated certificate to the <strong>CurrentUser\Personal</strong> store so the Windows Azure Tools for Visual Studio can find it.</p>
+
+<p>- Copy the localhost certificate generated by Windows Azure SDK to the <strong>LocalMachine\Trusted Root</strong> store, so svcutil and &quot;Add Service Reference&quot; (used later in the lab) can connect to HTTPS metadata endpoints hosted in Compute Emulator. Note that, if this is the first time that you use the Windows Azure SDK on your machine, the certificate here mentioned may not have been already created: in that case you may need to perform extra steps later in the exercise.</p>
+</blockquote>
+<p><img src="./images/A-visual-summary-of-what-you-will-build-in-Exercise-1.png?raw=true" alt="A visual summary of what you will build in Exercise 1" title="A visual summary of what you will build in Exercise 1" />
+</p>
+
+<p><em>A visual summary of what you will build in Exercise 1</em></p>
+<blockquote>
+<p><strong>Note:</strong> This script relies on Windows PowerShell scripts in its underlying implementation. In order to run those scripts, PowerShell execution policy must be set to <strong>Unrestricted</strong>. By default, PowerShell's execution policy is set to <strong>Restricted</strong>; that means that scripts - including those you write yourself - won't run. If needed, run the command below in an Administrator PowerShell command prompt to set your execution policy to <strong>Unrestricted</strong> (all scripts will run, regardless of where they come from and whether or not they've been signed. </p>
+
+<p>Set-ExecutionPolicy RemoteSigned</p>
+
+<p>For more information, take a look at the following MSDN article: <a href="http://technet.microsoft.com/en-us/library/ee176949.aspx"><a href="http://technet.microsoft.com/en-us/library/ee176949.aspx">http://technet.microsoft.com/en-us/library/ee176949.aspx</a></a> </p>
+</blockquote></li>
+<li><p>Close the command prompt.</p></li>
+</ol>
+
+<p><a name="GettingStartedTask1"></a></p>
+
+<h4 id="Task_2_-_Creating_the_Local_STS">Task 2 - Creating the Local STS</h4>
+
+<p>Exercises in this lab need an STS to which you can outsource authentication to. You may have access to some local identity provider, for example your company's instance of ADFSv2, however that is not always the case. In order to ensure that you can successfully go through the lab without dependencies, we will make sure that you have access to a suitable identity provider by giving you instructions to create your own development time STS, hosted in your local IIS. WIF makes the task extremely easy, by providing a WCF project template which already contains most of the plumbing you need. Note that the STS you are building here can be used with on-premises services just as well.</p>
+<blockquote>
+<p><strong>Note:</strong> If you do have an STS available in your environment, feel free to use it instead of creating one through this task. Just make sure to do it only if you know that your STS provides the necessary capabilities for the lab scenario and that you are confident enough in the topic to be able to adjust the instructions in the next tasks accordingly.</p>
+</blockquote>
+<ol>
+<li><p>Open <strong>Microsoft Visual Studio 2010</strong> with administrator privileges. From <strong>Start | All Programs | Microsoft Visual Studio 2010</strong>, right-click <strong>Microsoft Visual Studio 2010</strong> and select <strong>Run as administrator</strong>. </p></li>
+<li><p>In the <strong>File</strong> menu, select <strong>New | Web Site</strong>.</p></li>
+<li><p>In the <strong>New Web Site</strong> dialog, select the <strong>WCF Security Token Service</strong> template and press the <strong>Browse</strong> button at the right of the Location text box.</p>
+
+<p><img src="./images/Creating-the-WCF-Security-Token-Service.png?raw=true" alt="Creating the WCF Security Token Service" title="Creating the WCF Security Token Service" />
+</p>
+
+<p><em>Creating the WCF Security Token Service</em></p></li>
+<li><p>In the <strong>Choose Location</strong> dialog, select <strong>Local IIS</strong> at the left panel. You will create a new Web Application to host the STS, to do this, select the <strong>Default Web Site</strong> node on the tree at the right and press the <strong>Create New Web Application</strong> button (<img src="./images/LocalSTS-and-make-sure-that-the-Use-Secure-Sockets-Layer-option-is-checked..png?raw=true" alt="LocalSTS and make sure that the Use Secure Sockets Layer option is checked." title="LocalSTS and make sure that the Use Secure Sockets Layer option is checked." />
+
+). Set the name to <strong>LocalSTS</strong> and make sure that the <strong>Use Secure Sockets Layer</strong> option is checked.</p>
+
+<p><img src="./images/Creating-the-new-Web-Application-to-host-the-STS.png?raw=true" alt="Creating the new Web Application to host the STS" title="Creating the new Web Application to host the STS" />
+</p>
+
+<p><em>Creating the new Web Application to host the STS</em></p></li>
+<li><p>Press <strong>Open</strong> to confirm the location and <strong>OK</strong> to finally create the STS. </p></li>
+<li><p>The development STS does not issue encrypted tokens by default: we need to go back to the STS project and change the STS configuration accordingly. Open the <strong>Web.config</strong> file of the <strong>https://localhost/LocalSTS</strong> project by double-clicking it in the <strong>Solution Explorer</strong>.</p></li>
+<li><p>Inside the <strong>&lt;appSettings&gt;</strong> section, set the signing certificate used by the STS by modifying the <strong>SigninigCertificateName</strong> property as it is shown below. Set its value to &quot;IdentityTKStsCert&quot; which is the CN for the certificate created as part of the setup for this Lab.</p>
+
+<!-- mark:3    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;IssuerName&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;ActiveSTS&quot;</span><span style="color:#0000FF">/&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;SigningCertificateName&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;CN=IdentityTKStsCert&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;EncryptingCertificateName&quot;</span> <span style="color:#FF0000">value</span>
+         =<span style="color:#0000FF">&quot;CN=DefaultApplicationCertificate&quot;</span><span style="color:#0000FF">/&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Inside the <strong>&lt;appSettings&gt;</strong> section, set the certificate used by the STS to the one created for the Relying Party in previous task, modifying the <strong>EncryptingCertificateName</strong> property as it is shown below. Remember to update the placeholder with your actual Cloud Service name you used in the previous task.</p>
+
+<!-- mark:4    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;IssuerName&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;ActiveSTS&quot;</span><span style="color:#0000FF">/&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;SigningCertificateName&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;CN=IdentityTKStsCert&quot;</span><span style="color:#0000FF">/&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;EncryptingCertificateName&quot;</span> <span style="color:#FF0000">value</span></strong>
+         =<span style="color:#0000FF">&quot;CN={yourprojectname}.cloudapp.net&quot;</span><span style="color:#0000FF">/&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Metadata retrieval from the STS will be over https. To enable this, replace the <strong>httpGetEnabled</strong> attribute inside the <strong>serviceMetadata</strong> element to <strong>httpsGetEnabled</strong> (note the &quot;s&quot;):</p>
+
+<!-- mark:6    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+   ...
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;</span><span style="color:#800000">behavior</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;ServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">                <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceMetadata</span> <span style="color:#FF0000">httpsGetEnabled</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+                <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceDebug</span> <span style="color:#FF0000">includeExceptionDetailInFaults</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#0000FF">/&gt;</span>
+            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">behavior</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Here we are changing the metadata retrieval to take place on https simply because it is good practice. It is by no means a Windows Azure-specific requirement; we may do the same on-premises.</p>
+</blockquote></li>
+<li><p>Also update the <strong>Mex endpoint</strong> to use the <strong>mexHttpsBinding</strong> binding (note the &quot;s&quot;):</p>
+
+<!-- mark:8    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Microsoft.IdentityModel.Protocols.WSTrust.WSTrustServiceContract&quot;</span> <span style="color:#FF0000">behaviorConfiguration</span>=<span style="color:#0000FF">&quot;ServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">endpoint</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;IWSTrust13&quot;</span> <span style="color:#FF0000">binding</span>=<span style="color:#0000FF">&quot;ws2007HttpBinding&quot;</span> <span style="color:#FF0000">contract</span>=<span style="color:#0000FF">&quot;Microsoft.IdentityModel.Protocols.WSTrust.IWSTrust13SyncContract&quot;</span>  <span style="color:#FF0000">bindingConfiguration</span>=<span style="color:#0000FF">&quot;ws2007HttpBindingConfiguration&quot;</span><span style="color:#0000FF">/&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">host</span><span style="color:#0000FF">&gt;</span>
+          ...
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">host</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">endpoint</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;mex&quot;</span> <span style="color:#FF0000">binding</span>=<span style="color:#0000FF">&quot;mexHttpsBinding&quot;</span> <span style="color:#FF0000">contract</span>=<span style="color:#0000FF">&quot;IMetadataExchange&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">service</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+    ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>Ctrl + S</strong> to save the <strong>Web.config</strong> file and close it.</p></li>
+</ol>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Using_Windows_Identity_Foundation_with_a_WCF_Service_in_Windows_Azure">Exercise 1: Using Windows Identity Foundation with a WCF Service in Windows Azure</h3>
+
+<p>This exercise will walk you through the process of creating a WCF role, configure its service to trust an on-premises development STS, attach a client and run the entire solution in the Compute Emulator. This is easily accomplished with only minor modifications to the procedure you would have followed for obtaining the same result on premises. The main changes accommodate the fact that in Windows Azure a service is hosted at different addresses according to the environment (local, staging, production), a situation you would have to deal with in any multi-staged environment.</p>
+
+<p>You will start in Task 1 by implementing a simple weather service and testing its behavior without authentication using a client provided by the lab. Afterwards in Task 2, you will use WIF tooling to establish a trust relationship between the weather service and a local STS, by configuring the WCF service binding and behaviors collection in a way that will make the service require tokens from LocalSTS from all its future callers. Then in Task 3 and 4, you will set up an HTTPS secure endpoint between the WCF service and the STS using an X.509 certificate, using the Windows Azure Visual Studio tooling UI for associating it to the RelyingParty WCF Service Role. You will also enable the weather service HTTPS endpoint port. Finally in the verification, you will update the client to test the HTTPS endpoint of the weather service.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Implementing_the_Weather_Service">Task 1 - Implementing the Weather Service</h4>
+
+<p>The sample Relying Party application you will build in this lab will simulate a service providing weather-related information, hosted on a WCF Role of Windows Azure. In this task, you will open a Windows Azure Project project with a WCF Role already created. Then, you will implement the Weather Service and verify its behavior using a client provided by the lab.</p>
+<blockquote>
+<p><strong>Note:</strong> You require an STS project and appropriate certificates to complete this exercise. If you have not already done so, complete the <strong>Getting Started</strong>  section.</p>
+</blockquote>
+<ol>
+<li><p>Open <strong>Microsoft Visual Studio 2010</strong> with administrator privileges. From <strong>Start | All Programs | Microsoft Visual Studio 2010</strong>, right-click <strong>Microsoft Visual Studio 2010</strong> and select <strong>Run as administrator</strong>. </p></li>
+<li><p>Open the <strong>WIFWCFonWindowsAzure.sln</strong> solution file from the <strong>\Source\Ex1-UsingWIFandWCF\Begin</strong> folder of this lab.</p></li>
+<li><p>You will first setup some basic configuration for running the WCF Role. In the Solution Explorer, double-click the <strong>RelyingParty</strong> node inside the <strong>Roles</strong> folder of the <strong>CloudConfiguration</strong> project to bring up its properties page.</p></li>
+<li><p>In the <strong>Configuration</strong> tab, make sure that <strong>.NET trust level</strong> is set to <strong>Full Trust</strong>, and uncheck the <strong>HTTP endpoint</strong> check box inside the <strong>Startup action</strong> section to avoid launching the browser when you run the CloudConfiguration project.</p>
+<blockquote>
+<p><strong>Note:</strong> If you can't uncheck the <strong>HTTP endpoint</strong> check box, close Visual Studio, and open it again as Administrator.</p>
+</blockquote>
+<p><img src="./images/Configuration-for-not-launching-the-browser..png?raw=true" alt="Configuration for not launching the browser." title="Configuration for not launching the browser." />
+</p>
+
+<p><em>Configuration for not launching the browser.</em></p></li>
+<li><p>Now, you will set the WCF Service Web Role endpoints configuration. To do this, select the <strong>Endpoints</strong> tab and set the <strong>Public Port</strong> to <em>8000</em> for <em>Endpoint1</em>. This will make the service to be available in port 8000.</p>
+
+<p><img src="./images/Configuring-HTTP-WeatherService-endpoint.png?raw=true" alt="Configuring HTTP WeatherService endpoint" title="Configuring HTTP WeatherService endpoint" />
+</p>
+
+<p><em>Configuring HTTP WeatherService endpoint</em></p>
+<blockquote>
+<p><strong>Note:</strong> The port value above are meant to avoid collisions with other processes listening for connections on the local machine. A typical example of this would be IIS, which usually reserves the use of ports 80 and 443 for itself. If you pick ports that collide with ports already in use by other processes, DevFabric will assign to your service random ports making development difficult. If port 8000 is already in use in your machine, make sure you choose a different port accordingly.</p>
+</blockquote></li>
+<li><p>You will now provide an implementation of the weather service. To do this, right-click the <strong>RelyingParty</strong> project and select <strong>Add | Existing Item</strong>.</p></li>
+<li><p>In the <strong>Add Existing Item</strong> dialog, navigate to the <strong>Assets\Service</strong> folder inside the <strong>Source</strong> folder of this lab, select the <strong>IWeatherService.cs</strong> and <strong>WeatherService.svc</strong> files and press <strong>Add</strong>. These files set up a weather service, which provides random 3 and 10 day forecasts based on a given zip code.</p>
+
+<p><img src="./images/Adding-WeatherService-files-to-the-RelyingParty.png?raw=true" alt="Adding WeatherService files to the RelyingParty" title="Adding WeatherService files to the RelyingParty" />
+</p>
+
+<p><em>Adding WeatherService files to the RelyingParty</em></p></li>
+<li><p>You will now test the service behavior using the <strong>Client</strong> project that is already included in the solution. To do this, press <strong>Ctrl + F5</strong> to run the Cloud project without attaching the Visual Studio debugger. The <strong>Compute Emulator</strong> and the <strong>Storage Emulator</strong> will be launched.</p>
+
+<p><img src="./images/Opening-the-Compute-Emulator-UI.png?raw=true" alt="Opening the Compute Emulator UI" title="Opening the Compute Emulator UI" />
+</p>
+
+<p><em>Opening the Compute Emulator UI</em></p></li>
+<li><p>Right-click the Azure icon tray and select Show <strong>Compute Emulator UI</strong>. In the <strong>Windows Azure Compute Emulator</strong>, ensure that the service has started successfully browsing the tree at the left panel looking for the <strong>RelyingParty</strong> role.</p>
+
+<p><img src="./images/Checking-that-the-RelyingParty-role-is-running-correctly.png?raw=true" alt="Checking that the RelyingParty role is running correctly" title="Checking that the RelyingParty role is running correctly" />
+</p>
+
+<p><em>Checking that the RelyingParty role is running correctly</em></p></li>
+<li><p>Back in <strong>Visual Studio</strong>, right-click the <strong>Client</strong> project and select <strong>Add Service Reference</strong>. The service will be listening on the localhost (127.0.0.1) on the port we specified in previous steps, that is to say 8000. Enter <strong><a href="http://127.0.0.1:8000/WeatherService.svc">http://127.0.0.1:8000/WeatherService.svc</a></strong> on the <strong>Address</strong> text box, and then press <strong>Go</strong>.</p>
+
+<p><img src="./images/Adding-a-Service-reference-to-the-RelyingParty-running-on-Compute-Emulator.png?raw=true" alt="Adding a Service reference to the RelyingParty running on Compute Emulator" title="Adding a Service reference to the RelyingParty running on Compute Emulator" />
+</p>
+
+<p><em>Adding a Service reference to the RelyingParty running on Compute Emulator</em></p></li>
+<li><p>Leave the default Service Namespace and press <strong>OK</strong> to add the reference to the WCF Service.</p></li>
+<li><p>You will now set up the <strong>Client</strong> project that is included in the solution to consume the weather service you just added. To do this, right-click the <strong>ForecastForm</strong> node, select <strong>View Code</strong>, and add the following statement.</p>
+
+<p>(Code Snippet - <em>WebServicesAndIdentityInAzure Lab - ForecastForm Using Statement</em>)</p>
+
+<!-- mark:1    -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> Client.ServiceReference1;</strong>
+</code></pre></li>
+<li><p>Replace the <strong>ShowForecast</strong> method implementation with the following code:</p>
+
+<p>(Code Snippet - <em>WebServicesAndIdentityInAzure Lab - ForecastForm Consuming Weather Service</em>)</p>
+
+<!-- mark:1-78    -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">private</span> <span style="color:#0000FF">void</span> ShowForecast(<span style="color:#0000FF">int</span> days, <span style="color:#0000FF">int</span> zipCode)</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">    <span style="color:#0000FF">using</span> (WeatherServiceClient relyingParty = <span style="color:#0000FF">new</span> WeatherServiceClient())</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">        WeatherInfo weatherInfo = <span style="color:#0000FF">null</span>;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        <span style="color:#0000FF">try</span></strong>
+<strong class="markLine">        {</strong>
+<strong class="markLine">            <span style="color:#0000FF">this</span>.Cursor = Cursors.WaitCursor;</strong>
+<strong class="markLine">            <span style="color:#0000FF">this</span>.sourceLabel.Text = <span style="color:#8B0000">&quot;Loading...&quot;</span>;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">            <span style="color:#0000FF">if</span> (days == 3)</strong>
+<strong class="markLine">            {</strong>
+<strong class="markLine">                weatherInfo = relyingParty.GetThreeDaysForecast(zipCode);</strong>
+<strong class="markLine">            }</strong>
+<strong class="markLine">            <span style="color:#0000FF">else</span> <span style="color:#0000FF">if</span> (days == 10)</strong>
+<strong class="markLine">            {</strong>
+<strong class="markLine">                weatherInfo = relyingParty.GetTenDaysForecast(zipCode);</strong>
+<strong class="markLine">            }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">            <span style="color:#0000FF">this</span>.DisplayForecast(weatherInfo.Forecast);</strong>
+<strong class="markLine">            <span style="color:#0000FF">this</span>.sourceLabel.Text = <span style="color:#0000FF">string</span>.Format(</strong>
+<strong class="markLine">                CultureInfo.InvariantCulture,</strong>
+<strong class="markLine">                <span style="color:#8B0000">&quot;Source: {0}&quot;</span>,</strong>
+<strong class="markLine">                weatherInfo.Observatory);</strong>
+<strong class="markLine">        }</strong>
+<strong class="markLine">        <span style="color:#0000FF">catch</span> (MessageSecurityException ex)</strong>
+<strong class="markLine">        {</strong>
+<strong class="markLine">            <span style="color:#0000FF">this</span>.sourceLabel.Text = <span style="color:#0000FF">string</span>.Empty;</strong>
+<strong class="markLine">            MessageBox.Show(ex.Message, <span style="color:#8B0000">&quot;Error&quot;</span>, MessageBoxButtons.OK, MessageBoxIcon.Error);</strong>
+<strong class="markLine">            relyingParty.Abort();</strong>
+<strong class="markLine">        }</strong>
+<strong class="markLine">        <span style="color:#0000FF">finally</span></strong>
+<strong class="markLine">        {</strong>
+<strong class="markLine">            <span style="color:#0000FF">this</span>.Cursor = Cursors.Default;</strong>
+<strong class="markLine">        }</strong>
+<strong class="markLine">    }</strong>
+<strong class="markLine">}</strong>
+<strong class="markLine"></strong>
+<strong class="markLine"><span style="color:#0000FF">private</span> <span style="color:#0000FF">void</span> DisplayForecast(Weather[] forecast)</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">    <span style="color:#0000FF">this</span>.forecastPanel.Controls.Clear();</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">for</span> (<span style="color:#0000FF">int</span> i = 0; i &lt; forecast.Length; i++)</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">        PictureBox pic = <span style="color:#0000FF">new</span> PictureBox();</strong>
+<strong class="markLine">        GroupBox box = <span style="color:#0000FF">new</span> GroupBox();</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        box.Text = <span style="color:#0000FF">string</span>.Format(</strong>
+<strong class="markLine">            CultureInfo.CurrentCulture,</strong>
+<strong class="markLine">            <span style="color:#8B0000">&quot;{0:ddd dd}: {1}&quot;</span>,</strong>
+<strong class="markLine">            DateTime.Today.AddDays(i),</strong>
+<strong class="markLine">            forecast[i]);</strong>
+<strong class="markLine">        box.Height = 145;</strong>
+<strong class="markLine">        box.Width = 130;</strong>
+<strong class="markLine">        pic.Dock = DockStyle.Fill;</strong>
+<strong class="markLine">        pic.SizeMode = PictureBoxSizeMode.CenterImage;</strong>
+<strong class="markLine">        box.Controls.Add(pic);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        <span style="color:#0000FF">switch</span> (forecast[i])</strong>
+<strong class="markLine">        {</strong>
+<strong class="markLine">            <span style="color:#0000FF">case</span> Weather.Sunny:</strong>
+<strong class="markLine">                pic.Image = Resources.Sunny;</strong>
+<strong class="markLine">                <span style="color:#0000FF">break</span>;</strong>
+<strong class="markLine">            <span style="color:#0000FF">case</span> Weather.Cloudy:</strong>
+<strong class="markLine">                pic.Image = Resources.Cloudy;</strong>
+<strong class="markLine">                <span style="color:#0000FF">break</span>;</strong>
+<strong class="markLine">            <span style="color:#0000FF">case</span> Weather.Snowy:</strong>
+<strong class="markLine">                pic.Image = Resources.Snowy;</strong>
+<strong class="markLine">                <span style="color:#0000FF">break</span>;</strong>
+<strong class="markLine">            <span style="color:#0000FF">case</span> Weather.Rainy:</strong>
+<strong class="markLine">                pic.Image = Resources.Rainy;</strong>
+<strong class="markLine">                <span style="color:#0000FF">break</span>;</strong>
+<strong class="markLine">        }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        <span style="color:#0000FF">this</span>.forecastPanel.Controls.Add(box);</strong>
+<strong class="markLine">    }</strong>
+<strong class="markLine">}</strong>
+</code></pre></li>
+<li><p>To test the weather service behavior without authentication, right-click the <strong>Client</strong> project and select <strong>Debug | Start new instance</strong>.</p></li>
+<li><p>In the <strong>Weather Station client</strong>, enter any <strong>Zip Code</strong> (for example: 1000) and press the <strong>Get 3 Days</strong> button. You should get the forecast for the following 3 days.</p>
+
+<p><img src="./images/Getting-the-forecast-for-the-following-3-days-note-that-the-port-number-might-be-different-.png?raw=true" alt="Getting the forecast for the following 3 days note that the port number might be different " title="Getting the forecast for the following 3 days note that the port number might be different " />
+</p>
+
+<p><em>Getting the forecast for the following 3 days (note that the port number might be different)</em></p></li>
+<li><p>Close the <strong>Weather Station client</strong>.</p>
+
+<p>Stop the WCF Service Web Role running on Compute Emulator from its UI. To do this, right-click the <strong>Compute Emulator and Storage</strong> icon on the <strong>Windows' tray bar</strong> and select <strong>Show Compute Emulator UI</strong>. In the tree at the left panel, right-click the current deployment and select <strong>Remove</strong>.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Establishing_a_Trust_Relationship_between_the_WCF_Service_and_the_Development_STS">Task 2 - Establishing a Trust Relationship between the WCF Service and the Development STS</h4>
+
+<p>Now that we have the WCF service running and the STS, it's time to establish a trust relationship between them. In practical terms, that means that the WCF service binding and behaviors collection will be configured in a way that will make the service require tokens from LocalSTS from all its future callers. The bulk of the task will be performed by the WIF tooling, and specifically the <strong>Add STS Reference</strong> wizard (which in turn is the Visual Studio integration of <strong>fedutil.exe</strong>, a standalone tool provided in the WIF SDK).</p>
+
+<ol>
+<li><p>Open the <strong>Web.config</strong> file of the <strong>RelyingParty</strong> project by double-clicking it in the <strong>Solution Explorer.</strong></p></li>
+<li><p>The <strong>fedutil.exe</strong> tool expects to find the WCF service configuration within the local <strong>Web.config</strong> file. But since <strong>WCF for .Net Framework 4</strong> relies on a machine level configuration file, a temporal service element needs to be added to the default configuration. To do this, add the following services configuration inside the <em>&lt;system.serviceModel&gt;</em> section. </p>
+
+<!-- mark:3-9    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherService&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">endpoint</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;&quot;</span></strong>
+<strong class="markLine">                  <span style="color:#FF0000">binding</span>=<span style="color:#0000FF">&quot;basicHttpBinding&quot;</span></strong>
+<strong class="markLine">                  <span style="color:#FF0000">contract</span>=<span style="color:#0000FF">&quot;RelyingParty.IWeatherService&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">service</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span></strong>
+
+    ...
+</code></pre></li>
+<li><p>Press <strong>Ctrl + S</strong> to save the <strong>Web.config</strong> file and close it.</p></li>
+<li><p>Right-click the <strong>RelyingParty</strong> project and select <strong>Add STS reference</strong>. The Federation Utility will be displayed.</p>
+<blockquote>
+<p><strong>Note:</strong> If the <strong>Add STS Reference</strong> item is not shown in the contextual menu within Visual Studio 2010, you can manually launch the tool by executing the <strong>fedutil.exe</strong> command found in <strong>%ProgramFiles%\Windows Identity Foundation SDK\v4.0</strong>.  Browse and select the RelyingParty <strong>Web.config</strong> as the Application configuration location.</p>
+
+<p><img src="images/application-configuration-location.png?raw=true" alt="application-configuration-location" />
+</p>
+</blockquote></li>
+<li><p>Enter <strong>https://{yourprojectname}.cloudapp.net/</strong> as Application URI, changing the <strong>{yourprojectname}</strong> placeholder for your Cloud Service name, and press <strong>Next</strong>.</p>
+
+<p><img src="./images/Specifying-the-projects-Application-URI.png?raw=true" alt="Specifying the projects Application URI" title="Specifying the projects Application URI" />
+</p>
+
+<p><em>Specifying the project's Application URI</em></p></li>
+<li><p>Press <strong>Next</strong> in the <strong>Application Information</strong> Wizard step.</p>
+
+<p><img src="./images/Selecting-the-service-to-configure.png?raw=true" alt="Selecting the service to configure" title="Selecting the service to configure" />
+</p>
+
+<p><em>Selecting the service to configure</em></p></li>
+<li><p>Here you specify the address of the STS you want to outsource authentication to, that is to say the LocalSTS project you created in the previous task. To do this, select the <strong>Use an Existing STS</strong> option. Set the metadata document location to <strong>https://localhost/LocalSTS</strong> and press the <strong>Test Location</strong> button (make sure not to include spaces at the end of the metadata document location field). </p>
+
+<p>The wizard will inspect the STS site searching for a metadata document and will find the <strong>FederationMetadata.xml</strong> file, which will be shown in a new browser instance. The full file path will be added in the metadata document location field in the wizard window. Close the browser and press <strong>Next</strong>.</p>
+
+<p><img src="./images/Using-existing-STS-created-on-the-previous-task.png?raw=true" alt="Using existing STS created on the previous task" title="Using existing STS created on the previous task" />
+</p>
+
+<p><em>Using existing STS created on the previous task</em></p></li>
+<li><p>In <strong>Security token encryption</strong>, choose <strong>Enable encryption</strong>. Use the certificate created on the <a href="#segment1">Getting Started: Setting up the Certificates and Local STS</a> section for the Relying Party selecting the <strong>Select an existing certificate from store</strong> option and pressing the <strong>Select Certificate</strong> button. </p>
+
+<p>In the <strong>Select certificate</strong> dialog, chose the <strong>{yourprojectname}.cloudapp.net</strong> certificate and press <strong>OK</strong>. Press <strong>Next</strong> to continue with the wizard.</p>
+
+<p><img src="./images/Configuring-encryption-for-the-communication-with-the-STS.png?raw=true" alt="Configuring encryption for the communication with the STS" title="Configuring encryption for the communication with the STS" />
+</p>
+
+<p><em>Configuring encryption for the communication with the STS</em></p></li>
+<li><p>Press <strong>Next</strong> in the <strong>Offered Claims</strong> Wizard step.</p>
+
+<p><img src="./images/Showing-Offered-claims-by-the-STS.png?raw=true" alt="Showing Offered claims by the STS" title="Showing Offered claims by the STS" />
+</p>
+
+<p><em>Showing Offered claims by the STS</em></p>
+<blockquote>
+<p><strong>Note:</strong> The Offered claims dialog lists all the claims that a RP application can request to the STS. Name and Role are the default claims which are hardcoded in the WIF STS template: if you would be running the wizard against a proper STS, for example an ADFSv2 instance in your organization, the list would change accordingly.</p>
+</blockquote></li>
+<li><p>Check the Wizard summary, and press <strong>Finish</strong>.</p></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Adding_the_Certificates_to_the_Relying_Party">Task 3 - Adding the Certificates to the Relying Party</h4>
+
+<p>In the following steps you are going to configure the certificate created on the <a href="#segment1">Getting Started: Setting up the Certificates and Local STS</a> section, using the Windows Azure Visual Studio tooling UI for associating it to the RelyingParty WCF Service Role.</p>
+
+<ol>
+<li><p>In the <strong>Solution Explorer</strong>, double-click the <strong>RelyingParty</strong> node inside the <strong>Roles</strong> folder of the <strong>CloudConfiguration</strong> project to bring up its properties page.</p></li>
+<li><p>Select the <strong>Certificates</strong> tab. Add a new certificate clicking the <strong>Add Certificate</strong> button at the top of the page. Set the certificate's name to <strong>{yourprojectname}.cloudapp.net</strong> and then click the button labeled with an ellipsis (...) of the <strong>Thumprint</strong> column.</p>
+
+<p><img src="./images/Creating-the-Relying-Partys-certificate.png?raw=true" alt="Creating the Relying Partys certificate" title="Creating the Relying Partys certificate" />
+</p>
+
+<p><em>Creating the Relying Party's certificate</em></p></li>
+<li><p>In the <strong>Select a certificate</strong> dialog, choose the certificate named <strong>{yourprojectname}.cloudapp.net</strong> and press <strong>OK</strong>.</p>
+
+<p><img src="./images/Configuring-the-certificate-to-the-Relying-Party.-Note-that-the-certificates-listed-here-are-all-.png?raw=true" alt="Configuring the certificate to the Relying Party. Note that the certificates listed here are all " title="Configuring the certificate to the Relying Party. Note that the certificates listed here are all " />
+</p>
+
+<p><em>Configuring the certificate to the Relying Party. Note that the certificates listed here are all from the <strong>LocalMachine\Personal</strong> store</em></p></li>
+<li><p>Now, you will set the HTTPS WCF Service Web Role endpoint configuration. Select the <strong>Endpoints</strong> tab to enter to the endpoints' configuration page.</p></li>
+<li><p>Click the <strong>Add Endpoint</strong> button. In the name column fill with <em>HttpsIn,</em> set the protocol to <strong>https</strong><em>,</em> set <strong>Public Port</strong> to 8443 name and chose the <strong>{yourprojectname}.cloudapp.net</strong> certificate from the <strong>SSL Certificate name</strong> combo box.</p>
+
+<p><img src="./images/Configuring-endpoints-for-the-Relying-Party.png?raw=true" alt="Configuring endpoints for the Relying Party" title="Configuring endpoints for the Relying Party" />
+</p>
+
+<p><em>Configuring endpoints for the Relying Party</em></p>
+<blockquote>
+<p><strong>Note:</strong> The port values above are meant to avoid collisions with other processes listening for connections on the local machine. A typical example of this would be IIS, which usually reserves the use of ports 80 and 443 for itself. If you pick ports that collide with ports already in use by other processes, DevFabric will assign to your service random ports making development difficult. If ports 8000 and 8443 are already in use in your machine, make sure you choose different ports accordingly.</p>
+</blockquote></li>
+<li><p>Select the <strong>Configuration</strong> tab, and uncheck both check boxes inside the Startup action section to avoid launching the browser for the HTTP and HTTPS endpoints when you run the <strong>CloudConfiguration</strong> project.</p>
+
+<p><img src="./images/Relying-Party-general-configuration.png?raw=true" alt="Relying Party general configuration" title="Relying Party general configuration" />
+</p>
+
+<p><em>Relying Party general configuration</em></p></li>
+<li><p>Press <strong>Ctrl + S</strong> to save the modified properties for the <strong>RelyingParty</strong> Role.</p></li>
+<li><p>Close the <strong>RelyingParty Role</strong> property page.</p></li>
+</ol>
+
+<p><a name="Ex1Task4"></a></p>
+
+<h4 id="Task_4_-_Configuring_the_WCF_Service_HTTPS_Endpoint">Task 4 - Configuring the WCF Service HTTPS Endpoint</h4>
+
+<p>In this task you will update the WCF Weather Service to use the HTTPS endpoint.</p>
+
+<ol>
+<li><p>Open the <strong>Web.config</strong> file of the <strong>RelyingParty</strong> project.</p></li>
+<li><p>Add a <strong>name</strong> to the behavior element as shown in the code below. Make the name of the behavior <em>RelyingParty.WeatherServiceBehavior</em>:</p>
+
+<!-- mark:5    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+     <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">behavior</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+
+</code></pre></li>
+<li><p>Add the configuration behavior for KB971842 to the <strong>behavior</strong> named <strong>RelyingParty.WeatherServiceBehavior</strong> inside the &lt;system.serviceModel&gt; configuration section.</p>
+
+<p>(Code Snippet - <em>WebServicesAndIdentityInAzure Lab - Configuration Behavior</em>)</p>
+
+<!-- mark:10-15    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+    ...
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">behavior</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span>
+          ... 
+          <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceCredentials</span><span style="color:#0000FF">&gt;</span>
+            ...
+          <span style="color:#0000FF">&lt;/</span><span style="color:#800000">serviceCredentials</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">          <span style="color:#0000FF">&lt;</span><span style="color:#800000">useRequestHeadersForMetadataAddress</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;</span><span style="color:#800000">defaultPorts</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">              <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">scheme</span>=<span style="color:#0000FF">&quot;http&quot;</span> <span style="color:#FF0000">port</span>=<span style="color:#0000FF">&quot;8000&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">              <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">scheme</span>=<span style="color:#0000FF">&quot;https&quot;</span> <span style="color:#FF0000">port</span>=<span style="color:#0000FF">&quot;8443&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">defaultPorts</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">          <span style="color:#0000FF">&lt;/</span><span style="color:#800000">useRequestHeadersForMetadataAddress</span><span style="color:#0000FF">&gt;</span></strong>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">behavior</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> WCF 3.5 default metadata publishing mechanisms do not work too well in Windows Azure. The issue is in the way in which URIs are included in WSDL documents: the default behavior will include the internal ports used by the Windows Azure load balancer, which are not addressable from external callers. As a result, you cannot simply create a service reference using the standard tools (<strong>svcutil</strong> or <strong>add service reference</strong> in Visual Studio). The issue is described in a KB article, which provides a hotfix for resolving the problem. The hotfix is listed among the prerequisites for the lab. The <strong>useRequestHeadersForMetadataAddress</strong> behavior configuration enables the hotfix and induces WCF to use the load balancer's address instead of one internal node address.</p>
+
+<p>You can find further information at <a href="http://support.microsoft.com/kb/971842/"><a href="http://support.microsoft.com/kb/971842/">http://support.microsoft.com/kb/971842/</a></a>.</p>
+</blockquote></li>
+<li><p>The wizard configured the service to use <strong>ws2007FederationHttpBinding</strong>, however we need to exercise more control in the way in which we handle messages. Remove the current <strong>ws2007FederationHttpBinding</strong> section inside bindings and add the following custom binding. Remember to update <strong>{yourprojectname}</strong> label with your Cloud Service name.</p>
+
+<p>(Code Snippet - <em>WebServicesAndIdentityInAzure Lab - CustomBinding</em>)</p>
+
+<!-- mark:4-29    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+...
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">bindings</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">customBinding</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.IWeatherService&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;</span><span style="color:#800000">security</span> <span style="color:#FF0000">authenticationMode</span>=<span style="color:#0000FF">&quot;SecureConversation&quot;</span></strong>
+<strong class="markLine">                    <span style="color:#FF0000">messageSecurityVersion</span>=<span style="color:#0000FF">&quot;WSSecurity11WSTrust13WSSecureConversation13WSSecurityPolicy12BasicSecurityProfile10&quot;</span></strong>
+<strong class="markLine">                <span style="color:#FF0000">requireSecurityContextCancellation</span>=<span style="color:#0000FF">&quot;false&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                <span style="color:#0000FF">&lt;</span><span style="color:#800000">secureConversationBootstrap</span> <span style="color:#FF0000">authenticationMode</span>=<span style="color:#0000FF">&quot;IssuedTokenOverTransport&quot;</span></strong>
+<strong class="markLine">                                         <span style="color:#FF0000">messageSecurityVersion</span>=<span style="color:#0000FF">&quot;WSSecurity11WSTrust13WSSecureConversation13WSSecurityPolicy12BasicSecurityProfile10&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">issuedTokenParameters</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                        <span style="color:#0000FF">&lt;</span><span style="color:#800000">additionalRequestParameters</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                            <span style="color:#0000FF">&lt;</span><span style="color:#800000">AppliesTo</span> <span style="color:#FF0000">xmlns</span>=<span style="color:#0000FF">&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                <span style="color:#0000FF">&lt;</span><span style="color:#800000">EndpointReference</span> <span style="color:#FF0000">xmlns</span>=<span style="color:#0000FF">&quot;http://www.w3.org/2005/08/addressing&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Address</span><span style="color:#0000FF">&gt;</span>https://{yourprojectname}.cloudapp.net/<span style="color:#0000FF">&lt;/</span><span style="color:#800000">Address</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                <span style="color:#0000FF">&lt;/</span><span style="color:#800000">EndpointReference</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">AppliesTo</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">additionalRequestParameters</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                        <span style="color:#0000FF">&lt;</span><span style="color:#800000">claimTypeRequirements</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                            <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">claimType</span>=<span style="color:#0000FF">&quot;http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name&quot;</span> <span style="color:#FF0000">isOptional</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">                            <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">claimType</span>=<span style="color:#0000FF">&quot;http://schemas.microsoft.com/ws/2008/06/identity/claims/role&quot;</span> <span style="color:#FF0000">isOptional</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">                        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">claimTypeRequirements</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                        <span style="color:#0000FF">&lt;</span><span style="color:#800000">issuerMetadata</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;https://localhost/LocalSTS/Service.svc/mex&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">                    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">issuedTokenParameters</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                <span style="color:#0000FF">&lt;/</span><span style="color:#800000">secureConversationBootstrap</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">security</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;</span><span style="color:#800000">httpsTransport</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">binding</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">customBinding</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">bindings</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The main reason for which we need a custom binding is that we want to set the attribute <strong>requireSecurityContextCancellation</strong> of the <strong>&lt;security&gt;</strong> element to false hence moving to cookie mode. This will allow you, later in the lab, to take control of the session token and accommodate its processing to the load balanced environment of Windows Azure.</p>
+</blockquote></li>
+<li><p>Add the <strong>behaviorConfiguration</strong> attribute to the <strong>service</strong> named <strong>RelyingParty.WeatherService</strong>. </p>
+
+<!-- mark:3    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>  
+   <span style="color:#0000FF">&lt;</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherService&quot;</span> <span style="color:#FF0000">behaviorConfiguration</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+    ...
+   <span style="color:#0000FF">&lt;/</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>  
+
+</code></pre></li>
+<li><p>Remove the hardcoded address created by Federation Utility from the endpoint configuration. To do this, replace the endpoint element with the one below:</p>
+
+<!-- strike:4    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherService&quot;</span> <span style="color:#FF0000">behaviorConfiguration</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span>
+<span class="strikeLine" style="text-decoration:line-through;">              <span style="color:#0000FF">&lt;</span><span style="color:#800000">endpoint</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;&quot;</span> <span style="color:#FF0000">binding</span>=<span style="color:#0000FF">&quot;customBinding&quot;</span> <span style="color:#FF0000">contract</span>=<span style="color:#0000FF">&quot;RelyingParty.IWeatherService&quot;</span> <span style="color:#FF0000">bindingConfiguration</span>=<span style="color:#0000FF">&quot;RelyingParty.IWeatherService&quot;</span> <span style="color:#0000FF">/&gt;</span></span>
+
+        ...
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">service</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+    ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Also add <strong>Mex endpoint</strong> that use the <strong>mexHttpsBinding</strong> binding (note the &quot;s&quot;):</p>
+
+<!-- mark:7    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherService&quot;</span> <span style="color:#FF0000">behaviorConfiguration</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#008000">&lt;!--&lt;endpoint address=&quot;https://foo.cloudapp.net/&quot; binding=&quot;ws2007FederationHttpBinding&quot; contract=&quot;RelyingParty.IWeatherService&quot; bindingConfiguration=&quot;RelyingParty.IWeatherService_ws2007FederationHttpBinding&quot; /&gt;--&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">endpoint</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;&quot;</span> <span style="color:#FF0000">binding</span>=<span style="color:#0000FF">&quot;customBinding&quot;</span> <span style="color:#FF0000">contract</span>=<span style="color:#0000FF">&quot;RelyingParty.IWeatherService&quot;</span> <span style="color:#FF0000">bindingConfiguration</span>=<span style="color:#0000FF">&quot;RelyingParty.IWeatherService&quot;</span> <span style="color:#0000FF">/&gt;</span>
+
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">endpoint</span> <span style="color:#FF0000">address</span>=<span style="color:#0000FF">&quot;mex&quot;</span> <span style="color:#FF0000">binding</span>=<span style="color:#0000FF">&quot;mexHttpsBinding&quot;</span> <span style="color:#FF0000">contract</span>=<span style="color:#0000FF">&quot;IMetadataExchange&quot;</span> <span style="color:#0000FF">/&gt;</span>        </strong>
+
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">service</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">services</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>The metadata retrieval from the WCF Service Web Role will also be over https. To enable this, replace the <strong>httpGetEnabled</strong> attribute inside the <strong>serviceMetadata</strong> element with <strong>httpsGetEnabled</strong> (note the &quot;s&quot;):</p>
+
+<!-- mark:7    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">behavior</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherServiceBehavior&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">federatedServiceHostConfiguration</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherService&quot;</span> <span style="color:#0000FF">/&gt;</span>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceMetadata</span> <span style="color:#FF0000">httpsGetEnabled</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceDebug</span> <span style="color:#FF0000">includeExceptionDetailInFaults</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#0000FF">/&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">serviceCredentials</span><span style="color:#0000FF">&gt;</span>
+          ...
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">serviceCredentials</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">useRequestHeadersForMetadataAddress</span><span style="color:#0000FF">&gt;</span>
+          ...
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">useRequestHeadersForMetadataAddress</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">behavior</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">serviceBehaviors</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">behaviors</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Update the <strong>thumbprint</strong> attribute value for the <strong>LocalSTS</strong> trusted issuer with the one shown below. This is the thumbprint of the certificate that the <strong>LocalSTS</strong> is using for signing.</p>
+
+<!-- mark:8    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">microsoft.identityModel</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;RelyingParty.WeatherService&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">audienceUris</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;https://{yourprojectname}.cloudapp.net/&quot;</span> <span style="color:#0000FF">/&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">audienceUris</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">issuerNameRegistry</span> <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry, Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">trustedIssuers</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">          <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">thumbprint</span>=<span style="color:#0000FF">&quot;40A1D2622BFBDAC80A38858AD8001E094547369B&quot;</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;https://localhost/LocalSTS/Service.svc&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">trustedIssuers</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">issuerNameRegistry</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">service</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">microsoft.identityModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>Ctrl + S</strong> to save the <strong>Web.config</strong> file and close it.</p></li>
+<li><p>You will configure the <strong>WeatherService</strong> to listen for request in any address where it is available. To do this, open the <strong>WeatherService.svc.cs</strong> file for the <strong>RelyingParty</strong> project, and add a <strong>ServiceBehavior</strong> attribute to the WeatherService class definition as it is shown on the following code.</p>
+
+<p>(Code Snippet - <em>WebServicesAndIdentityInAzure Lab - ServiceBehavior Attribute</em>)</p>
+
+<!-- mark:3    -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">namespace</span> RelyingParty
+{
+<strong class="markLine">    [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)]</strong>
+    <span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> WeatherService : IWeatherService
+    {
+        ...
+    }
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Decorating your service class with that attribute has the effect of turning off the address filter, so that incoming messages with different <strong>To</strong> elements are accepted.</p>
+</blockquote></li>
+<li><p>Press <strong>Ctrl + S</strong> to save the <strong>WeatherService.svc.cs</strong> file and close it.</p></li>
+</ol>
+
+<p><a name="Verification"></a></p>
+
+<h4 id="Verification">Verification</h4>
+
+<p>Your service is finally ready to run using the certificates. You will now update the client to consume the project using the HTTPS encrypted endpoint.</p>
+
+<p>In order to verify that you have performed every step in the exercise correctly, proceed as follows:</p>
+
+<ol>
+<li><p>Press <strong>Ctrl + F5</strong> to run the Cloud project without attaching the Visual Studio debugger. The DevFabric will be launched. Proceed as in Task 1 to verify in the <strong>Compute Emulator</strong> that the service has started successfully.</p></li>
+<li><p>In the <strong>Client</strong> project, right-click the <strong>ServiceReference1</strong> node inside the<strong>Service References</strong> folder and select <strong>Configure Service Reference</strong>. </p>
+
+<p><img src="./images/Configuring-the-Client-service-reference.png?raw=true" alt="Configuring the Client service reference" title="Configuring the Client service reference" />
+</p>
+
+<p><em>Configuring the Client service reference</em></p></li>
+<li><p>The service will now be listening on the localhost (127.0.0.1) on the SSL port we specified in the earlier tasks, that is to say 8443. Enter <strong><a href="https://127.0.0.1:8443/WeatherService.svc">https://127.0.0.1:8443/WeatherService.svc</a></strong> on the Address text box and press <strong>OK</strong>.</p>
+
+<p><img src="./images/Weather-Service-configuration-update.png?raw=true" alt="Weather Service configuration update" title="Weather Service configuration update" />
+</p>
+
+<p><em>Weather Service configuration update</em></p>
+<blockquote>
+<p><strong>Note:</strong> If it is the first time that you configure https bindings on Compute Emulator, you will see the following warning message: <em>&quot;ID1025: A certificate chain processed, but terminated in a root certificate which is not trusted by the trust provider.&quot;</em></p>
+
+<p>To work around it, you have to copy the 127.0.0.1 certificate created by Windows Azure Tools for Visual Studio (which is available at <strong>LocalMachine\Personal</strong> store) to the <strong>LocalMachine\Trusted Root</strong> store.  You can do that by using the certificates MMC in Windows.</p>
+
+<p>Another way to work around this is running again the <strong>SetupCertificates.cmd</strong> script, without providing any Cloud Service name. The script will copy the 127.0.0.1 certificate to <strong>LocalMachine\Trusted Root</strong> for you.</p>
+
+<p>Once you successfully performed one of the steps above, you can repeat the service reference step.</p>
+</blockquote></li>
+<li><p>Open the <strong>app.config</strong> file inside the <strong>Client</strong> project.</p></li>
+<li><p>Move the <strong>AppliesTo</strong> element from the <strong>trust:SecondaryParameters</strong> section to <strong>additionalRequestParameters</strong>. Remember to update <strong>{yourprojectname}</strong> label with your Cloud Service name.</p>
+
+<!-- mark:11-15    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">bindings</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">customBinding</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;</span><span style="color:#800000">binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;CustomBinding_IWeatherService&quot;</span><span style="color:#0000FF">&gt;</span>
+                <span style="color:#0000FF">&lt;</span><span style="color:#800000">security</span> ...<span style="color:#0000FF">&gt;</span>
+                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">localClientSettings</span> ...<span style="color:#0000FF">/&gt;</span>
+                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">localServiceSettings</span> ...<span style="color:#0000FF">/&gt;</span>
+                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">secureConversationBootstrap</span> ...<span style="color:#0000FF">&gt;</span>
+                        <span style="color:#0000FF">&lt;</span><span style="color:#800000">issuedTokenParameters</span><span style="color:#0000FF">&gt;</span>
+                            <span style="color:#0000FF">&lt;</span><span style="color:#800000">additionalRequestParameters</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">                                <span style="color:#0000FF">&lt;</span><span style="color:#800000">AppliesTo</span> <span style="color:#FF0000">xmlns</span>=<span style="color:#0000FF">&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">EndpointReference</span> <span style="color:#FF0000">xmlns</span>=<span style="color:#0000FF">&quot;http://www.w3.org/2005/08/addressing&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Address</span><span style="color:#0000FF">&gt;</span>https://{yourprojectname}.cloudapp.net/<span style="color:#0000FF">&lt;/</span><span style="color:#800000">Address</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">EndpointReference</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                                <span style="color:#0000FF">&lt;/</span><span style="color:#800000">AppliesTo</span><span style="color:#0000FF">&gt;</span></strong>
+                                <span style="color:#0000FF">&lt;</span><span style="color:#C71585">trust</span>:<span style="color:#800000">SecondaryParameters</span> <span style="color:#FF0000">xmlns</span>:<span style="color:#FF0000">trust</span>=<span style="color:#0000FF">&quot;http://docs.oasis-open.org/ws-sx/ws-trust/200512&quot;</span><span style="color:#0000FF">&gt;</span>
+                                ...
+                                <span style="color:#0000FF">&lt;/</span><span style="color:#C71585">trust</span>:<span style="color:#800000">SecondaryParameters</span><span style="color:#0000FF">&gt;</span>
+                            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">additionalRequestParameters</span><span style="color:#0000FF">&gt;</span>
+                        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">issuedTokenParameters</span><span style="color:#0000FF">&gt;</span>
+                    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">secureConversationBootstrap</span><span style="color:#0000FF">&gt;</span>
+                <span style="color:#0000FF">&lt;/</span><span style="color:#800000">security</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;/</span><span style="color:#800000">binding</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">customBinding</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">bindings</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.serviceModel</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The RP provides indications about the desired AppliesTo value in the SecondaryParameters element, and svcutil does capture it in the client configuration. However the client has to explicitly accept the settings by moving them in the RST: after all, a compromised RP may try to spoof the token by providing malicious addresses overriding the AppliesTo.</p>
+</blockquote></li>
+<li><p>The client is finally ready to call the RelyingParty WCF Service. To test it, right-click the <strong>Client</strong> project and select <strong>Debug | Start new instance</strong>.</p></li>
+<li><p>In the <strong>Weather Station client</strong>, enter any <strong>Zip Code</strong> (for example: 1000) and press the <strong>Get 3 Days</strong> button. You should get the forecast for the following 3 days. Note that now the Source uses the https port.</p>
+
+<p><img src="./images/Getting-the-forecast-for-the-following-3-days-note-that-the-port-number-might-be-different.png?raw=true" alt="Getting the forecast for the following 3 days note that the port number might be different" title="Getting the forecast for the following 3 days note that the port number might be different" />
+</p>
+
+<p><em>Getting the forecast for the following 3 days (note that the port number might be different)</em></p></li>
+<li><p>Close the <strong>Weather Station client</strong>.</p></li>
+<li><p>Stop the WCF Service Web Role running on Compute Emulator from its UI. To do this, right-click the <strong>Compute Emulator and Storage</strong> icon on the <strong>Windows' tray bar</strong> and select <strong>Show Compute Emulator UI</strong>. In the tree at the left panel, right-click the current deployment and select <strong>Remove</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> In this first set of tasks you developed a simple but complete scenario. You created a certificate for your service, a cloud project with your WCF role and a local development STS. You learned how to use the WIF tooling for outsourcing the service authentication to an STS, what practicalities need to be handled for preparing a WCF service to run in Windows Azure and how to develop a client for the service. Finally, you verified that everything works by running the service in the DevFabric environment. That's pretty much all you need to know for getting started to host in Windows Azure your own services and secure them; in the following Exercises we will explore more advanced aspects of the WIF and WCF synergy in Windows Azure.</p>
+</blockquote></li>
+</ol>
+
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>Taking advantage of existing identities in new applications is one of the fundamental requirements in today's distributed systems, and the new wave of cloud based services is no exception.</p>
+
+<p>By completing this hands-on lab you have learned how to:</p>
+
+<ul>
+<li><p>Use Windows Identity Foundation with WCF services hosted in Windows Azure</p></li>
+<li><p>Trusting an on-premises STS from a WCF service hosted in Windows Azure</p></li>
+<li><p>Using WIF &amp; WCF diagnostics features for a WCF service hosted in Windows Azure, taking advantage of blob storage for saving traces</p></li>
+<li><p>Configure WIF for a WCF service which uses load balancing</p></li>
+<li><p>Deploy a WCF service secured via WIF to the Windows Azure</p></li>
+</ul>
+
+<p>As you have discovered while going through the lab, the claims-based approach to identity enabled by Windows Identity Foundation can be applied with little or no modification to both on-premises and cloud application.</p>
+
+<p>We hope that the programming skills you learned in this and the other identity labs will enable you to write solutions with the confidence that no matter where your application will end up being deployed, you took care of identity in consistent and effective manner.</p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-WebServiceAndIdentity/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

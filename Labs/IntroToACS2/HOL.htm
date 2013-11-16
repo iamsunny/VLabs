@@ -1,0 +1,946 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Introduction to the Windows Azure Access Control Service</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroAccessControlService" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroAccessControlService" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="HOLTop"></a></p>
+
+<h1 id="Introduction_to_the_Windows_Azure_Access_Control_Service">Introduction to the Windows Azure Access Control Service</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>Connecting one cloud service to its users is one of the most basic requirements of any solution, whether deployed on-premises, in the cloud or on both.
+The emergence of standards is helping to break the silos which traditionally isolate accounts stored by different web sites and business entities, however offering cloud service access to users coming from multiple sources can still be a daunting task. As of today, if you want to open your cloud service to users coming from Facebook, Live ID, Google and business directories the brute-force approach demands you to lean and implement four different authentication protocols. Changes in today's world happen fast and often, forcing you to keep updating your protocol implementations to chase the latest evolutions of the authentication mechanisms of the user repositories. All this can require a disproportionate amount of energy, leaving you with fewer resources to focus on your business.</p>
+
+<p><img src="images/a-functional-view-of-the-access-control-servi.png?raw=true" alt="A functional view of the Access Control Service" title="A functional view of the Access Control Service" />
+</p>
+
+<p><em>A functional view of the Access Control Service</em> </p>
+
+<p>Windows Azure Access Control Service (ACS) offers you a way to outsource authentication and decouple your cloud service from all the complexity of maintaining a direct relationship with all the identity providers you want to tap from. ACS takes care of engaging every identity provider with its own authentication protocol, normalizing the authentication results in a protocol supported by the .NET framework tooling (namely the Windows Identity Foundation technology, or WIF) regardless of from where the user is coming from. WIF allows you in just few clicks to elect the ACS as the authentication manager for your cloud service; from that moment on ACS takes care of everything, including providing a UI for the user to choose among all the recognized identity providers.
+Furthermore, ACS offers you greater control over which user attributes should be assigned for every authentication event; again in synergy with WIF, those attributes (called claims) can be easily accessed for taking authorization decisions without forcing the developer do understand or even be aware of the lower level mechanisms that the authentication protocols entail.
+In this introductory hands-on lab you will learn how to take advantage of the ACS for outsourcing authentication, managing multiple identity sources, performing some basic authorization tasks and take control of the authentication experience. You will discover that it takes less to do it than to describe it!</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this Hands-On Lab, you will learn how to:</p>
+
+<ul>
+<li>Configure your cloud service to outsource authentication to ACS</li>
+<li>Configure ACS to include the identity providers you want to leverage</li>
+<li>Configure ACS to process incoming identities and add new claims</li>
+<li>Modify your cloud service to consume claims from ACS and drive authorization decisions</li>
+<li>Customize the default authentication user experience provided by ACS</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li>Microsoft Internet Information Services (IIS) 7.0</li>
+<li><a href="http://go.microsoft.com/fwlink/?linkid=186916">Microsoft .NET Framework 4</a></li>
+<li><a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions">Microsoft Visual Studio 2010</a></li>
+<li><a href="http://support.microsoft.com/kb/974405">Microsoft Windows Identity Foundation Runtime</a></li>
+<li><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=c148b2df-c7af-46bb-9162-2c9422208504">Microsoft Windows Identity Foundation SDK</a></li>
+<li>Microsoft Windows PowerShell</li>
+<li>A Windows Azure subscription - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<p><a name="Setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</li>
+<li>Double-click the <strong>Setup.cmd</strong> file in this folder to launch the setup process that will configure your environment and install the Visual Studio code snippets for this lab.</li>
+<li>If the User Account Control dialog is shown, confirm the action to proceed.</li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Make sure you have checked all the dependencies for this lab before running the setup.</p>
+
+<p>If you have never run Visual Studio before on the machine, please make sure to do so before running the setup of this lab.</p>
+
+<p>When you first start Visual Studio, you must select one of the predefined settings collections. Every predefined collection is designed to match a particular development style and determines window layouts, editor behavior, IntelliSense code snippets, and dialog box options. The procedures in this lab describe the actions necessary to accomplish a given task in Visual Studio when using the <strong>General Development Settings</strong> collection. If you choose a different settings collection for your development environment, there may be differences in these procedures that you need to take into account.</p>
+</blockquote>
+<p><a name="Snippets"></a></p>
+
+<h3 id="Using_the_Code_Snippets">Using the Code Snippets</h3>
+
+<p>Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2010 to avoid having to add it manually. </p>
+<blockquote>
+<p><strong>Note</strong>: Each exercise is accompanied by a starting solution located in the Begin folder of the exercise that allows you to follow each exercise independently of the others. Please be aware that the code snippets that are added during an exercise are missing from these starting solutions and that they will not necessarily work until you complete the exercise. Inside the source code for an exercise, you will also find an End folder containing a Visual Studio solution with the code that results from completing the steps in the corresponding exercise. You can use these solutions as guidance if you need additional help as you work through this hands-on lab.</p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>The following exercises make up this Hands-On Lab:</p>
+
+<ol>
+<li><a href="#Exercise1">Use Access Control Service for Accepting Users from Multiple Identity Providers</a></li>
+<li><a href="#Exercise2">Use Claims for Authorizing Users</a></li>
+<li><a href="#Exercise3">Take control of the Sign-In experience</a></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Each exercise is accompanied by a starting solution. These solutions are missing some code sections that are completed through each exercise and therefore will not necessarily work if running them directly.
+Inside each exercise you will also find an <strong>end</strong> folder where you find the resulting solution you should obtain after completing the exercises. You can use this solution as a guide if you need additional help working through the exercises.</p>
+</blockquote>
+<p>Estimated time to complete this lab: <strong>45 minutes</strong> </p>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Use_Access_Control_Service_for_Accepting_Users_from_Multiple_Identity_Providers">Exercise 1: Use Access Control Service for Accepting Users from Multiple Identity Providers</h3>
+
+<p>In the first exercise you will familiarize with ACS' basic settings and terminology. Your task is to secure access to a newly created ASP.NET Web site. The Web site will accept users from Google, Yahoo! and Windows Live ID. As you will see in a minute, ACS makes it real easy.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_the_Initial_Solution">Task 1 - Creating the Initial Solution</h4>
+
+<ol>
+<li>Open Microsoft Visual Studio 2010 with administrator privileges. From <strong>Start | All Programs | Microsoft Visual Studio 2010</strong>, right-click <strong>Microsoft Visual Studio 2010</strong> and select <strong>Run as administrator</strong>.</li>
+<li>Open the <strong>WebSiteACS.sln</strong> empty solution file located inside the <strong>\Source\Ex1-AcceptUsersFromMultipleIPs\Begin</strong> folder of this Lab.</li>
+<li><p>Create a new empty website. To do this, right-click the <strong>WebSiteACS</strong> solution and select <strong>Add | New Web Site</strong>, select <strong>Visual C#</strong> in <strong>Installed Templates</strong> section and then click <strong>ASP.NET Web Site</strong>. Change the <strong>Web location</strong> field to use <strong>HTTP</strong> and set the value with <strong>https://localhost/WebSiteACS</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/add-new-web-site.png?raw=true" alt="Add New Web Site" title="Add New Web Site" />
+</p>
+
+<p><em>Add New Web Site</em></p></li>
+<li><p>Go to Solution Explorer and delete the following folders and files from the web site: </p>
+
+<ul>
+<li>Folders:<br />
+
+<ul>
+<li><strong>Account</strong> </li>
+<li><strong>Scripts</strong></li>
+</ul></li>
+<li>Files:<br />
+
+<ul>
+<li><strong>About.aspx</strong></li>
+<li><strong>Global.asax</strong></li>
+</ul></li>
+</ul>
+
+<p><img src="images/solution-explorer.png?raw=true" alt="Solution Explorer" title="Solution Explorer" />
+</p>
+
+<p><em>Solution Explorer</em> </p></li>
+<li><p>Open <strong>Site.master</strong> file and remove the <strong>DIV</strong> with class named <strong>&quot;loginDisplay&quot;</strong> and the <strong>NavigationMenu</strong> menu control.</p>
+
+<!-- mark: 9-19, 21-26; strike: 9-19, 21-26    -->
+
+<span class="codelanguage">ASP.NET</span><pre><code class="ASP.NET">...
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;page&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;header&quot;</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;title&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span>
+        My ASP.NET Application
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;loginDisplay&quot;</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">LoginView</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;HeadLoginView&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#FF0000">EnableViewState</span>=<span style="color:#0000FF">&quot;false&quot;</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">AnonymousTemplate</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">        [ <span style="color:#0000FF">&lt;</span><span style="color:#800000">a</span> <span style="color:#FF0000">href</span>=<span style="color:#0000FF">&quot;~/Account/Login.aspx&quot;</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;HeadLoginStatus&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span><span style="color:#0000FF">&gt;</span>Log In<span style="color:#0000FF">&lt;/</span><span style="color:#800000">a</span><span style="color:#0000FF">&gt;</span> ]</strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">AnonymousTemplate</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">LoggedInTemplate</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">        Welcome <span style="color:#0000FF">&lt;</span><span style="color:#800000">span</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;bold&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">LoginName</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;HeadLoginName&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#0000FF">/&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">span</span><span style="color:#0000FF">&gt;</span>!</strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">        [ <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">LoginStatus</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;HeadLoginStatus&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#FF0000">LogoutAction</span>=<span style="color:#0000FF">&quot;Redirect&quot;</span> <span style="color:#FF0000">LogoutText</span>=<span style="color:#0000FF">&quot;Log Out&quot;</span> <span style="color:#FF0000">LogoutPageUrl</span>=<span style="color:#0000FF">&quot;~/&quot;</span><span style="color:#0000FF">/&gt;</span> ]</strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">LoggedInTemplate</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#C71585">asp</span>:<span style="color:#800000">LoginView</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong></span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;clear hideSkiplink&quot;</span><span style="color:#0000FF">&gt;</span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">Menu</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;NavigationMenu&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#FF0000">CssClass</span>=<span style="color:#0000FF">&quot;menu&quot;</span> <span style="color:#FF0000">EnableViewState</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#FF0000">IncludeStyleBlock</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#FF0000">Orientation</span>=<span style="color:#0000FF">&quot;Horizontal&quot;</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Items</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">MenuItem</span> <span style="color:#FF0000">NavigateUrl</span>=<span style="color:#0000FF">&quot;~/Default.aspx&quot;</span> <span style="color:#FF0000">Text</span>=<span style="color:#0000FF">&quot;Home&quot;</span><span style="color:#0000FF">/&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">MenuItem</span> <span style="color:#FF0000">NavigateUrl</span>=<span style="color:#0000FF">&quot;~/About.aspx&quot;</span> <span style="color:#FF0000">Text</span>=<span style="color:#0000FF">&quot;About&quot;</span><span style="color:#0000FF">/&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Items</span><span style="color:#0000FF">&gt;</span></strong></span>
+<span class="strikeLine" style="text-decoration:line-through;"><strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#C71585">asp</span>:<span style="color:#800000">Menu</span><span style="color:#0000FF">&gt;</span></strong></span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span>
+...
+</code></pre>
+
+<p>The code should look like the code bellow:</p>
+
+<!-- mark:2-11    -->
+
+<span class="codelanguage">ASP.NET</span><pre><code class="ASP.NET">...
+<strong class="markLine"><span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;page&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;header&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;title&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        My ASP.NET Application</strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;clear hideSkiplink&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+...
+</code></pre></li>
+<li><p>Open <strong>Web.config</strong> file and remove the following sections:</p>
+
+<ul>
+<li><strong>connectionStrings</strong></li>
+<li><strong>system.web/authentication</strong></li>
+<li><strong>system.web/membership</strong></li>
+<li><strong>system.web/profile</strong></li>
+<li><strong>system.web/roleManager</strong></li>
+</ul>
+
+<p>The <strong>Web.config</strong> should look like the code bellow.</p>
+
+<!-- mark: 1-15    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><strong class="markLine"> <span style="color:#0000FF">&lt;?</span>xml version=&quot;1.0&quot;<span style="color:#0000FF">?&gt;</span></strong>
+<strong class="markLine">    <span style="color:#008000">&lt;!--</span></strong>
+<strong class="markLine">      For more information on how to configure your ASP.NET application, please visit</strong>
+<strong class="markLine">      http://go.microsoft.com/fwlink/?LinkId=169433</strong>
+<strong class="markLine">      --&gt;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">compilation</span> <span style="color:#FF0000">debug</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#FF0000">targetFramework</span>=<span style="color:#0000FF">&quot;4.0&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine"></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">         <span style="color:#0000FF">&lt;</span><span style="color:#800000">modules</span> <span style="color:#FF0000">runAllManagedModulesForAllRequests</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span></strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> All this cleanup is not strictly necessary, but it helps to keep things simple and highlight the code that will be required for integrating with ACS.</p>
+</blockquote></li>
+<li><p>Press <strong>F5</strong> to run the Web site and ensure that it works as expected. If an alert about <strong>&quot;Debugging Not Enabled&quot;</strong> appears, select <strong>&quot;Modify the Web.config file to enable debugging&quot;</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/debugging-not-enabled-alert.png?raw=true" alt="" debugging="" not="" _enabled22_="" _alert22_="" title="" />
+</p>
+
+<p><em>&quot;Debugging Not Enabled&quot; Alert</em> </p>
+
+<p><img src="images/running-application.png?raw=true" alt="Running the Cloud Service" title="Running the Cloud Service" />
+</p>
+
+<p><em>Running the Cloud Service</em> </p></li>
+<li><p>The Web site is, as expected, without any access control mechanism. You can close the browser.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Signing-up_for_Windows_Azure_Access_Control_Service_and_Creating_the_Service_Namespace">Task 2 - Signing-up for Windows Azure Access Control Service and Creating the Service Namespace</h4>
+
+<p>You are now going to subscribe to ACS. </p>
+
+<ol>
+<li>Navigate to https://manage.windowsazure.com. You will be prompted for your Microsoft account credentials if you are not already signed in.</li>
+<li><p>Since the <strong>Access Control</strong> feature is not still present in the new portal, you will need to access the previous portal. To do so, hover the mouse pointer over <strong>Preview</strong> in the main page header and click <strong>Take me to the previous portal</strong>.</p>
+
+<p><img src="images/navigating-to-the-production-portal.png?raw=true" alt="Navigating to the previous portal" title="Navigating to the previous portal" />
+</p>
+
+<p><em>Navigating to the previous portal</em></p></li>
+<li><p>Click on the <strong>Service Bus, Access Control &amp; Caching</strong> button on the lower left corner. You will land on the page below.</p>
+
+<p><img src="images/portal-access-control-service.png?raw=true" alt="Portal Access Control Service" title="Portal Access Control Service" />
+</p>
+
+<p><em>Portal Access Control Service</em> </p></li>
+<li><p>Now you will add a new <strong>Access Control Service Namespace</strong>. An Access Control Service Namespace is the unique component of the addresses at which all your endpoints on the Access Control Service will be available. To do this, ensure the <strong>Access Control</strong> root element is selected on the left pane and click the <strong>New</strong> button on the top left corner.</p>
+
+<p><img src="images/adding-a-namespace.png?raw=true" alt="Adding a Namespace" title="Adding a Namespace" />
+</p>
+
+<p><em>Adding a Namespace</em> </p></li>
+<li><p>The portal displays a dialog. Type in a <strong>name</strong> for your <strong>Namespace,</strong> choose your <strong>Country/Region</strong> and click the <strong>Create Namespace</strong> button. Make sure to validate the availability of the name first. Service names must be <strong>globally unique</strong> as they are in the cloud and accessible by whomever you decide to grant access. </p>
+
+<p><img src="images/creating-new-service-namespace.png?raw=true" alt="Creating New Service Namespace" />
+</p>
+
+<p><em>Creating New Service Namespace</em> </p></li>
+<li><p>Please be patient while your service is activated. It can take a few minutes while all the necessary resources are provisioned. </p>
+
+<p><img src="images/active-service-namespace.png?raw=true" alt="Active Service Namespace" title="Active Service Namespace" />
+</p>
+
+<p><em>Active Service Namespace</em></p></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Configuring_the_Allowed_Identity_Providers_the_Relying_Party_and_the_Signing_Certificate">Task 3 - Configuring the Allowed Identity Providers, the Relying Party and the Signing Certificate</h4>
+
+<ol>
+<li><p>With the <strong>Namespace</strong> selected, click the <strong>Access Control Service - Manage</strong> button on the top toolbar. Make sure that appservices.azure.com is allowed to show popups in your browser. </p>
+
+<p><img src="images/click-the-access-control-service---manage-but.png?raw=true" alt="Click the Access Control Service - Manage button" title="Click the Access Control Service - Manage button" />
+</p>
+
+<p><em>Click the Access Control Service - Manage button</em></p></li>
+<li><p>This launches (in another browser window or tab) the <strong>Access Control Service Management Portal</strong>, shown in the figure below. </p>
+
+<p><img src="images/access-control-service-management-portal.png?raw=true" alt="Access Control Service Management Portal" title="Access Control Service Management Portal" />
+</p>
+
+<p><em>Access Control Service Management Portal</em> </p></li>
+<li><p>The Management Portal, and specifically the left-hand navigation menu, offers you a global view of all the settings you can change in ACS. In the typical application development flow, such as the one you are creating in this exercise, there is a natural order you can follow for providing ACS with the information it needs to set up authentication for you. Click the <strong>Identity Providers</strong> link in the <strong>Trust Relationships</strong> section of the menu. The main area of the management portal will display a page which helps you to manage the identity providers from where your cloud service users will come from.</p>
+
+<p><img src="images/identity-providers.png?raw=true" alt="Identity Providers" title="Identity Providers" />
+</p>
+
+<p><em>Identity Providers</em> </p></li>
+<li><p>Click the <strong>Add</strong> link above the Identity Providers table, choose the identity providers you want to add in your Access Control Service namespace and click <strong>Next</strong>. Windows Live ID is there by default. For this exercise please pick Google and Yahoo! as well.  </p>
+
+<p><img src="images/adding-an-identity-provider.png?raw=true" alt="Adding an Identity Provider" title="Adding an Identity Provider" />
+</p>
+
+<p><em>Adding an Identity Provider</em> </p></li>
+<li><p>Leave the default settings and click <strong>Save</strong>.</p>
+
+<p><img src="images/the-yahoo-identity-provider-configuration-pag.png?raw=true" alt="The Yahoo Identity Provider configuration page" title="The Yahoo Identity Provider configuration page" />
+</p>
+
+<p><em>The Yahoo Identity Provider configuration page</em> </p></li>
+<li><p>You can follow the same steps to add Google as an Identity Provider. You'll end up with the Identity Providers list shown below.</p>
+
+<p><img src="images/identity-providers-configured.png?raw=true" alt="Identity Providers configured" title="Identity Providers configured" />
+</p>
+
+<p><em>Identity Providers configured</em> </p></li>
+<li><p>Click the <strong>Relying Party Applications</strong> link on the navigation menu in order to register your Web site with ACS. &quot;Relying Party&quot; is identity speak for cloud service, the entity which consumes identities, whereas as you already guessed &quot;Identity Provider&quot; indicates one entity which stores identities and is capable of authenticating users.</p>
+
+<p><img src="images/relying-party-applications.png?raw=true" alt="Relying Party Applications" title="Relying Party Applications" />
+</p>
+
+<p><em>Relying Party Applications</em> </p></li>
+<li><p>Click the <strong>Add</strong> link on top of the Relying Party Applications table and fill the form with the following values:</p>
+
+<ul>
+<li><strong>Name:</strong> WebSiteACS</li>
+<li><strong>Mode:</strong> Enter settings manually</li>
+<li><strong>Realm:</strong> https://localhost/WebSiteACS/</li>
+<li><strong>Return URL:</strong> https://localhost/WebSiteACS/Default.aspx</li>
+<li><strong>Error URL:</strong> leave the field empty</li>
+<li><strong>Token format:</strong> SAML 1.1</li>
+<li><strong>Token encryption policy:</strong> None</li>
+<li><strong>Token lifetime (secs):</strong> 600</li>
+<li><strong>Identity Providers:</strong> Google, Windows Live ID, Yahoo! </li>
+<li><strong>Rule groups:</strong> Create New Rule Group</li>
+<li><strong>Token signing:</strong> Use service namespace certificate (standard)</li>
+</ul>
+
+<p><img src="images/add-relying-party-application.png?raw=true" alt="Add Relying Party Application" title="Add Relying Party Application" />
+</p>
+
+<p><em>Add Relying Party Application</em> </p></li>
+<li><p>Click the <strong>Save</strong> button.</p></li>
+<li><p>In the <strong>Trust Relationships</strong> section of the navigation menu, click the <strong>Rule Groups</strong> link in order to select the default rule group for your application.</p>
+
+<p><img src="images/the-current-rule-groups-list-contains-just-th.png?raw=true" alt="The current rule groups list contains just the default rule group " title="The current rule groups list contains just the default rule group " />
+</p>
+
+<p><em>The current rule groups list contains just the default rule group</em> </p>
+
+<p><img src="images/an-example-of-how-acs-receives-a-token-as-pro.png?raw=true" alt="An example of how ACS receives a token as proof of authentication (in this case from Google, but it can come from any recognized IP) and can emit for the cloud service a token containing the original claims " title="An example of how ACS receives a token as proof of authentication \(in this case from Google, but it can come from any recognized IP\) and can emit for the cloud service a token containing the original claims" />
+</p>
+
+<p><em>An example of how ACS receives a token as proof of authentication (in this case from Google, but it can come from any recognized IP) and can emit for the cloud service a token containing the original claims</em></p>
+<blockquote>
+<p><strong>Note:</strong> When a user successfully authenticates with one identity provider, ACS receives from that identity provider an artifact (called &quot;security token&quot;) which represents the proof that authentication took place. You don't need to know the details of how a security token looks like: the only information relevant at the moment is that the token contains information about the authenticated user, the so-called claims, which help ACS to establish who the current user is.
+ACS can process the incoming claims in various ways: you will see a simple example of that in the next exercise. In the current exercise we will configure ACS to enforce its default behavior, that is to say making sure that your cloud service receives the claims as they came from the original identity providers. How does it do that? The ACS itself emits a token that your cloud service is configured to consume (as you will see in just few steps). All it needs to do is to copy the incoming claims as is into the outgoing token.</p>
+</blockquote></li>
+<li><p>Click <strong>Default Rule Group for WebSiteACS</strong>, and then click the <strong>Generate</strong> link. Then select all three identity providers you want to automatically generate rules for, based on available claim types and click <strong>Generate</strong>. Different identity providers offer different claims: ACS knows that and generates the default rules accordingly. Finally click <strong>Save</strong> again.</p>
+
+<p><img src="images/generating-rules.png?raw=true" alt="Generating Rules" title="Generating Rules" />
+</p>
+
+<p><em>Generating Rules</em> </p>
+
+<p><img src="images/default-rules-generated.png?raw=true" alt="Default Rules Generated" title="Default Rules Generated" />
+</p>
+
+<p><em>Default Rules Generated</em> </p></li>
+<li><p>Under the <strong>Development</strong> section of the navigation menu, click the <strong>Application Integration</strong> link. Here there are various URIs that come in handy when configuring your cloud service to take advantage of ACS.</p></li>
+<li><p>Go to <strong>Endpoint Reference</strong> section and copy the value for <strong>WS-Federation Metadata</strong>. You will discover what that is and what it is used for right at the beginning of the next step.</p>
+
+<p><img src="images/copying-ws-federation-metadata.png?raw=true" alt="Copying WS-Federation Metadata" title="Copying WS-Federation Metadata" />
+</p>
+
+<p><em>Copying WS-Federation Metadata</em></p></li>
+</ol>
+
+<p><a name="Ex1Task4"></a></p>
+
+<h4 id="Task_4_-_Configuring_a_Website_to_Accept_Tokens_from_Access_Control_Service">Task 4 - Configuring a Website to Accept Tokens from Access Control Service</h4>
+
+<p>By now you know that ACS takes care of accepting tokens in different formats via different protocols from a number of possible identity providers, and normalizes the incoming information in a different token that your Web site will consume. ACS can emit different token types on various protocols. For Web sites, the default protocol is WS-Federation. There's no need to go in the fine details: suffice to say that WS-Federation is a protocol that is natively understood by Windows Identity Foundation (WIF), an extension to the .NET framework that allows you to easily outsource cloud service authentication to tokens sources such as the ACS itself. In particular, WIF extends Visual Studio with a wizard which can automatically configure your cloud service to outsource authentication without requiring you to write a single line of code. All it needs is the address of a machine-readable description of the token source to be used: in our case, that description is the WS-Federation Metadata address you saved at the end of Task 3. 
+In this task you will use the WIF wizard to outsource authentication to ACS.</p>
+
+<ol>
+<li> Back to Visual Studio and in the <strong>Solution Explorer</strong>, right-click the <strong>https://localhost/WebSiteACS/</strong> project and select <strong>Add STS reference.</strong>.</li>
+<li><p>When the <strong>Federation Utility</strong> window shows up, please go through the following tasks for each step in the wizard.</p>
+
+<ol>
+<li><p>On the <strong>Welcome</strong> page click <strong>Next</strong> to continue using the pre-populated fields.</p>
+
+<p><img src="images/welcome.png?raw=true" alt="Welcome" title="Welcome" />
+</p>
+
+<p><em>Welcome</em> </p></li>
+<li><p>On the <strong>STS options</strong> page select the third radio button <strong>&quot;Use an existing STS&quot;</strong> option, paste the endpoint address taken from <strong>Task 3 - Step 13</strong> in <strong>Endpoint Reference</strong>, <strong>WS-Federation metadata</strong> field and click <strong>Next</strong>.</p>
+
+<p><img src="images/use-an-existing-sts-option.png?raw=true" alt="Use an Existing STS option" title="Use an Existing STS option" />
+</p>
+
+<p><em>Use an Existing STS option</em> </p></li>
+<li><p>On the <strong>STS signing certificate chain validation error</strong> page select <strong>Disable certificate chain validation</strong> and click <strong>Next</strong>.</p>
+
+<p><img src="images/disable-certificate-chain-validation-option.png?raw=true" alt="Disable certificate chain validation option" title="Disable certificate chain validation option" />
+</p>
+
+<p><em>Disable certificate chain validation option</em> </p></li>
+<li><p>On the <strong>Security token encryption</strong> page select <strong>No encryption</strong> and click <strong>Next</strong>.</p>
+
+<p><img src="images/security-token-encryption.png?raw=true" alt="Security Token encryption" title="Security Token encryption" />
+</p>
+
+<p><em>Security Token encryption</em> </p></li>
+<li><p>On the <strong>Offered claims</strong> page click <strong>Next</strong>.</p>
+
+<p><img src="images/offered-claims.png?raw=true" alt="Offered Claims" />
+</p>
+
+<p><em>Offered Claims</em> </p>
+<blockquote>
+<p><strong>Note:</strong> The WS-Federation Metadata can contain descriptions of the claims that the endpoint offers. The wizard shows those to you so that you will know what information about incoming users you will be able to process in your cloud service. In this case ACS declares that it can release information about which identity provider was actually used for authentication and a user identifier.</p>
+</blockquote></li>
+<li><p>On the <strong>Summary</strong> page review the changes that will be made and click <strong>Finish</strong>.</p></li>
+</ol></li>
+</ol>
+
+<p><a name="Ex1Verification"></a></p>
+
+<h4 id="Exercise_1_Verification">Exercise 1: Verification</h4>
+
+<p>It's time to give your newly secured Web site a spin. In order to verify that you have correctly performed all steps in exercise one, proceed as follows:</p>
+
+<ol>
+<li> Start debugging by pressing <strong>F5</strong>. The relying party (https://localhost/WebSiteACS/) will redirect to the Access Control Service to authenticate.</li>
+<li><p>Choose an Identity Provider; you will be redirected to the identity provider's Web site where you will be prompted for entering your credentials. In this example we will use Windows Live ID: choosing other options will lead to comparable experiences.</p>
+
+<p><img src="images/choosing-your-favorite-identity-provider.png?raw=true" alt="Choosing your Favorite Identity Provider" title="Choosing your Favorite Identity Provider" />
+     </p>
+
+<p><em>Choosing your Favorite Identity Provider</em> </p></li>
+<li><p>In the Windows Live ID website enter your Live ID and password.</p>
+
+<p><img src="images/login-with-windows-live-id.png?raw=true" alt="Login with Windows Live ID" title="Login with Windows Live ID" />
+</p>
+
+<p><em>Login with Windows Live ID</em> </p></li>
+<li><p>Upon successful authentication you will be redirected to ACS (observe the address bar) which will briefly process and redirect back to your Web site.</p></li>
+<li><p>The process is entirely transparent to the user, but the Web site is now configured to verify that a valid token from the ACS is present in the call: that is the case, hence you are granted access and the default page finally appears in the browser.</p>
+
+<p><img src="images/user-authenticated.png?raw=true" alt="User Authenticated" title="User Authenticated" />
+</p>
+
+<p><em>User Authenticated</em> </p></li>
+<li><p>Close the browser.</p></li>
+</ol>
+
+<p><a name="Ex1Summary"></a></p>
+
+<h4 id="Exercise_1_Summary">Exercise 1: Summary</h4>
+
+<p>In the first exercise you learned the ropes of using ACS for handling authentication for you. At the same time, you learned how to use WIF for automatically configure a Web site to outsource authentication to external entities. The process is exactly the same whether you point your cloud service to ACS, an internal identity provider such as ADFS2, and any product complying with WS-Federation.
+Once you outsourced authentication to ACS, you can start changing settings (such as which identity providers should be used) directly at the ACS portal without the need to touch the cloud service code.</p>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Use_Claims_for_Authorizing_Users">Exercise 2: Use Claims for Authorizing Users</h3>
+
+<p>The first exercise focused on granting access to users from multiple identity providers, but didn't do much with the incoming claims. In this exercise you will get a taste of what you can do with ACS for enriching the information you have about users for driving authorization decisions, without having to store any permanent information in the cloud service itself.
+Your task is simple: you will assign a role to a specific user, and you will authorize certain actions on the Web site according to it.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Visualizing_the_Claims_from_the_Access_Control_Service">Task 1 - Visualizing the Claims from the Access Control Service</h4>
+
+<p>WIF does an excellent job at hiding the details of the underlying protocol negotiations. Before creating rules for processing claims, it is useful to take a peek behind the curtain and see exactly what the cloud service receives from ACS. To that purpose, you will use a debug component which is capable of visualizing the incoming tokens directly on the Web site pages.</p>
+
+<ol>
+<li><p>Copy the completed solution of the <strong>Ex1</strong> to <strong>Ex2-EasyAuthorizationWithACS\Begin</strong>.</p>
+
+<p><img src="images/copying-the-solution.png?raw=true" alt="Copying the Solution" title="Copying the Solution" />
+</p>
+
+<p><em>Copying the Solution</em> </p>
+<blockquote>
+<p><strong>Note:</strong> Although exercises in our hands-on labs are normally independent from each other, in this case there are shared settings in the cloud that would not make much sense to duplicate here. If you didn't go through the first exercise and you didn't set up the ACS account, namespaces and similar you will need to follow the instructions of tasks 2, 3 and 4 from exercise 1 before going further with exercise 2.</p>
+</blockquote></li>
+<li><p>Open Microsoft Visual Studio 2010 with administrator privileges. From <strong>Start | All Programs | Microsoft Visual Studio 2010</strong>, right-click <strong>Microsoft Visual Studio 2010</strong> and select <strong>Run as administrator</strong>.</p></li>
+<li><p>Open the <strong>WebSiteACS.sln</strong> solution file (copied in step 1) located inside the <strong>Ex2-EasyAuthorizationWithACS\Begin</strong> folder of this Lab.</p></li>
+<li><p>Go to the <strong>Solution Explorer</strong> and open <strong>Default.aspx</strong> file.</p></li>
+<li><p>From the <strong>Visual Studio Toolbox</strong> drag and drop a <strong>Security Token Visualizer Control</strong> at the bottom of the main content control:</p>
+
+<p><img src="images/security-token-visualizer-control-in-toolbox.png?raw=true" alt="Security Token Visualizer Control in Toolbox" title="Security Token Visualizer Control in Toolbox" />
+</p>
+
+<p><em>Security Token Visualizer Control in Toolbox</em> </p>
+
+<!-- mark: 1    -->
+
+<span class="codelanguage">ASP.NET</span><pre><code class="ASP.NET"><strong class="markLine"> <span style="color:#0000FF">&lt;</span><span style="color:#800000">cc1</span>:<span style="color:#FF0000">SecurityTokenVisualizerControl</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;SecurityTokenVisualizerControl1&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> In case no code appears when you drop the control on the page, please close Visual Studio, run the Setup again and restart Visual Studio.</p>
+</blockquote></li>
+<li><p>Open <strong>Web.config</strong> file and add the <strong>saveBootstrapTokens</strong> attribute to the <strong>service</strong> element inside <strong>microsoft.identityModel</strong> section:</p>
+
+<!-- mark: 2    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">microsoft.identityModel</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">saveBootstrapTokens</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">audienceUris</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Start debugging by pressing <strong>F5</strong>. The cloud service will go through the same authentication routine enabled by the steps in exercise 1.</p></li>
+<li><p>Choose Windows Live ID and authenticate as shown in the first exercise.</p></li>
+<li><p>Expand the Security Token Visualizer Control.</p>
+
+<p><img src="images/security-token-visualizer-control.png?raw=true" alt="Security Token Visualizer Control " title="Security Token Visualizer Control " />
+</p>
+
+<p><em>Security Token Visualizer Control</em> </p>
+<blockquote>
+<p><strong>Note:</strong> The Security Token Visualizer Control is showing the content of the security token issued by ACS. For the purposes of this exercise you can ignore most of that: the only thing that needs your attention is the first table on top, the one labeled Issued Identity. That table contains the claims carried by the incoming token, as established by the default rules. In the case of Windows Live ID, those claims are identity provider (which indicates from which identity provider the ACS received the authentication token from) and <strong>nameidentifier</strong> (which provides an identified which is unique for that user in the context of the ACS namespace).
+The <strong>nameidentifier</strong> value is very important, as we can use it for telling one user from another. More specifically, the <strong>nameidentifier</strong> value can be used as the input claim for transformation rules which will assign new claims to specific users.</p>
+</blockquote></li>
+<li><p>Go to <strong>Issued Identity</strong> section and save the value of the <strong>nameidentifier</strong> claim in Notepad (Claim type and Claim value). Depending on the Identity Provider you picked in previous step, the value of the <strong>identityprovider</strong> claim might vary.</p>
+
+<p><img src="images/copying-the-nameidentifier-claim.png?raw=true" alt="Copying the nameidentifier claim" title="Copying the nameidentifier claim" />
+</p>
+
+<p><em>Copying the nameidentifier claim</em> </p></li>
+<li><p>Close the browser.</p></li>
+</ol>
+
+<p><a name="Ex2Task2"></a></p>
+
+<h4 id="Task_2_-_Creating_Authorization_Rules">Task 2 - Creating Authorization Rules</h4>
+
+<ol>
+<li> Navigate to <a href="https://windows.azure.com/">https://windows.azure.com/</a>. You will be prompted for your Windows Live ID credentials if you are not already signed in.</li>
+<li> Select the <strong>Access Control</strong> in the navigation pane and click the Service Namespace you have created in the first exercise.</li>
+<li> Click the <strong>Access Control Service</strong> button located in the ribbon bar to manage your service. </li>
+<li><p>In the <strong>Trust Relationships</strong> section of the navigation menu, click the <strong>Rule Groups</strong> link.</p>
+
+<p><img src="images/rule-groups.png?raw=true" alt="Rule Groups" title="Rule Groups" />
+</p>
+
+<p><em>Rule Groups</em> </p></li>
+<li><p>Click the <strong>Default Rule Group for WebSiteACS</strong>.</p></li>
+<li><p>Click the <strong>Add</strong> link above the Rules table to configure a new rule.</p></li>
+<li><p>Fill the form with the following values:</p>
+
+<ul>
+<li><strong>If.</strong>
+
+<ul>
+<li><strong>Claim issuer / Identity Provider:</strong> Windows Live ID</li>
+<li><strong>(And) Input claim type / Select type:</strong> <a href="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier">http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier</a></li>
+<li><strong>(And) Input claim value / Enter value:</strong> Claim value taken from <strong>Task 1 - Step 10</strong></li>
+</ul></li>
+<li><strong>Then.</strong>
+
+<ul>
+<li><strong>Output claim type / Select type:</strong> <a href="http://schemas.microsoft.com/ws/2008/06/identity/claims/role">http://schemas.microsoft.com/ws/2008/06/identity/claims/role</a></li>
+<li><strong>Output claim value / Enter value:</strong> Administrator</li>
+<li><strong>Rule information</strong></li>
+<li><strong>Description:</strong> Administrator claim rule</li>
+</ul></li>
+</ul>
+
+<p><img src="images/adding-rule.png?raw=true" alt="Adding Rule" />
+</p>
+
+<p><em>Adding Rule</em> </p></li>
+<li><p>Click <strong>Save</strong> button.</p>
+<blockquote>
+<p><strong>Note:</strong> The rule you just entered assigns the role claim &quot;administrator&quot; to the Microsoft account you used for signing in the cloud service earlier in the exercise. The specific claim type used for indicating role is automatically mapped by WIF into traditional Windows roles, as you will see in the next task.</p>
+
+<p>Note that you could create analogous rules for other identity providers as well. In this lab we picked Windows Live ID because you are already required to have an account with it for signing up with ACS, but there's really nothing special about ACS and Windows Live ID: you can obtain the exact same result with any other identity provider, as long as a unique user identifier claim is available.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex2Task3"></a></p>
+
+<h4 id="Task_3_-_Authorizing_Based_on_the_Claims_Provided_by_Access_Control_Service">Task 3 - Authorizing Based on the Claims Provided by Access Control Service</h4>
+
+<p>Now that the new rule has been added, the Web site will receive a token with the extra role claim in it. Let's leverage the role information for granting or denying access to some Web site function, such as access to special areas of one page.</p>
+
+<ol>
+<li> Back to Visual Studio and on the Solution Explorer open <strong>Styles\Site.css</strong> file.</li>
+<li><p>Add the following CSS class:</p>
+
+<!-- mark: 1-7    -->
+
+<span class="codelanguage">CSS</span><pre><code class="CSS"><strong class="markLine">.<span style="color:#800000">secretContent</span></strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">  <span style="color:#FF0000">border-style</span>: <span style="color:#0000FF">solid</span>; </strong>
+<strong class="markLine">  <span style="color:#FF0000">background-color</span>: <span style="color:#0000FF">Red</span>; </strong>
+<strong class="markLine">  <span style="color:#FF0000">padding</span>: <span style="color:#0000FF">5px</span>;</strong>
+<strong class="markLine">  <span style="color:#FF0000">color</span>: <span style="color:#0000FF">White</span>;</strong>
+<strong class="markLine">}</strong>
+</code></pre></li>
+<li><p>Open <strong>Default.aspx</strong> and add the following ASP.NET Panel control at the bottom of the main content control:</p>
+
+<!-- mark: 5-7    -->
+
+<span class="codelanguage">ASP.NET</span><pre><code class="ASP.NET"><span style="color:#0000FF">&lt;</span><span style="color:#800000">p</span><span style="color:#0000FF">&gt;</span>
+    You can also find <span style="color:#0000FF">&lt;</span><span style="color:#800000">a</span> <span style="color:#FF0000">href</span>=<span style="color:#0000FF">&quot;http://go.microsoft.com/fwlink/?LinkID=152368&amp;amp;clcid=0x409&quot;</span>
+        <span style="color:#FF0000">title</span>=<span style="color:#0000FF">&quot;MSDN ASP.NET Docs&quot;</span><span style="color:#0000FF">&gt;</span>documentation on ASP.NET at MSDN<span style="color:#0000FF">&lt;/</span><span style="color:#800000">a</span><span style="color:#0000FF">&gt;</span>.
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">p</span><span style="color:#0000FF">&gt;</span>    
+<strong class="markLine"><span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">Panel</span> <span style="color:#FF0000">Visible</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#FF0000">CssClass</span>=<span style="color:#0000FF">&quot;secretContent&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;SecretContent&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    Secret Content (Only administrators can access this section)</strong>
+<strong class="markLine"><span style="color:#0000FF">&lt;/</span><span style="color:#C71585">asp</span>:<span style="color:#800000">Panel</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">cc1</span>:<span style="color:#FF0000">SecurityTokenVisualizerControl</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;SecurityTokenVisualizerControl1&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#0000FF">/&gt;</span>
+
+</code></pre></li>
+<li><p>Open <strong>Default.aspx.cs</strong> and add the following using statement:</p>
+
+<p>(Code Snippet - <em>Introduction to ACS2 Lab - Ex02 Default.aspx.cs Usings</em> - C#)</p>
+
+<!-- mark: 1    -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> System.Threading;</strong>
+</code></pre></li>
+<li><p>Now that we added some extra UI elements, let's make sure that only administrators will be able to see it. Add the following validation inside <strong>Page_Load</strong> method:</p>
+
+<p>(Code Snippet - <em>Introduction to ACS2 Lab - Ex02 Page_Load -</em> C#<em>)</em></p>
+
+<!-- mark: 1-4    -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">if</span> (Thread.CurrentPrincipal.IsInRole(<span style="color:#8B0000">&quot;Administrator&quot;</span>))</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">  <span style="color:#0000FF">this</span>.SecretContent.Visible = <span style="color:#0000FF">true</span>;</strong>
+<strong class="markLine">}</strong>
+</code></pre></li>
+</ol>
+
+<p><a name="Ex2Verification"></a></p>
+
+<h4 id="Exercise_2_Verification">Exercise 2: Verification</h4>
+
+<p>In order to verify that you have correctly performed all steps in exercise two, proceed as follows:</p>
+
+<ol>
+<li> Start debugging by pressing <strong>F5</strong>. The relying party (https://localhost/WebSiteACS/) will redirect to the Access Control Service to authenticate.</li>
+<li> Select the Windows Live ID Identity Provider and put your credentials. The usual sequence of redirects occurs, and the user is authenticated.</li>
+<li><p>The secret content section shows up, as the current user is in the administrator role.</p>
+
+<p><img src="images/administrator-role-seeing-secret-content.png?raw=true" alt="Administrator Role Seeing Secret Content" title="Administrator Role Seeing Secret Content" />
+</p>
+
+<p><em>Administrator Role Seeing Secret Content</em> </p></li>
+<li><p>Close the browser.</p></li>
+<li><p>Start debugging again by pressing <strong>F5</strong>.</p></li>
+<li><p>Select another Identity Provider or use a different Microsoft account.</p></li>
+<li><p>The secret content section is no longer visible.</p>
+
+<p><img src="images/other-role-not-seeing-secret-content.png?raw=true" alt="Other Role not Seeing Secret Content" title="Other Role not Seeing Secret Content" />
+</p>
+
+<p><em>Other Role not Seeing Secret Content</em> </p></li>
+<li><p>Close the browser.</p></li>
+</ol>
+
+<p><a name="Ex2Summary"></a></p>
+
+<h4 id="Exercise_2_Summary">Exercise 2: Summary</h4>
+
+<p>In the second exercise you learned how to manipulate the claims issued by ACS for your cloud service, and how to use that information for driving authorization decisions. The exercise was very simple, assigning a role to a specific user; however it shows the power of the claims transformation rules approach and can be easily extended to more sophisticated cases.</p>
+
+<p><a name="Exercise3"></a></p>
+
+<h3 id="Exercise_3_Take_control_of_the_Sign-In_experience">Exercise 3: Take control of the Sign-In experience</h3>
+
+<p>Using the WIF wizard for outsourcing authentication to ACS creates what is often referred to as &quot;blanket protection&quot;: from that moment on, any attempt from an unauthenticated user to access any page in the Web site triggers a redirection to the ACS. There are various scenarios in which that is not the effect you want to achieve: for example you may want to leave some pages available also to unauthenticated users, or you may want to take finer control on the authentication experience.
+ACS makes it easy for you to craft your own authentication pages if you choose to, by providing you with boilerplate HTML code already geared to use the endpoints in your own namespace. You can just cut and paste the code in your app and integrate it with whatever UI elements you see fit. The last exercise of this introductory lab shows you precisely how to do that.</p>
+
+<p><a name="Ex3Task1"></a> </p>
+
+<h4 id="Task_1_-_Hosting_a_Login_Page_as_Part_of_your_Cloud_Service">Task 1 - Hosting a Login Page as Part of your Cloud Service</h4>
+
+<ol>
+<li><p>Copy the completed solution of the <strong>Ex2</strong> to <strong>Ex3-CustomSignInExperience\Begin</strong>.</p>
+
+<p><img src="images/copying-the-completed-solution-from-the-previ.png?raw=true" alt="Copying the completed solution from the previous exercise" title="Copying the completed solution from the previous exercise" />
+</p>
+
+<p><em>Copying the completed solution from the previous exercise</em> </p>
+<blockquote>
+<p><strong>Note:</strong> Although exercises in our hands-on labs are normally independent from each other, in this case there are shared settings in the cloud that would not make much sense to duplicate here. If you didn't go through the first exercise and you didn't set up the ACS account, namespaces and similar you will need to follow the instructions of tasks 2, 3 and 4 from exercise 1 before going further with exercise 3.</p>
+</blockquote></li>
+<li><p>Navigate to <a href="https://windows.azure.com/">https://windows.azure.com/</a>. You will be prompted for your Windows Live ID credentials if you are not already signed in.</p></li>
+<li><p>Select the <strong>Access Control</strong> in the navigation pane. Click the Service Namespace you created in the first exercise. Click the <strong>Access Control Service</strong> button located in the ribbon bar to manage your service. </p></li>
+<li><p>Go to <strong>Development</strong> section and click the <strong>Application Integration</strong> link.</p></li>
+<li><p>Click the <strong>Login Pages</strong> link and select your relying party service (<strong>WebSiteACS</strong>).</p>
+
+<p><img src="images/login-page-integration.png?raw=true" alt="Login Page Integration" title="Login Page Integration" />
+</p>
+
+<p><em>Application Integration - Login Page</em>   </p></li>
+<li><p>In the <strong>Option 2: Host the login page as part of your application</strong> section, click <strong>Download Example Login Page</strong>.</p>
+
+<p><img src="images/login-page-integration-2.png?raw=true" alt="Login Page Integration" title="Login Page Integration" />
+</p>
+
+<p><em>Login Page Integration</em> </p></li>
+<li><p>Save the HTML file in <strong>%SystemDrive%\inetpub\wwwroot\WebSiteACS</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> If you don't have permissions to save the file, proceed to download it into My Documents folder instead, and then move it to <strong>%SystemDrive%\inetpub\wwwroot\WebSiteACS</strong>. If <strong>Destination Folder Access Denied</strong> prompt is shown, click the <strong>Continue</strong> button. </p>
+
+<p><img src="images/save-as-file.png?raw=true" alt="save-as-file" title="Save as File" />
+</p>
+</blockquote></li>
+<li><p>Open Microsoft Visual Studio 2010 with administrator privileges. From <strong>Start | All Programs | Microsoft Visual Studio 2010</strong>, right-click <strong>Microsoft Visual Studio 2010</strong> and select <strong>Run as administrator</strong>.</p></li>
+<li><p>Open the <strong>WebSiteACS.sln</strong> solution file (copied in step 1) located inside the <strong>Ex3-EasyAuthorizationWithACS\Begin</strong> folder of this Lab.</p></li>
+<li><p>Go to the <strong>Solution Explorer</strong> and right-click <strong>https://localhost/WebSiteACS/</strong> and <strong>Add Existing Item</strong>, select the HTML file that you downloaded in <strong>step 7</strong> (<strong>WebSiteACSLoginPageCode.html</strong>) and click <strong>Add</strong>.</p></li>
+<li><p>Double-click the HTML file that you downloaded in <strong>step 7</strong> (<strong>WebSiteACSLoginPageCode.html</strong>) to open it in <strong>Microsoft Visual Studio 2010</strong>.</p></li>
+<li><p>Go to the DIV tag with <strong>ID=&quot;Banner&quot;</strong> and replace the text <strong>&quot;Sign in to WebSiteACS&quot;</strong> with &quot;<strong>My custom login page for WebSiteACS</strong>&quot;.</p>
+
+<!-- mark: 1-2    -->
+
+<span class="codelanguage">HTML</span><pre><code class="HTML"><strong class="markLine"> <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">id</span>=<span style="color:#0000FF">&quot;Main&quot;</span> <span style="color:#FF0000">style</span>=<span style="color:#0000FF">&quot;display:none&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">id</span>=<span style="color:#0000FF">&quot;Banner&quot;</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;Banner&quot;</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;</span><span style="color:#800000">b</span><span style="color:#0000FF">&gt;</span>My custom login page for WebSiteACS<span style="color:#0000FF">&lt;/</span><span style="color:#800000">b</span><span style="color:#0000FF">&gt;</span><span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+</code></pre></li>
+<li><p>Go to <strong>&lt;style&gt;</strong> section and update the following CSS classes:</p>
+
+<ul>
+<li><strong>div.SignInContent</strong>
+
+<ul>
+<li>width: 1020px;</li>
+<li>height: 170px;</li>
+</ul></li>
+<li><strong>div.Banner</strong>
+
+<ul>
+<li>width: 1020px;</li>
+<li>background: none repeat scroll 0 0 #4B6C9E;</li>
+<li>color: #F9F9F9;</li>
+</ul></li>
+<li><strong>div.LeftArea</strong>
+
+<ul>
+<li>width: 960px;</li>
+</ul></li>
+</ul>
+
+<!-- mark: 7-8, 18, 22-23, 29    -->
+
+<span class="codelanguage">CSS</span><pre><code class="CSS">    <span style="color:#800000">div</span>.<span style="color:#800000">SignInContent</span>
+    {
+      <span style="color:#FF0000">text-align</span>: <span style="color:#0000FF">center</span>;
+      <span style="color:#FF0000">margin-right</span>: <span style="color:#0000FF">auto</span>;
+      <span style="color:#FF0000">border</span>: <span style="color:#0000FF">solid 1px #BBBBBB</span>;
+      <span style="color:#FF0000">position</span>: <span style="color:#0000FF">relative</span>;
+<strong class="markLine">      <span style="color:#FF0000">width</span>: <span style="color:#0000FF">1020px</span>;</strong>
+<strong class="markLine">      <span style="color:#FF0000">height</span>: <span style="color:#0000FF">170px</span>;</strong>
+    }
+
+    <span style="color:#800000">div</span>.<span style="color:#800000">Banner</span>
+    {
+      <span style="color:#FF0000">padding-top</span>:<span style="color:#0000FF">10px</span>;
+      <span style="color:#FF0000">padding-bottom</span>:<span style="color:#0000FF">10px</span>;
+      <span style="color:#FF0000">text-align</span>: <span style="color:#0000FF">center</span>;
+      <span style="color:#FF0000">margin-left</span>: <span style="color:#0000FF">auto</span>;
+      <span style="color:#FF0000">margin-right</span>: <span style="color:#0000FF">auto</span>;
+<strong class="markLine">      <span style="color:#FF0000">background</span>: <span style="color:#0000FF">none repeat scroll 0 0 #4B6C9E</span>;</strong>
+      <span style="color:#FF0000">border-top</span>: <span style="color:#0000FF">solid 1px #BBBBBB</span>;
+      <span style="color:#FF0000">border-left</span>: <span style="color:#0000FF">solid 1px #BBBBBB</span>;
+      <span style="color:#FF0000">border-right</span>: <span style="color:#0000FF">solid 1px #BBBBBB</span>;
+<strong class="markLine">      <span style="color:#FF0000">width</span>: <span style="color:#0000FF">1020px</span>;</strong>
+<strong class="markLine">      <span style="color:#FF0000">color</span>: <span style="color:#0000FF">#F9F9F9</span>;</strong>
+    }
+
+    <span style="color:#800000">div</span>.<span style="color:#800000">LeftArea</span>
+    {
+      <span style="color:#FF0000">padding</span>:<span style="color:#0000FF">15px 15px</span>;
+<strong class="markLine">      <span style="color:#FF0000">width</span>: <span style="color:#0000FF">960px</span>; </strong>
+      <span style="color:#FF0000">height</span>: <span style="color:#0000FF">100%</span>;
+      <span style="color:#FF0000">position</span>: <span style="color:#0000FF">absolute</span>;
+      <span style="color:#FF0000">top</span>: <span style="color:#0000FF">0px</span>;
+      <span style="color:#FF0000">left</span>: <span style="color:#0000FF">0px</span>;
+    }
+</code></pre></li>
+<li><p>Go to the <strong>Solution Explorer</strong> and open <strong>Web.config</strong> file.</p></li>
+<li><p>Add the following section inside <strong>&lt;configuration&gt;</strong> node:</p>
+
+<p>(Code Snippet - <em>Introduction to ACS2 Lab - Ex03 Location -</em> XML)</p>
+
+<!-- mark: 5-11    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"> <span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+       <span style="color:#0000FF">&lt;</span><span style="color:#800000">configSections</span><span style="color:#0000FF">&gt;</span>
+       ...
+       <span style="color:#0000FF">&lt;/</span><span style="color:#800000">configSections</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">location</span> <span style="color:#FF0000">path</span>=<span style="color:#0000FF">&quot;WebSiteACSLoginPageCode.html&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">          <span style="color:#0000FF">&lt;</span><span style="color:#800000">authorization</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;</span><span style="color:#800000">allow</span> <span style="color:#FF0000">users</span>=<span style="color:#0000FF">&quot;*&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">          <span style="color:#0000FF">&lt;/</span><span style="color:#800000">authorization</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">location</span><span style="color:#0000FF">&gt;</span></strong>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">location</span> <span style="color:#FF0000">path</span>=<span style="color:#0000FF">&quot;FederationMetadata&quot;</span><span style="color:#0000FF">&gt;</span>
+      .
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">location</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Go to microsoft.identityModel/service/federatedAuthentication/wsFederation section and update the issuer attribute with &quot;<strong>https://localhost/WebSiteACS/WebSiteACSLoginPageCode.html</strong>&quot;. The <strong>web.config</strong> should look like the code bellow.</p>
+
+<!-- mark: 5    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">microsoft.identityModel</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">service</span> <span style="color:#FF0000">saveBootstrapTokens</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">&gt;</span>
+    ...
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">federatedAuthentication</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">wsFederation</span> <span style="color:#FF0000">passiveRedirectEnabled</span>=<span style="color:#0000FF">&quot;true&quot;</span> <span style="color:#FF0000">issuer</span>=<span style="color:#0000FF">&quot;https://localhost/WebSiteACS/WebSiteACSLoginPageCode.html&quot;</span> <span style="color:#FF0000">realm</span>=<span style="color:#0000FF">&quot;https://localhost/WebSiteACS/&quot;</span> <span style="color:#FF0000">requireHttps</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">cookieHandler</span> <span style="color:#FF0000">requireSsl</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">/&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">federatedAuthentication</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Save and close <strong>Web.config</strong> file.</p></li>
+</ol>
+
+<p><a name="Ex3Verification"></a></p>
+
+<h4 id="Exercise_3_Verification">Exercise 3: Verification</h4>
+
+<p>In order to verify that you have correctly performed all steps in exercise three, proceed as follows:</p>
+
+<ol>
+<li> Start debugging by pressing <strong>F5</strong>. The relying party (https://localhost/WebSiteACS/) will redirect to the Access Control Service to authenticate.</li>
+<li><p>Choose your favorite Identity Provider (i.e.: Live ID) from your custom login page and put your credentials.</p>
+
+<p><img src="images/custom-login-page.png?raw=true" alt="Custom Login Page" title="Custom Login Page" />
+</p>
+
+<p><em>Custom Login Page</em> </p></li>
+<li><p>Access Control sent to our cloud service the claims it was expecting and we are now authenticated.</p></li>
+<li><p>Close the browser.</p></li>
+</ol>
+
+<p><a name="Ex3Summary"></a>   </p>
+
+<h4 id="Exercise_3_Summary">Exercise 3: Summary</h4>
+
+<p>The last exercise of the lab showed you how you can seamlessly integrate ACS authentication elements in your Web site, demonstrating that you can take advantage of ACS' advanced capabilities without having to break the experience and style you want for your cloud services.</p>
+
+<hr />
+
+<p><a name="Summary"></a>  </p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>By completing this Hands-On Lab you have learned how to:</p>
+
+<ul>
+<li>Configure your cloud service to outsource authentication to ACS</li>
+<li>Configure ACS to include the identity providers you want to leverage</li>
+<li>Configure ACS to process incoming identities and add new claims</li>
+<li>Modify your cloud service to consume claims from ACS and drive authorization decisions</li>
+<li>Customize the default authentication user experience provided by ACS</li>
+</ul>
+
+<p>The notion of outsourcing authentication to an external entity, instead of taking care of the details yourself, is an extremely powerful one. Windows Identity Foundation makes it easy to configure .NET cloud services to trust their authentication needs to external authorities.
+The Windows Azure Access Control Service is a great service to outsource authentication to, as it can easily abstract away the complexity of dealing with mutiple identity providers such as Windows Live ID, Facebook, Google, Yahoo! and even business providers such as directories enhanced by Active Directory Federation Services or equivalent. Furthermore, ACS offers powerful tools for manipulating the way in which the user's identity is processed before reaching your cloud service.
+This introductory lab barely begun to explore the capabilities of ACS. Here we focused on Web sites, but ACS can handle just as well SOAP and REST web services; we used the portal, but ACS offers a rich management API which can be used to automate provisioning tasks; we focused on Web identities, but ACS offers comprehensive support for business identity providers and processing capabilites for the richer claims set they generate. If you are interested in knowing more about those capabilites, please refer to the upcoming intermerdiate and advanced hands-on labs.</p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroAccessControlService/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

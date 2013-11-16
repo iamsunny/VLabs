@@ -1,0 +1,45 @@
+html
+head
+	title Contacts
+body
+	div.container
+	
+		title Contact Manager
+		
+		div.page-header
+			h1 Contact Manager
+
+		div.hero-unit
+			h2 Contact Manager Sample <small>for Windows Azure Web Sites</small>
+			p Create and search for contacts using text search in MongoDB
+
+		form(action="/contacts/filter/", method="get")
+			h3(style="display:inline") Search contacts by First Name/Last Name:
+			div.input
+				input(class="input", style="display:inline", type="text", name="search") 
+			input(class="btn", type="submit", value="Search")
+
+		br
+		br
+		
+		h3 Results
+		
+		table(class="table")
+			tr
+				th First Name
+				th Last Name
+				th Address
+				th Email
+				
+				each item in contactlist
+					tr
+						td 
+							#{item.firstname}
+						td 
+							#{item.lastname}
+						td 
+							#{item.address}
+						td 
+							#{item.email}
+		hr
+		a(class="btn btn-primary btn-large", href="/contacts/newContact") Create New

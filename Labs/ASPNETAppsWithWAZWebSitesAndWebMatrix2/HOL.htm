@@ -1,0 +1,517 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Building and Publishing Web Applications with Windows Azure Web Sites and WebMatrix 2</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-ASPNETAppsWithAzureWebSitesAndWebMatrix2" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-ASPNETAppsWithAzureWebSitesAndWebMatrix2" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="Title"></a></p>
+
+<h1 id="Building_and_Publishing_Web_Applications_with_Windows_Azure_Web_Sites_and_WebMatrix_2">Building and Publishing Web Applications with Windows Azure Web Sites and WebMatrix 2</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>In this Hands-on Lab you will learn how to use Microsoft WebMatrix 2 to build and publish web sites in Windows Azure.</p>
+
+<p>Microsoft WebMatrix is a free tool that allows you to create, customize and publish web sites. WebMatrix includes a range of built-in templates to make it quick and easy to get started with your web site code and provides built-in publishing support to help you easily publish your web sites to Windows Azure.</p>
+
+<p>Following the exercises, you will create a new Web Site from the Windows Azure Management Portal and start to build your Web Site locally using WebMatrix. By using a WebMatrix out-of-the-box template, you will quickly create a photo gallery application and customize it by adding a Facebook Like button. Finally, you will publish the resulting web application to Windows Azure using WebMatrix built-in publishing support.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li>Create a Web Site from the Windows Azure Management Portal</li>
+<li>Download and install Microsoft WebMatrix</li>
+<li>Take advantage of the WebMatrix Photo Gallery template</li>
+<li>Publish the Photo Gallery application using WebMatrix publishing feature</li>
+<li>Use NuGet Packages to customize the Photo Gallery application</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<ul>
+<li>A Windows Azure subscription with the Web Sites Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li> <a href="#Exercise1">Creating a Windows Azure Web Site and Installing WebMatrix 2</a></li>
+<li> <a href="#Exercise2">Trying out the Photo Gallery Application</a></li>
+<li> <a href="#Exercise3">Using NuGet Packages to Customize the Photo Gallery Application</a></li>
+</ol>
+
+<p>Estimated time to complete this lab: <strong>45</strong> minutes.</p>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Creating_a_Windows_Azure_Web_Site_and_Installing_WebMatrix_2">Exercise 1: Creating a Windows Azure Web Site and Installing WebMatrix 2</h3>
+
+<p>In this exercise, you will use the Windows Azure Management Portal to create a new Web Site. Then, you will download and install WebMatrix to publish the Photo Gallery template within your web site.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Windows_Azure_Web_Site">Task 1 - Creating a New Windows Azure Web Site</h4>
+
+<p>In this task, you will create a new Web Site from the Windows Azure Management Portal.</p>
+
+<ol>
+<li><p>Open <a href="https://manage.windowsazure.com">Windows Azure Management Portal</a> and log in with your Windows Azure Account's credentials.</p></li>
+<li><p>Click <strong>New</strong> | <strong>Web Site</strong> | <strong>Quick Create</strong>. Select a unique <strong>URL</strong> for your web site, for example <em>WebMatrixSite</em>.</p>
+
+<p><img src="images/creating-a-new-web-site.png?raw=true" alt="Creating a new Web Site" title="Creating a new Web Site" />
+</p>
+
+<p><em>Creating a new Web Site</em></p>
+<blockquote>
+<p><strong>Note:</strong> A Windows Azure Web Site is the host for a web application running in the cloud that you can control and manage. The Quick Create option allows you to deploy a completed web application to the Windows Azure Web Site from outside the portal. It does not include steps for setting up a database.</p>
+</blockquote></li>
+<li><p>Wait until the Web Site is <strong>Running</strong> before continuing to the next task.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Creating_a_Web_Site_using_WebMatrix_Templates">Task 2 - Creating a Web Site using WebMatrix Templates</h4>
+
+<p>In this task, you will download and install WebMatrix  and then create a site using the Photo Gallery template.</p>
+
+<ol>
+<li><p>In the <strong>Windows Azure Management Portal</strong>, click Web Sites and then click the Web Site <strong>name</strong> you created in the previous task to go to its <strong>Dashboard</strong>.</p>
+
+<p><img src="images/web-sites-page.png?raw=true" alt="Web Sites page" title="Web Sites page" />
+</p>
+
+<p><em>Web Sites page</em></p></li>
+<li><p>In the <strong>Dashboard</strong> page, click <strong>WebMatrix</strong> from the bottom menu. </p>
+
+<p><img src="images/accessing-webmatrix-from-the-portal.png?raw=true" alt="Opening WebMatrix from the Portal" title="Opening WebMatrix from the Portal" />
+</p>
+
+<p><em>Opening WebMatrix from the Portal</em></p></li>
+<li><p>If a <strong>Security Warning</strong> dialog is shown, click <strong>Run</strong>.</p>
+
+<p><img src="images/security-warning.png?raw=true" alt="Security Warning" title="Security Warning" />
+</p>
+
+<p><em>Security Warning</em></p></li>
+<li><p>It will start the installation of <strong>Microsoft WebMatrix</strong> using <strong>Web Platform Installer</strong>.</p>
+
+<p><img src="images/webmatrix-installation-using-wpi.png?raw=true" alt="WebMatrix Installation using Web Platform Installer" title="WebMatrix Installation using Web Platform Installer" />
+</p>
+
+<p><em>WebMatrix Installation using Web Platform Installer</em></p>
+<blockquote>
+<p><strong>Note:</strong> The Microsoft Web Platform Installer is a free tool that may be used to install a variety of Microsoft products, including WebMatrix.</p>
+</blockquote></li>
+<li><p>Wait until the installation finishes.</p>
+
+<p><img src="images/webmatrix-installed.png?raw=true" alt="WebMatrix Installed" title="WebMatrix Installed" />
+</p>
+
+<p><em>WebMatrix Installed</em></p></li>
+<li><p>Once the installation finishes, <strong>WebMatrix</strong> will be automatically launched and start downloading your site. Then, <strong>WebMatrix</strong> will start creating a local copy of your remote site. In this case, your empty site, so it will not take too long to complete the process.</p>
+
+<p><img src="images/copying-files.png?raw=true" alt="Copying Files" title="Copying Files" />
+</p>
+
+<p><em>Copying Files</em></p></li>
+<li><p><strong>WebMatrix</strong> will detect that your site is empty and will show an <strong>Empty Site Detected</strong> message. Click <strong>Yes, install from the Template Gallery</strong> to continue.</p>
+
+<p><img src="images/install-from-template-gallery.png?raw=true" alt="Install from Template Gallery" title="Install from Template Gallery" />
+</p>
+
+<p><em>Installing from Template Gallery</em></p></li>
+<li><p>In the <strong>Site from Template</strong> page, select the <strong>ASP.NET</strong> tab and then the <strong>Photo Gallery</strong> template. Finally, set a <strong>Site Name</strong> (for example <em>AzurePhotoGallery</em>) and click <strong>Next</strong>.</p>
+
+<p><img src="images/photo-gallery-template.png?raw=true" alt="Photo Gallery Template" title="Photo Gallery Template" />
+</p>
+
+<p><em>Photo Gallery Template</em></p>
+<blockquote>
+<p><strong>Note:</strong> WebMatrix Website templates include pre-built pages and files for common types of websites, which you can customize to create your own site. You can pick from a number of different templates.</p>
+</blockquote></li>
+<li><p>Wait until the web site installation finishes. During this process, WebMatrix will download all the necessary files for the Photo Gallery template.</p>
+
+<p><img src="images/downloading-photo-gallery-template.png?raw=true" alt="Downloading Photo Gallery Template" title="Downloading Photo Gallery Template" />
+</p>
+
+<p><em>Downloading Photo Gallery Template</em></p></li>
+<li><p>Once the installation is complete, in <strong>WebMatrix</strong>, notice that there are four available tabs: <strong>Site</strong>, <strong>Files</strong>, <strong>Databases</strong> and <strong>Report</strong>. </p>
+
+<p><img src="images/exploring-web-site.png?raw=true" alt="Exploring Web Site" title="Exploring Web Site" />
+</p>
+
+<p><em>Exploring Web Site</em></p>
+<blockquote>
+<p><strong>Note:</strong> WebMatrix includes four integrated workspaces that help you focus on different areas of your Web site:</p>
+
+<ul>
+<li><strong>Site</strong>: Monitor real-time web requests and configure your Web site server settings with the Site workspace.</li>
+<li><strong>Files</strong>: Manage your files and edit your code using the code editor with syntax highlighting in the Files workspace. </li>
+<li><strong>Databases</strong>: Add and manage databases using the Database workspace.</li>
+<li><strong>Reports</strong>: Generate SEO reports and optimize your web site for search engines using tools.</li>
+</ul>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Publishing_a_Web_Site_from_WebMatrix">Task 3 - Publishing a Web Site from WebMatrix</h4>
+
+<p>In this task, you will publish the Photo Gallery template you created in the previous task to your Windows Azure Web Site using WebMatrix.</p>
+
+<ol>
+<li><p>Click <strong>Publish</strong> button to start publishing the <strong>Photo Gallery</strong> to the web site you created in the previous task.</p>
+
+<p><img src="images/publish-web-site.png?raw=true" alt="Publish Web Site" title="Publish Web Site" />
+</p>
+
+<p><em>Publishing Web Site</em></p></li>
+<li><p>In the <strong>Publish Preview</strong> page, select <strong>PhotoGallery.sdf</strong> to deploy the database file along with the web site and click <strong>Continue</strong>.</p>
+
+<p><img src="images/web-site-publish-preview.png?raw=true" alt="Web Site Publish Preview" title="Web Site Publish Preview" />
+</p>
+
+<p><em>Web Site Publish Preview</em></p>
+<blockquote>
+<p><strong>Note:</strong>     The Photo Gallery template uses a SQL Server Compact 4.0 database for storing photo data. SQL Server Compact provides a free, embedded, database engine that enables easy data storage within a single file. It does not require you to install a full database on your local development box. To learn more about SQL Server Compact download <a href="http://www.microsoft.com/en-us/download/details.aspx?id=21880">the books online</a>. </p>
+</blockquote></li>
+<li><p>Wait until the web site is published to Windows Azure. Once it finishes, click the link in the notification shown at the bottom to open the web site in a browser.</p>
+
+<p><img src="images/publishing-complete.png?raw=true" alt="Publishing Complete" title="Publishing Complete" />
+</p>
+
+<p><em>Publishing Complete</em></p></li>
+<li><p>Verify that the <strong>Photo Gallery</strong> application has been published successfully. Do not close the browser.</p>
+
+<p><img src="images/azure-photo-gallery-running.png?raw=true" alt="Azure Photo Gallery Running" title="Azure Photo Gallery Running" />
+</p></li>
+<li><p>Back in the <strong>Windows Azure Management Portal</strong>, go to the web site's <strong>Dashboard</strong> and see how the metrics chart is now reflecting the recent activity.</p>
+
+<p><img src="images/metrics-chart.png?raw=true" alt="Metrics Chart" title="Metrics Chart" />
+</p>
+
+<p><em>Metrics Chart</em></p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Trying_out_the_Photo_Gallery_Application">Exercise 2: Trying out the Photo Gallery Application</h3>
+
+<p>In this task you will explore the Photo Gallery application you have published in <a href="#Exercise1">Exercise 1</a>. You will register as a photo gallery user and then explore the application to see how it works. You will upload some images, add comments to those pictures and see how thumbnails change according to the pictures you uploaded.</p>
+<blockquote>
+<p><strong>Note:</strong> This exercise requires that you have the Photo Gallery application published in Windows Azure Web Sites as explained in Exercise 1.</p>
+</blockquote>
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Uploading_Images_and_Adding_Comments">Task 1 - Uploading Images and Adding Comments</h4>
+
+<ol>
+<li><p>Open the Photo Gallery web site you have published in the previous exercise.</p>
+
+<p><img src="images/opening-the-web-site.png?raw=true" alt="Opening the web site" title="Opening the web site" />
+</p>
+
+<p><em>Opening the Photo Gallery web site</em></p>
+<blockquote>
+<p><strong>Note:</strong> You can also get the published web site URL from the Windows Azure Portal in the site's Dashboard.</p>
+</blockquote></li>
+<li><p>Click <strong>Login</strong> link and then click <strong>Register</strong> in order to register a new user. </p>
+
+<p><img src="images/click-register.png?raw=true" alt="Click register" title="Click register" />
+</p>
+
+<p><em>Register a new account</em></p></li>
+<li><p>Once in the <strong>Account Creation</strong> page, enter your <strong>email</strong>, a <strong>password</strong> and <strong>password confirmation</strong> for the new account. Then click <strong>Register</strong>.</p>
+
+<p><img src="images/creating-a-new-account.png?raw=true" alt="Creating a new account" title="Creating a new account" />
+</p>
+
+<p><em>Creating a new account</em></p></li>
+<li><p>Once registered, click <strong>Create a New Gallery</strong>.</p>
+
+<p><img src="images/creating-a-new-gallery.png?raw=true" alt="Creating a new gallery" title="Creating a new gallery" />
+</p>
+
+<p><em>Creating a new Gallery</em></p></li>
+<li><p>In the <strong>New Gallery</strong> dialog, set the Gallery's <em>Name</em> to <strong>Photos</strong> and click <strong>Create</strong>.</p>
+
+<p><img src="images/creating-photos-gallery.png?raw=true" alt="Creating a new photo" title="Creating a new photo" />
+</p>
+
+<p><em>Creating a new photo</em></p></li>
+<li><p>Once the new gallery is created, click <strong>Upload a Photo</strong> link in order to add a new photo to the gallery.</p>
+
+<p><img src="images/click-upload-a-photo.png?raw=true" alt="Click Upload a Photo" title="Click Upload a Photo" />
+</p>
+
+<p><em>Uploading a new photo</em></p></li>
+<li><p>In the <strong>Upload Photo</strong> dialog, click the <strong>Browse</strong> button and select an image file.</p>
+
+<p><img src="images/click-browse.png?raw=true" alt="Click Browse" title="Click Browse" />
+</p>
+
+<p><em>Selecting an image</em></p></li>
+<li><p>Click <strong>Upload</strong> to add the selected image to the gallery. Notice that you can also add more than one image at a time to make the uploading process easier.</p>
+
+<p><img src="images/select-and-upload-a-photo.png?raw=true" alt="Select and upload a photo" title="Select and upload a photo" />
+</p>
+
+<p><em>Uploading a new photo</em></p></li>
+<li><p>Once the image is uploaded, the site will show the new photo and its properties, allowing you to post a new comment on it. Type a comment in the <strong>Comment</strong> box and then click <strong>Add Comment</strong>.</p>
+
+<p><img src="images/adding-a-comment.png?raw=true" alt="Adding a comment" title="Adding a comment" />
+</p>
+
+<p><em>Adding a comment</em></p></li>
+<li><p>Click the <strong>Galleries</strong> link from the navigation bar. A list with the available galleries will be displayed and you will see the <strong>Photos</strong> gallery showing the picture you have just uploaded.</p>
+
+<p><img src="images/click-galleries.png?raw=true" alt="Click Galleries" title="Click Galleries" />
+</p>
+
+<p><em>Available photo galleries</em></p>
+
+<p><img src="images/the-new-photo-gallery.png?raw=true" alt="The new photo gallery" title="The new photo gallery" />
+</p>
+
+<p><em>The Photo gallery showing the new picture</em></p></li>
+<li><p>Return to the <strong>Photos</strong> gallery by clicking the gallery image. Repeat the steps to upload a second photo and add a comment to it.</p></li>
+<li><p>Click <strong>Galleries</strong> link to display the available galleries. Note that the <strong>Photos</strong> gallery thumbnail has changed, showing that there are multiple photos uploaded.</p>
+
+<p><img src="images/showing-multiple-images.png?raw=true" alt="Showing multiple images" title="Showing multiple images" />
+</p>
+
+<p><em>Thumbnail showing multiple images</em></p></li>
+</ol>
+
+<p><a name="Exercise3"></a> </p>
+
+<h3 id="Exercise_3_Using_NuGet_Packages_to_Customize_the_Photo_Gallery_Application">Exercise 3: Using NuGet Packages to Customize the Photo Gallery Application</h3>
+
+<p>In this exercise, you will customize the Photo Gallery application you created in the previous exercise by using <strong>NuGet Packages</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> This exercise requires that you have the Photo Gallery application published in Windows Azure Web Sites as explained in Exercise 1.</p>
+</blockquote>
+<p><a name="Ex3Task1"></a></p>
+
+<h4 id="Task_1_-_Installing_the_Facebook_Helper_NuGet_Package">Task 1 - Installing the Facebook Helper NuGet Package</h4>
+
+<p>In this task you will use <strong>NuGet Packages</strong> to install the <strong>Facebook Helper</strong> package.</p>
+
+<ol>
+<li><p>If not already open, from the <strong>Windows Azure Management Portal</strong>, open <strong>AzurePhotoGallery</strong> project in <strong>WebMatrix</strong> using the <strong>WebMatrix</strong> icon within the Web Site's <strong>Dashboard</strong>.</p>
+
+<p><img src="images/accessing-webmatrix-from-the-portal.png?raw=true" alt="Accessing WebMatrix from the Portal" title="Accessing WebMatrix from the Portal" />
+</p>
+
+<p><em>Accessing WebMatrix from the Portal</em></p></li>
+<li><p>In <strong>WebMatrix</strong>, click the <strong>Files</strong> tab.</p>
+
+<p><img src="images/switching-to-the-files-tab.png?raw=true" alt="Switching to the Files tab" title="Switching to the Files tab" />
+</p>
+
+<p><em>Switching to the Files tab</em></p></li>
+<li><p>Click <strong>Gallery</strong> within the ribbon bar to open the <strong>NuGet Packages Gallery</strong>.</p>
+
+<p>NuGet is a package management tool that allows you to download and install community-contributed code helpers for common tasks like social network integration and mobile support.</p>
+
+<p><img src="images/gallery-icon.png?raw=true" alt="Gallery icon" title="Gallery icon" />
+</p>
+
+<p><em>Opening NuGet Gallery</em></p></li>
+<li><p>In the <strong>NuGet Gallery</strong> dialog, select the <strong>Official package source</strong> from the drop down list in the top-right corner.</p>
+
+<p><img src="images/selecting-the-official-package-source.png?raw=true" alt="Selecting the Official package source" title="Selecting the Official package source" />
+</p>
+
+<p><em>Selecting the Official package source</em></p></li>
+<li><p>In the search box, type <em>Facebook.Helper</em>. Select the <strong>Facebook.Helper</strong> gallery item and then click <strong>Install</strong>.</p>
+
+<p><img src="images/facebook-helper-item.png?raw=true" alt="Facebook Helper item" title="Facebook Helper item" />
+</p>
+
+<p><em>Selecting the Facebook.Helper item</em></p></li>
+<li><p>A dialog with additional information about the <strong>Facebook.Helper</strong> package will be shown. Click <strong>Install</strong> to download and install the package.</p>
+
+<p><img src="images/installing-facebookhelper.png?raw=true" alt="Installing Facebook.Helper" title="Installing Facebook.Helper" />
+</p>
+
+<p><em>Installing Facebook.Helper</em></p></li>
+<li><p>In the <strong>License Agreement</strong> dialog, click <strong>I Accept</strong> to complete the package installation.</p>
+
+<p><img src="images/accept-eula.png?raw=true" alt="Accept the EULA" title="Accept the EULA" />
+</p>
+
+<p><em>Accepting the EULA</em></p>
+
+<p>At the bottom of the window, you will see the package installation status.</p>
+
+<p><img src="images/facebook-helper-package-status.png?raw=true" alt="Facebook Helper package status" title="Facebook Helper package status" />
+</p>
+
+<p><em>Facebook Helper package status</em></p></li>
+<li><p>In the <strong>Files</strong> workspace, expand your project and locate the new <strong>Facebook</strong> folder. Expand the <strong>Facebook</strong> folder and notice the files that have been added by the NuGet package you have just installed.</p>
+
+<p><img src="images/facebook-folder.png?raw=true" alt="Facebook folder" title="Facebook folder" />
+</p>
+
+<p><em>Facebook folder</em></p>
+<blockquote>
+<p><strong>Note:</strong> The Facebook helper includes documentation for you to learn how to use all its features. You can view it by right-clicking the startHere.htm file located under the Facebook\Docs folder and selecting Launch in browser. The helper has a <a href="http://facebookhelper.codeplex.com">CodePlex site</a> from where you can download a sample WebMatrix web site that shows the helper in action. This sample also shows you how to use the helper to integrate the Facebook login mechanism with your site.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex3Task2"></a></p>
+
+<h4 id="Task_2_-_Adding_a_Facebook_Like_Button">Task 2 - Adding a Facebook Like Button</h4>
+
+<p>In this task you will use the <strong>Facebook Helper</strong> to insert a Like button in the Photo view.</p>
+
+<ol>
+<li><p>In the <strong>Site</strong> workspace, expand the <strong>Photo</strong> folder  and double-click <strong>View.cshtml</strong> to open the file in the editor.</p>
+
+<p><img src="images/opening-viewcshtml-file.png?raw=true" alt="Opening View.cshtml file" title="Opening View.cshtml file" />
+</p>
+
+<p><em>Opening View.cshtml file</em></p></li>
+<li><p>Locate the following line of code in the HTML editor.</p>
+
+<span class="codelanguage">HTML</span><pre><code class="HTML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span>@photo.FileTitle<span style="color:#0000FF">&lt;/</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Add a new blank line under that line and type <strong><code>@Facebook</code></strong> in the HTML editor. Note the IntelliSense drop-down that appears to help you writing code.</p>
+
+<p><img src="images/intellisense-for-facebook-helper.png?raw=true" alt="Intellisense for Facebook helper" title="Intellisense for Facebook helper" />
+</p>
+
+<p><em>Intellisense for Facebook helper</em></p>
+<blockquote>
+<p><strong>Note:</strong> IntelliSense provides an array of features that make language references easy to access (like List members, parameter info, complete word, etc.). The new version of WebMatrix has IntelliSense everywhere: HTML (including HTML5), CSS (including CSS3), JavaScript, C#, Visual Basic, and PHP.</p>
+</blockquote></li>
+<li><p>Select <strong>LikeButton</strong> from the list. Make sure that the code added to the HTML document looks like the following code.</p>
+
+<span class="codelanguage">ASP.NET</span><pre><code class="ASP.NET">@Facebook.LikeButton()
+</code></pre>
+
+<p><img src="images/inserting-a-facebook-like-button.png?raw=true" alt="Inserting a Facebook Like button" title="Inserting a Facebook Like button" />
+</p>
+
+<p><em>Inserting a Facebook Like button</em></p></li>
+<li><p>Save the file and click <strong>Publish</strong>.</p></li>
+<li><p><strong>Uncheck</strong> the checkbox next to the <strong>PhotoGallery.sdf</strong> file to avoid re-publishing the database and preserve the data from the published site.</p>
+
+<p><img src="images/uncheck-the-photogallery-database.png?raw=true" alt="Uncheck the PhotoGallery database" title="Uncheck the PhotoGallery database" />
+</p>
+
+<p><em>Unchecking the PhotoGallery database option</em></p></li>
+<li><p>Click <strong>Continue</strong>. You can see the publishing status on the bottom bar.</p>
+
+<p><img src="images/publishing-status.png?raw=true" alt="Publishing status" title="Publishing status" />
+</p>
+
+<p><em>Publishing status</em></p></li>
+<li><p>Once publishing has completed, go back to the <strong>AzurePhotoGallery</strong> site or click the link at the bottom to open the site in the web browser.</p>
+
+<p><img src="images/publishing-complete.png?raw=true" alt="Publishing Complete" title="Publishing Complete" />
+</p>
+
+<p><em>Publishing Complete</em></p></li>
+<li><p>Click <strong>Photos</strong> gallery to view the images in the gallery.</p></li>
+<li><p>Click an image from the gallery to open it and notice that the <strong>Facebook Like</strong> button is now visible on the page.</p>
+
+<p><img src="images/facebook-like-button-in-place.png?raw=true" alt="Facebook Like button in place" title="Facebook Like button in place" />
+</p>
+
+<p><em>Facebook Like button in place</em></p></li>
+<li><p>Click the <strong>Like</strong> button and notice the Facebook log in pop up to allow users to like or comment on the image.</p>
+
+<p><img src="images/facebook-authentication.png?raw=true" alt="Facebook log in" title="Facebook log in" />
+</p>
+
+<p><em>Facebook log in</em></p></li>
+</ol>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-ASPNETAppsWithAzureWebSitesAndWebMatrix2/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

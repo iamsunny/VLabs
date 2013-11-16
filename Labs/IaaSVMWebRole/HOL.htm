@@ -1,0 +1,433 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Connecting a PaaS application to an IaaS Application</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-WindowsAzureVMandWebRole" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-WindowsAzureVMandWebRole" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="handsonlab"></a></p>
+
+<h1 id="Connecting_a_PaaS_application_to_an_IaaS_Application">Connecting a PaaS application to an IaaS Application</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>In this lab, you will create a Virtual Machine with SQL Server installed using Windows Azure Management Portal. Then you will modify a sample Web application to connect to the SQL Server using a public endpoint. By the end, you will have two different hosted services with different instances communicating with each other. This type of communication is known as <strong>Simple Mixed Mode</strong>.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li>Configure a SQL Server Virtual Machine</li>
+<li>Connect a sample Web application with the SQL Server using a public endpoint</li>
+<li>Deploy the sample Web application to a Cloud App in Windows Azure</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><a href="http://msdn.microsoft.com/vstudio/products/">Microsoft Visual Studio 2010</a></li>
+<li><a href="http://go.microsoft.com/fwlink/?linkid=186916">Microsoft .NET Framework 4.0</a></li>
+<li><a href="http://www.microsoft.com/windowsazure/sdk/">Windows Azure Tools for Microsoft Visual Studio 1.7</a></li>
+<li><a href="http://www.asp.net/mvc/mvc4/">ASP.NET MVC 4</a></li>
+<li>A Windows Azure subscription with the Virtual Machines Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ul>
+<li><p><a href="#Exercise1">Creating a SQL Server VM</a></p></li>
+<li><p><a href="#Exercise2">Deploying a Simple MVC4 Application</a></p></li>
+</ul>
+
+<p>Estimated time to complete this lab: <strong>45 minutes</strong>.</p>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Creating_a_SQL_Server_VM">Exercise 1: Creating a SQL Server VM</h3>
+
+<p>In this exercise, you will create a new Virtual Machine with SQL Server and configure a public endpoint in order to access it remotely.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_VM_Using_Windows_Azure_Portal">Task 1 - Creating a VM Using Windows Azure Portal</h4>
+
+<p>In this task, you will create a new Virtual Machine using the Windows Azure Portal.</p>
+
+<ol>
+<li><p>Go to the <a href="https://manage.windowsazure.com">Windows Azure Management Portal</a> and sign with your Windows account credentials.</p>
+
+<p><img src="images/login.png?raw=true" alt="Log on to Windows Azure portal" title="Log on to Windows Azure portal" />
+</p>
+
+<p><em>Log on to Windows Azure Management Portal</em></p></li>
+<li><p>Click <strong>New</strong> and select <strong>Virtual Machine</strong> option and then <strong>From Gallery</strong>.</p>
+
+<p><img src="images/creating-a-new-vm.png?raw=true" alt="Creating a New VM" title="Creating a New VM" />
+</p>
+
+<p><em>Creating a New VM</em></p></li>
+<li><p>In the <strong>VM OS Selection</strong> page, click <strong>Platform Images</strong> on the left menu and select the <strong>SQL Server 2012</strong> OS image from the list. Click the arrow to continue.</p></li>
+<li><p>In the <strong>VM Configuration</strong> page, enter a VM <strong>Name</strong>, complete the <strong>Admin Password</strong> and the <strong>Confirmation</strong> fields with the VM admin's password and set the VM <strong>Size</strong> to <em>Extra</em> <em>Small</em>. Click the <strong>Next</strong> to continue.</p>
+<blockquote>
+<p><strong>Note:</strong> You will use these credentials in future steps to connect to the VM using remote desktop.</p>
+</blockquote>
+<p><img src="images/vm-configuration.png?raw=true" alt="VM Configuration" title="VM Configuration" />
+</p>
+
+<p><em>VM Configuration</em></p></li>
+<li><p>In the <strong>VM Mode</strong> page, select <strong>Standalone Virtual Machine</strong> option, then a unique name for the <strong>DNS Name</strong>, and click <strong>Next</strong>.</p>
+
+<p><img src="./images/Selecting-VM-mode.png?raw=true" alt="Selecting VM mode" title="Selecting VM mode" />
+</p>
+
+<p><em>Selecting VM mode</em></p></li>
+<li><p>In the <strong>VM Options</strong> page, leave the default options and click the button to create a new VM</p></li>
+<li><p>In the <strong>Virtual Machines</strong> section, you will see the Virtual Machine you created displaying a <em>provisioning</em> status. Wait until it changes to <em>On</em> in order to continue with the following step.</p></li>
+<li><p>In the <strong>Virtual Machines</strong> section, locate the Virtual Machine you just created and click on it's name. Once in the <strong>Dashboard</strong> page, click <strong>Endpoints</strong>.</p></li>
+<li><p>Click <strong>Add Endpoint</strong>, select Add Endpoint option and then click the <strong>Next</strong> button to continue.</p>
+
+<p><img src="images/adding-a-new-endpoint.png?raw=true" alt="Adding a new Endpoint" title="Adding a new Endpoint" />
+</p>
+
+<p><em>Adding a new Endpoint</em></p></li>
+<li><p>In the <strong>New Endpoint Details</strong> page, set the <strong>Name</strong> to <em>sqlserver</em>, the <strong>Protocol</strong> to <em>TCP</em>, the <strong>Public Port</strong> to 57500 and the <strong>Private Port</strong> to 1433.</p>
+
+<p><img src="images/new-endpoint-details.png?raw=true" alt="New Endpoint Details" title="New Endpoint Details" />
+</p>
+
+<p><em>New Endpoint Details</em></p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Configuring_SQL_Server_2012_Instance">Task 2 - Configuring SQL Server 2012 Instance</h4>
+
+<p>In this task, you will install an SQL Server and configure it to enable remote access.</p>
+
+<ol>
+<li><p>In the Windows Azure Management Portal, click <strong>Virtual Machines</strong> on the left menu.</p>
+
+<p><img src="./images/Windows-Azure-Portal.png?raw=true" alt="Windows Azure Portal" title="Windows Azure Portal" />
+</p>
+
+<p><em>Windows Azure Portal</em></p></li>
+<li><p>Select your VM from the Virtual Machines list and click <strong>Connect</strong> to connect using <strong>Remote Desktop Connection</strong>.</p></li>
+<li><p>Open <strong>SQL Server Configuration Manager</strong> from <strong>Start | All Programs | Microsoft SQL Server 2012 | Configuration Tools</strong>.</p></li>
+<li><p>Expand the <strong>SQL Server Network Configuration</strong> node and select <strong>Protocols for MSSQLSERVER</strong> (this option might change if you used a different instance name when installing SQL Server). Make sure <strong>Shared Memory</strong>, <strong>Named Pipes</strong> and <strong>TCP/IP</strong> protocols are enabled. To enable a protocol, right-click the protocol name and select <strong>Enable</strong>.</p>
+
+<p><img src="./images/Enabling-SQL-Server-Protocols.png?raw=true" alt="Enabling SQL Server Protocols" title="Enabling SQL Server Protocols" />
+</p>
+
+<p><em>Enabling SQL Server Protocols</em></p></li>
+<li><p>Go to the <strong>SQL Server Services</strong> node and right-click the <strong>SQL Server (MSSQLSERVER)</strong> item and select <strong>Restart.</strong></p></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Installing_the_AdventureWorks_Database">Task 3 - Installing the AdventureWorks Database</h4>
+
+<p>In this task, you will add the <strong>AdventureWorks</strong> database that will be used by the sample application in the following exercise.</p>
+
+<ol>
+<li><p>In order to enable downloads from IE you will need to update <strong>Internet Explorer Enhanced Security Configuration</strong>. In the Azure VM, open <strong>Server Manager</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>In the <strong>Server Manager</strong> window, click <strong>Configure IE ESC</strong> within the <strong>Security Information</strong> section.</p>
+
+<p><img src="images/configure-internet-explorer-enhanced-security.png?raw=true" alt="Configure Internet Explorer Enhanced Security" title="Configure Internet Explorer Enhanced Security" />
+</p>
+
+<p><em>Configure Internet Explorer Enhanced Security</em></p></li>
+<li><p>In the <strong>Internet explorer Enhanced Security</strong> dialog, turn <strong>off</strong> enhanced security for <strong>Administrators</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="./images/Internet-Explorer-Enhanced-Security.png?raw=true" alt="Internet Explorer Enhanced Security" title="Internet Explorer Enhanced Security" />
+</p>
+
+<p><em>Internet Explorer Enhanced Security</em></p>
+<blockquote>
+<p><strong>Note:</strong> Modifying Internet Explorer Enhanced Security configurations is not good practice and is only for the purpose of this particular lab. The correct approach should be to download the files locally and then copy them to a shared folder or directly to the VM.</p>
+</blockquote></li>
+<li><p>This lab uses the <strong>AdventureWorks</strong> database. Open an <strong>Internet Explorer</strong> browser and go to <a href="http://msftdbprodsamples.codeplex.com/">http://msftdbprodsamples.codeplex.com/</a> to download  the <strong>SQL Server 2012</strong> sample databases.</p></li>
+<li><p>Right click the database file and open the properties. Click <strong>unblock</strong>.</p></li>
+<li><p>Add the <strong>AdventureWorks</strong> sample database to your SQL Server. To do this, open <strong>SQL Server Management Studio</strong>, connect to <strong>(local)</strong> using your Windows Account. Locate your SQL Server instance node and expand it.</p></li>
+<li><p>Right click <strong>Databases</strong> folder and select <strong>Attach</strong>.</p>
+
+<p><img src="images/attaching-adventureworks-database-menu.png?raw=true" alt="Object Explorer - Attaching AdventureWorks Database" />
+</p>
+
+<p><em>Object Explorer - Attaching Adventureworks Database</em></p></li>
+<li><p>In the <strong>Attach Databases</strong> dialog, press <strong>Add</strong>. Browse to the path where the Sample Databases were installed and select <strong>AdventureWorks</strong> data file.  Click <strong>OK</strong>.</p></li>
+<li><p>Now, select the AdventureWorks Log's row within <strong>database details</strong> and click <strong>Remove</strong>.</p>
+
+<p><img src="./images/attaching-adventureworks-database.png?raw=true" alt="Attaching AdventureWorks Database" title="Attaching AdventureWorks Database" />
+</p>
+
+<p><em>Attaching AdventureWorks Database</em></p></li>
+<li><p>Click <strong>OK</strong> to attach the database. </p></li>
+<li><p>Create a Full Text Catalog for the database. You will consume this feature with a MVC application you will deploy in the next exercise. To do this, expand <strong>Storage</strong> node within <strong>AdventureWorks</strong> database.</p></li>
+<li><p>Right-click <strong>Full Text Catalogs</strong> folder and select <strong>New Full-Text Catalog</strong>.</p>
+
+<p><img src="images/new-full-text-catalog.png?raw=true" alt="New Full-Text Catalog" title="New Full-Text Catalog" />
+</p>
+
+<p><em>New Full-Text Catalog</em></p></li>
+<li><p>In the <strong>New Full-Text Catalog</strong> dialog, set the <strong>Name</strong> value to <em>AdventureWorksCatalog</em> and press <strong>OK</strong>.</p>
+
+<p><img src="images/new-full-text-catalog-name.png?raw=true" alt="New Full-Text Catalog Name" title="New Full-Text Catalog Name" />
+</p>
+
+<p><em>Full-Text Catalog Name</em></p></li>
+<li><p>Right-click the <strong>AdventureWorksCatalog</strong> and select <strong>Properties</strong>. Select the <strong>Tables/Views</strong> menu item. Add the <strong>Products</strong> table to the <strong>Table/View objects assigned to the Catalog</strong> list. Check <em>Name</em> from <strong>eligible columns</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/full-text-catalog-properties.png?raw=true" alt="Full-Text Catalog Properties" title="Full-Text Catalog Properties" />
+</p>
+
+<p><em>Full-Text Catalog Properties</em></p></li>
+<li><p>Eenable <strong>Mixed Mode Authentication</strong> to the SQL Server instance. To do this, in the <strong>SQL Server Management Studio</strong>, right-click the server instance and click <strong>Properties</strong>.</p></li>
+<li><p>Select the <strong>Security</strong> page in the right side pane and then select <strong>SQL Server and Windows Authentication mode</strong> under <strong>Server Authentication</strong> section. Click <strong>OK</strong> to save changes.</p>
+
+<p><img src="images/mixed-authentication-mode.png?raw=true" alt="Mixed authentication mode" title="Mixed authentication mode" />
+</p>
+
+<p><em>Mixed authentication mode</em></p></li>
+<li><p>Restart the SQL Server instance. To do this, right-click the SQL Server instance and click <strong>Restart</strong>.</p></li>
+<li><p>Add a new user for the MVC4 application you will deploy in the following exercise. To do this, expand <strong>Security</strong> folder within the SQL Server instance. Right-click <strong>Logins</strong> folder and select <strong>New Login</strong>.</p>
+
+<p><img src="./images/create-new-login.png?raw=true" alt="Creating a New Login" title="Creating a New Login" />
+</p>
+
+<p><em>Creating a New Login</em></p></li>
+<li><p>In the <strong>General</strong> section, set the <strong>Login name</strong> to <em>AzureStore.</em> Select <strong>SQL Server authentication</strong> option and set the <strong>Password</strong> to <em>Azure$123</em>.</p>
+<blockquote>
+<p><strong>Note:</strong> If you entered a different username or password than those suggested in this step you will need to update the web.config file for the MVC4 application you will use in the next exercise to match those values</p>
+</blockquote></li>
+<li><p>Uncheck <strong>Enforce password policy</strong> option to avoid having to change the User's password the first time you log on and set the <strong>Default database</strong> to <em>AdventureWorks</em>.</p>
+
+<p><img src="images/new-logins-general-settings.png?raw=true" alt="New Login's General Settings" title="New Login's General Settings" />
+</p>
+
+<p><em>Creating a New Login</em></p></li>
+<li><p>Go to <strong>User Mapping</strong> section. Map the user to the <em>AdventureWorks</em> database and click <strong>OK</strong>.</p>
+
+<p><img src="./images/Mapping-the-new-User.png?raw=true" alt="Mapping the new User to the AdventureWorks Database" title="Mapping the new User to the AdventureWorks Database" />
+</p>
+
+<p><em>Mapping the new User to the AdventureWorks Database</em></p></li>
+<li><p>Expand <strong>AdventureWorks</strong> database within <strong>Databases</strong> folder. In the <strong>Security</strong> folder, expand <strong>Users</strong> and double-click <strong>AzureStore</strong> user.</p></li>
+<li><p>Update the <strong>Database role membership</strong>. Select the <strong>Membership</strong> page and check the <em>db_owner</em> role for the <strong>AzureStore</strong> user and click <strong>OK</strong>.</p>
+
+<p><img src="./images/Adding-Database-role-membership-to-AzureStore-user.png?raw=true" alt="Adding Database role membership to AzureStore user" title="Adding Database role membership to AzureStore user" />
+</p>
+
+<p><em>Adding Database role membership to AzureStore user</em></p>
+<blockquote>
+<p><strong>Note:</strong> The application you will deploy in the next exercise uses Universal Providers to manage sessions. The first time the application run the Provider will create a Sessions table within AdventureWorks database. For that reason, you are assigning db_owner role for the AzureStore user. Once you run the application for the first time, you can remove this role for the user as it will not need those permissions anymore.</p>
+</blockquote></li>
+<li><p>Close the <strong>SQL Server Management Studio</strong>.</p></li>
+<li><p>In order to allow the MVC4 application access the SQL Server database you will need to add an <strong>Inbound Rule</strong> for the SQL Server requests in the <strong>Windows Firewall</strong>. To do this, open <strong>Windows Firewall with Advance Security</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>Right-click <strong>Inbound Rules</strong> node and select <strong>New Rule</strong>.</p>
+
+<p><img src="./images/Creating-an-Inbound-Rule.png?raw=true" alt="Creating an Inbound Rule" title="Creating an Inbound Rule" />
+</p>
+
+<p><em>Creating an Inbound Rule</em></p></li>
+<li><p>In the <strong>New Inbound Rule Wizard</strong>, select <em>Port</em> as <strong>Rule Type</strong> and click <strong>Next</strong>.</p>
+
+<p><img src="images/new-inbound-rule-type.png?raw=true" alt="New Inbound Rule Type" title="Inbound Rule Type" />
+</p>
+
+<p><em>Inbound Rule's Type</em></p></li>
+<li><p>In <strong>Protocols and Ports</strong> step, select <strong>Specific local ports</strong> and set its value to <em>1433</em>. Click <strong>Next</strong> to continue.</p>
+
+<p><img src="images/inbound-rules-local-port.png?raw=true" alt="Inbound Rule's Local Port" title="Inbound Rule's Local Port" />
+</p>
+
+<p><em>Inbound Rule's Local Port</em></p></li>
+<li><p>In the <strong>Action</strong> step, make sure <strong>Allow the connection</strong> option is selected and click <strong>Next</strong>.</p>
+
+<p><img src="images/inbound-rules-action.png?raw=true" alt="Inbound Rule's Action" title="Inbound Rule's Action" />
+</p>
+
+<p><em>Inbound Rule's Action</em></p></li>
+<li><p>In the <strong>Profile</strong> step, leave the default values and click <strong>Next</strong>.</p></li>
+<li><p>Finally, set the Inbound Rule's <strong>Name</strong> to <em>SQLServerRule</em> and click <strong>Finish</strong>.</p>
+
+<p><img src="images/new-inbound-rule.png?raw=true" alt="New Inbound Rule" title="New Inbound Rule" />
+</p>
+
+<p><em>New Inbound Rule</em></p></li>
+<li><p>Close <strong>Windows Firewall with Advanced Security</strong> window and then close the <strong>Remote Desktop Connection</strong>.</p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Deploying_a_Simple_MVC4_Application">Exercise 2: Deploying a Simple MVC4 Application</h3>
+
+<p>In this exercise, you will configure a simple Web application to connect to the SQL Server instance you created in the previous exercise, by using a public endpoint. You will test the application using the local Azure Emulator. Then, you will publish the application to <strong>Windows Azure</strong> and run it in the Cloud.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Configuring_the_MVC4_Application_to_Connect_to_an_SQL_Server_Instance">Task 1 - Configuring the MVC4 Application to Connect to an SQL Server Instance</h4>
+
+<p>In this task, you will change the connection string to point to the SQL Server instance created in the previous exercise.</p>
+
+<ol>
+<li><p>Open Visual Studio as administrator from <strong>Start | All Programs | Microsoft Visual Studio 2010</strong> by right clicking the Microsoft Visual Studio 2010 shortcut and choosing <strong>Run as administrator</strong>.</p></li>
+<li><p>Open the solution <strong>IaaSDeploySimpleApp.sln</strong> located in the folder <strong>Ex02-DeploySampleApp</strong> under the <strong>Source</strong> folder of this lab.</p></li>
+<li><p>Open the<strong>Web.config</strong> file and locate the <strong>connectionStrings</strong> node at the end of the file. Replace the <strong>Data Source</strong> attribute values with the address of the public DNS of the SQL Server Virtual Machine, the SQL Server instance name and the public port endpoint that you created in the previous exercise (For example: <em>vmname.cloudapp.net,57500</em>).</p>
+
+<!--mark: 1-5   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><strong class="markLine"><span style="color:#0000FF">&lt;</span><span style="color:#800000">connectionStrings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;DefaultConnection&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;Data Source={yourvmname}.cloudapp.net, 57500;initial catalog=AdventureWorksLT2008R2;Uid=AzureStore;Password=Azure$123;MultipleActiveResultSets=True&quot;</span> <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.SqlClient&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine"><span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;AdventureWorksEntities&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;metadata=res://*/Models.AdventureWorks.csdl|res://*/Models.AdventureWorks.ssdl|res://*/Models.AdventureWorks.msl;provider=System.Data.SqlClient;provider connection string=&amp;quot;data source= {yourvmname}.cloudapp.net, 57500;initial catalog=AdventureWorksLT2008R2;Uid=AzureStore;Password=Azure$123;multipleactiveresultsets=True;App=EntityFramework&amp;quot;&quot;</span> <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.EntityClient&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine"><span style="color:#0000FF">&lt;/</span><span style="color:#800000">connectionStrings</span><span style="color:#0000FF">&gt;</span></strong>
+</code></pre></li>
+<li><p>Compile and run the solution.</p></li>
+<li><p>In the home page, the Products list will be filled with the data from the SQL Server instance. Perform a search by entering any text and clicking the <strong>Search</strong> link. The products list will be filtered.</p>
+
+<p><img src="./images/Verifying-that-the-sample-application-is-connected-to-the-SQL-Server-instance.png?raw=true" alt="Verifying that the sample application is connected to the SQL Server instance" title="Verifying that the sample application is connected to the SQL Server instance" />
+</p>
+
+<p><em>Verifying that the sample application is connected to the SQL Server instance</em></p></li>
+<li><p>Close the browser and go back to <strong>Visual Studio</strong>.</p></li>
+</ol>
+
+<p><a name="Ex2Task2"></a></p>
+
+<h4 id="Task_2_-_Publishing_the_MVC4_Application_to_Windows_Azure">Task 2 - Publishing the MVC4 Application to Windows Azure</h4>
+
+<p>In this task you will download your account's publish settings and publish the Web Application from Visual Studio.</p>
+
+<ol>
+<li><p>Open Internet Explorer and go to <a href="https://windows.azure.com/download/publishprofile.aspx">https://windows.azure.com/download/publishprofile.aspx</a>.</p></li>
+<li><p><strong>Save</strong> the publish-settings file to your local machine.</p>
+
+<p><img src="images/downloading-publish-settings-file.png?raw=true" alt="downloading-publish-settings-file" title="downloading-publish-settings-file" />
+</p>
+
+<p><em>Downloading publish-settings file</em></p></li>
+<li><p>Switch to Visual Studio. Right-click the <strong>AzureStore.Azure</strong> project and select <strong>Publish</strong>.</p>
+
+<p><img src="./images/Publishing-the-Cloud-Application.png?raw=true" alt="Publishing the Cloud Application" title="Publishing the Cloud Application" />
+</p>
+
+<p><em>Publishing the Cloud Application</em></p></li>
+<li><p>In the <strong>Publish Windows Azure Application</strong> wizard, click the <strong>Import</strong> button and select the publish settings file you have just downloaded. Make sure is selected in the drop-down list and click <strong>Next</strong>.</p>
+
+<p><img src="./images/Importing-the-Publishing-Settings.png?raw=true" alt="Importing the Publishing Settings" title="Importing the Publishing Settings" />
+</p>
+
+<p><em>Importing the Publishing Settings</em></p></li>
+<li><p>In the <strong>Windows Azure Publish Settings</strong> page, expand the <strong>Hosted Service</strong> drop-down list and select <strong>Create New</strong>. In the dialog, enter a name for the hosted service and select <strong>Anywhere US</strong> as the location. Click <strong>OK</strong> to continue.</p>
+
+<p><img src="./images/Creating-a-New-Hosted-Service.png?raw=true" alt="Creating a New Hosted Service" title="Creating a New Hosted Service" />
+</p>
+
+<p><em>Creating a New Hosted Service</em></p></li>
+<li><p>Make sure the <strong>Environment</strong> is set to <em>Production</em>, the <strong>Build configuration</strong> is set to <em>Release</em> and the <strong>Service configuration</strong> is set to <em>Cloud.</em> Click <strong>Next</strong>.</p></li>
+<li><p>In the <strong>Windows Azure Publish Summary</strong> page, click <strong>Publish</strong>. Wait until the deployment is completed. Click the <strong>Website URL</strong> link.</p>
+
+<p><img src="./images/Deployment-Activity-Log.png?raw=true" alt="Deployment Activity Log" title="Deployment Activity Log" />
+</p>
+
+<p><em>Deployment Activity Log</em></p></li>
+<li><p>The browser will show you the home page of the <strong>Azure Store</strong> sample application. In the <strong>Search</strong> box, write <em>Classic</em> and click <strong>Search</strong>. It will show all the products have <em>ProductName</em> or <em>QuantityPerUnit</em> fields that match the search criteria. The Cloud App is accessing the SQL Server using the public endpoint to retrieve the list of products.</p>
+
+<p><img src="./images/Searching-Products.png?raw=true" alt="Searching Products" title="Searching Products" />
+</p>
+
+<p><em>Searching Products</em></p></li>
+</ol>
+
+<hr />
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-WindowsAzureVMandWebRole/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

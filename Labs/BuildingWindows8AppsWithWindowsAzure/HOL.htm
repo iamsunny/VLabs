@@ -1,0 +1,1462 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Building Windows 8 Applications using Windows Azure</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-BuildingWindows8AppsWithWindowsAzure" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-BuildingWindows8AppsWithWindowsAzure" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="Title"></a></p>
+
+<h1 id="Building_Windows_8_Applications_using_Windows_Azure">Building Windows 8 Applications using Windows Azure</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>Apps are at the center of the Windows 8 experience. They're alive with activity and vibrant content. Users are immersed in your full-screen, Metro style apps, where they can focus on their content, rather than on the operating system.</p>
+
+<p>In this hands-on lab you will learn how to combine the fluency of Windows 8 applications with the power of Windows Azure: From a Windows Metro Style application, you will consume an ASP.NET MVC 4 Web API service published in Windows Azure Web Sites, and store your data in a Windows Azure SQL Database. In addition, you will learn how to configure the Windows Push Notification Services (WNS) in your app to send toast notifications from your service to all the registered clients.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to use Visual Studio 2012 to:</p>
+
+<ul>
+<li>Create an ASP.NET MVC 4 Web API service</li>
+<li>Publish the service to Windows Azure Web Sites</li>
+<li>Create a Windows 8 Metro Style application that consumes the Web API service</li>
+<li>Add Push Notifications to the Metro style application by using the Windows Azure Toolkit for Windows 8</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><a href="http://www.microsoft.com/visualstudio/11/en-us">Microsoft Visual Studio 2012</a></li>
+<li>A Windows Azure subscription with the Web Sites Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 8 Operating System.</p>
+</blockquote>
+<p><a name="Setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</p></li>
+<li><p>Right-click the <strong>Setup.cmd</strong> file and click <strong>Run as administrator</strong>. This will launch the setup process that will configure your environment and install the Visual Studio code snippets for this lab.</p></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Make sure you have checked all the dependencies for this lab before running the setup. </p>
+</blockquote>
+<h3 id="Using_the_Code_Snippets">Using the Code Snippets</h3>
+
+<p>Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2012 to avoid having to add it manually.</p>
+
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li><a href="#Exercise1">Building and Consuming an ASP.NET Web API from a Windows 8 Metro Style App</a></li>
+<li><a href="#Exercise2">Basic Data Binding and Data Access Using Windows Azure SQL Databases and Entity Framework Code First</a></li>
+<li><a href="#Exercise3">Adding Push Notification Support to your Metro Style Application</a></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Each exercise is accompanied by a starting solution located in the Begin folder of the exercise that allows you to follow each exercise independently of the others. Please be aware that the code snippets that are added during an exercise are missing from these starting solutions and that they will not necessarily work until you complete the exercise.</p>
+
+<p>Inside the source code for an exercise, you will also find an End folder containing a Visual Studio solution with the code that results from completing the steps in the corresponding exercise. You can use these solutions as guidance if you need additional help as you work through this hands-on lab.</p>
+</blockquote>
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Building_and_Consuming_an_ASPNET_Web_API_from_a_Windows_8_Metro_Style_App">Exercise 1: Building and Consuming an ASP.NET Web API from a Windows 8 Metro Style App</h3>
+
+<p>ASP.NET Web API is a new framework from MVC 4 that facilitates to build and consume HTTP services for a wide range of clients.</p>
+
+<p>In this exercise you will learn the basics of consuming an ASP.NET MVC 4 Web API REST service - hosted in Windows Azure Web Sites - from a Windows 8 Metro Style application. </p>
+
+<p>For that purpose, you will first create a new Azure Web Site in the portal to host the service. Then, you will create a new ASP.NET MVC 4 Web API project and publish it in Windows Azure from Visual Studio. Once the default service is published, you will create a basic Windows 8 Metro Style client application with a simple list to retrieve the service values.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Web_Site_Hosted_in_Windows_Azure">Task 1 - Creating a New Web Site Hosted in Windows Azure</h4>
+
+<ol>
+<li><p>Go to the <a href="https://manage.windowsazure.com">Windows Azure Management portal</a> and sign in using your <strong>Microsoft Account</strong> credentials associated with your subscription.</p>
+
+<p><img src="images/log-in-into-windows-azure-portal.png?raw=true" alt="Log in into Windows Azure portal" title="Log in into Windows Azure portal" />
+</p>
+
+<p><em>Log in into Windows Azure portal</em></p></li>
+<li><p>Click <strong>New</strong> on the command bar.</p>
+
+<p><img src="images/creating-a-new-web-site.png?raw=true" alt="Creating a new Web Site" title="Creating a new Web Site" />
+</p>
+
+<p><em>Creating a new Web site</em></p></li>
+<li><p>Click <strong>Web Site</strong> and then <strong>Quick Create</strong>.  Provide an available URL (e.g. <em>customers-service</em>) for the new web site and click <strong>Create Web Site</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> A Windows Azure Web Site is the host for a web application running in the cloud that you can control and manage. The Quick Create option allows you to deploy a completed web application to the Windows Azure Web Sites from outside the portal. It does not include steps for setting up a database.</p>
+</blockquote>
+<p><img src="images/creating-a-new-web-site-using-quick-create-op.png?raw=true" alt="Creating a new Web Site using Quick Create " title="Creating a new Web Site using Quick Create" />
+</p>
+
+<p><em>Creating a new web site using Quick Create</em></p></li>
+<li><p>Wait until the new web site is created.</p>
+
+<p><img src="images/creating-new-web-site-status.png?raw=true" alt="Creating new web site status" title="Creating new web site status" />
+</p>
+
+<p><em>Creating a new web site - Status</em></p></li>
+<li><p>Once the web site is created click the link under the <strong>URL</strong> column to check that it is working.</p>
+
+<p><img src="images/browsing-to-new-site.png?raw=true" alt="Browsing to the new web site" title="Browsing to the new web site" />
+</p>
+
+<p><em>Browsing to the new web site</em></p>
+
+<p><img src="images/web-site-running.png?raw=true" alt="Web site running" title="Web site running" />
+</p>
+
+<p><em>Web site running</em></p></li>
+<li><p>Go back to the portal and click the name of the web site under the <strong>Name</strong> column to display the management pages for the web site.</p>
+
+<p><img src="images/selecting-the-dashboard-tab.png?raw=true" alt="Opening the web site management pages" title="Opening the web site management pages" />
+</p>
+
+<p><em>Opening the web site dashboard</em></p></li>
+<li><p>If this is the first time you access to the portal you might be redirected to the <strong>Quickstart</strong> page. Click <strong>Dashboard</strong> in the menu to continue.</p></li>
+<li><p>In the <strong>Dashboard</strong> page, under the <strong>quick glance</strong> section, click the <strong>Download publish profile</strong> link and save the file to a known location. You will use this settings later to publish the web site from Visual Studio.</p>
+<blockquote>
+<p><strong>Note:</strong> The <em>publish profile</em> contains all of the information required to publish a web application to a Windows Azure website for each enabled publication method. The publish profile contains the URLs, user credentials and database strings required to connect to and authenticate against each of the endpoints for which a publication method is enabled. <strong>Microsoft Visual Studio</strong> supports reading publish profiles to automate the publishing configuration for web applications to Windows Azure Web Sites.</p>
+</blockquote>
+<p><img src="images/download-publish-profile.png?raw=true" alt="Downloading the publish profile" title="Downloading the publish profile" />
+</p>
+
+<p><em>Downloading the publish profile</em></p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Creating_an_MVC_4_Web_API_Service">Task 2 - Creating an MVC 4 Web API Service</h4>
+
+<p>In this task you will create a new MVC 4 Web API project and explore its components. </p>
+<blockquote>
+<p><strong>Note:</strong> You can learn more about ASP.NET Web API  <a href="http://www.asp.net/web-api">here</a>.</p>
+</blockquote>
+<ol>
+<li><p>Open Visual Studio 2012 and select <strong>File | New | Project</strong> to start a new solution.</p>
+
+<p><img src="images/new-project.png?raw=true" alt="New Project" title="New Project" />
+</p>
+
+<p><em>Creating a New Project</em></p></li>
+<li><p>In the <strong>New Project</strong> dialog, select <strong>ASP.NET MVC 4 Web Application</strong> under the <strong>Visual C# | Web</strong> tab. </p>
+
+<p>Make sure the <strong>.NET Framework 4</strong> is selected, name it <em>WebApi</em>, and click <strong>OK</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> At the time this lab was written, Windows Azure Web Sites did not support .NET Framework 4.5.</p>
+</blockquote>
+<p><img src="images/new-mvc4-project.png?raw=true" alt="New MVC 4 Project" title="New MVC 4 Project" />
+</p>
+
+<p><em>New MVC 4 Project</em></p></li>
+<li><p>In the new <strong>ASP.NET MVC 4 Web Application</strong> dialog, select <strong>Web API</strong> and make sure that <strong>Razor</strong> is selected as the view engine.</p>
+
+<p><img src="images/new-aspnet-mvc4-webapi-project.png?raw=true" alt="New ASP.NET MVC 4 Web API project" title="New ASP.NET MVC 4 Web API project" />
+</p>
+
+<p><em>New ASP.NET MVC 4 Web API project</em></p></li>
+<li><p>You will now explore the structure of an ASP.NET Web API project. Notice that the structure of a Web API project is similar to an MVC 4 Web Application.</p>
+
+<p><img src="images/aspnet-webapi-project.png?raw=true" alt="ASP.NET Web API Project" title="ASP.NET Web API Project" />
+</p>
+
+<p><em>ASP.NET Web API Project</em></p>
+
+<ol>
+<li><p><strong>Controllers:</strong>  A controller is an object that handles HTTP requests. If you have worked with ASP.NET MVC, you will notice that they work similarly in Web API, but controllers in Web API derive from the ApiController instead of Controller Class. The first major difference is that actions on Web API controllers return data instead of views.
+The New Project wizard created two other controllers for you when it created the project: Home and Values. </p>
+
+<p>-The <strong>Home</strong> controller is responsible for serving HTML pages for the site, and is not directly related to Web API. </p>
+
+<p>-The <strong>Values</strong> Controller is an example of a Web API controller. </p></li>
+<li><p><strong>Models</strong>: In this folder you will place the classes that represent the data in your application. ASP.NET Web API can automatically serialize your model to JSON, XML, or some other format, and then write the serialized data into the body of the HTTP response message. </p></li>
+<li><p><strong>Routing:</strong> To determine which action to invoke, the framework uses a routing table configured in App_Start/RouteConfig.cs. The project template creates a default HTTP route named &quot;DefaultApi&quot;.</p>
+
+<span class="codelanguage">C#</span><pre><code class="C#">routes.MapHttpRoute(
+     name: <span style="color:#8B0000">&quot;DefaultApi&quot;</span>,
+     routeTemplate: <span style="color:#8B0000">&quot;api/{controller}/{id}&quot;</span>,
+     defaults: <span style="color:#0000FF">new</span> { id = RouteParameter.Optional }
+);
+</code></pre>
+
+<p>When the Web API framework receives an HTTP request, it tries to match the URI against one of the route templates in the routing table. Once a matching route is found, Web API selects the controller and the action. For instance, these URIs match the default route:</p>
+
+<p>-/api/values/</p>
+
+<p>-/api/values/1</p>
+<blockquote>
+<p><strong>Note:</strong>The reason for using an 'api' prefix in the route is to prevent collisions with ASP.NET MVC routing, which manages views in the same namespace. That way, you can have a &quot;values&quot; view and a &quot;values&quot; action method at the same time. However, you can change the default prefix and use your own routes. </p>
+</blockquote></li>
+</ol></li>
+<li><p>Press <strong>F5</strong> to run the solution or, alternatively, click the <strong>Start</strong> button located on the toolbar to run the solution. The Web API template home page will open.</p>
+<blockquote>
+<p><strong>Note:</strong> If the web application is not displayed after the deployment, try refreshing the browser a couple of times.</p>
+</blockquote></li>
+<li><p>In the browser, go to <strong>/api/values</strong> to retrieve the JSON output of the sample service. </p>
+
+<p>In the browser, you will be prompted to download a file. Click <strong>Open</strong>. If prompted, choose to open the file with a text editor.</p>
+
+<p><img src="images/retrieving-the-default-webapi-values.png?raw=true" alt="Retrieving the default  values" title="Retrieving the default values" />
+</p>
+
+<p><em>Retrieving the default values</em></p></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Publishing_the_Web_API_Service_to_Windows_Azure_Web_Sites">Task 3 - Publishing the Web API Service to Windows Azure Web Sites</h4>
+
+<ol>
+<li><p>In the Solution Explorer, right-click the project node and select <strong>Publish</strong> to open the Publish Web wizard.</p>
+
+<p><img src="images/publishing-the-service.png?raw=true" alt="Publishing the service" title="Publishing the service" />
+</p>
+
+<p><em>Publishing the service</em></p></li>
+<li><p>In the <strong>Profile</strong> page, click the <strong>Import</strong> button and select your publish profile file, downloaded previously. Click <strong>Next</strong>.</p>
+
+<p><img src="images/publising-profile-profile-selection.png?raw=true" alt="Publishing profile selection" />
+</p>
+
+<p><em>Selecting a publishing profile</em></p></li>
+<li><p>In the <strong>Connection page</strong>, leave the imported values and click <strong>Next</strong>.</p>
+
+<p><img src="images/publishing-profile-imported.png?raw=true" alt="Publishing profile imported" title="Publishing profile imported" />
+</p>
+
+<p><em>Publish profile imported</em></p></li>
+<li><p>In the <strong>Settings</strong> page, leave the default values and click <strong>Next</strong>.</p>
+
+<p><img src="images/publish-settings-page.png?raw=true" alt="Publish Settings page" title="Publish Settings page" />
+</p>
+
+<p><em>Publish Settings page</em></p></li>
+<li><p>In the <strong>Preview</strong> page, click <strong>Publish</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> If this is the first time you deploy a web site, you will be prompted to accept a certificate. After the message appears, click <strong>Accept</strong>. </p>
+
+<p><img src="images/publishing-certificate-error.png?raw=true" alt="Publishing certificate error" title="Publishing certificate error" />
+</p>
+</blockquote>
+<p><img src="images/publishing-a-web-site.png?raw=true" alt="Publishing a web site" title="Publishing a web site" />
+</p>
+
+<p><em>Publishing a web site</em></p></li>
+<li><p>When the process is completed the published web site will be opened in your default web browser. Go to <strong>/api/values</strong> to retrieve the default values and test that the Web API service is working successfully.</p>
+
+<p><img src="images/default-web-service-published.png?raw=true" alt="Default web service published" title="Default web service published" />
+</p>
+
+<p><em>Default web service - Published</em></p></li>
+</ol>
+
+<p><a name="Ex1Task4"></a></p>
+
+<h4 id="Task_4_-_Creating_a_Windows_8_Metro_Style_Client_Application">Task 4 - Creating a Windows 8 Metro Style Client Application</h4>
+
+<p>In this task you will create a blank Windows 8 Metro Style application that will consume the service you have already running.</p>
+
+<ol>
+<li><p>Switch back to Visual Studio. Right-click the solution node on the Solution Explorer and select <strong>Add | New Project</strong>.</p></li>
+<li><p>In the <strong>New Project</strong> dialog, select the <strong>Blank</strong> application under the <strong>Visual C# | Windows Metro style</strong> applications. Name it <em>MetroStyleClient</em> and click <strong>OK</strong>.</p>
+
+<p>Make sure the selected framework is <strong>.NET Framework 4.5</strong>.</p>
+
+<p><img src="images/add-new-metro-app-basic-client-project.png?raw=true" alt="Add a new Metro Style application basic client project" title="Add new Metro Style application basic client project" />
+</p>
+
+<p><em>Add a new Metro Style application basic client project</em></p></li>
+<li><p>In the Metro Style application, open <strong>MainPage.xaml.cs</strong> and add a reference to Windows.Data.Json.</p>
+
+<!-- mark:1     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> Windows.Data.Json;</strong>
+</code></pre></li>
+<li><p>In <strong>MainPage.xaml.cs</strong>, add the following method to perform an asynchronous call to the Web API service.</p>
+
+<p>GetItem() instantiates an HttpClient object, which  sends a GET message to the service URL and retrieves a response asynchronously. Then, the response is deserialized and read by the JsonArray object before generating the value list. </p>
+<blockquote>
+<p><strong>Note:</strong> If you want to read more about async methods you can check out <a href="http://msdn.microsoft.com/en-US/vstudio/async">this article</a>. </p>
+</blockquote>
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex1 - GetItems</em>)</p>
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">public</span> <span style="color:#0000FF">async</span> <span style="color:#0000FF">void</span> GetItems()
+{
+     <span style="color:#0000FF">var</span> serviceURI = <span style="color:#8B0000">&quot;[YOUR-WINDOWS-AZURE-SERVICE-URI]/api/values&quot;</span>;
+
+     <span style="color:#0000FF">using</span> (<span style="color:#0000FF">var</span> client = <span style="color:#0000FF">new</span> System.Net.Http.HttpClient())
+     <span style="color:#0000FF">using</span> (<span style="color:#0000FF">var</span> response = <span style="color:#0000FF">await</span> client.GetAsync(serviceURI))
+     {
+          <span style="color:#0000FF">if</span> (response.IsSuccessStatusCode)
+          {
+                <span style="color:#0000FF">var</span> data = <span style="color:#0000FF">await</span> response.Content.ReadAsStringAsync();
+                <span style="color:#0000FF">var</span> values = JsonArray.Parse(data);
+
+                <span style="color:#0000FF">var</span> valueList = from v <span style="color:#0000FF">in</span> values
+                                     select <span style="color:#0000FF">new</span>
+                                     {
+                                          Name = v.GetString()
+                                     };
+
+                <span style="color:#0000FF">this</span>.listValues.ItemsSource = valueList;
+          }
+     }
+}
+</code></pre></li>
+<li><p>Replace the value of the placeholder <strong>[YOUR-WINDOWS-AZURE-SERVICE-URL]</strong> with your Windows Azure published web site URL. You can check that value in the web site's dashboard.</p>
+<blockquote>
+<p><strong>Note:</strong> If you want to test the service locally, start the service project, check its URL and its port (e.g. http://localhost:3565/) and use that value.</p>
+</blockquote></li>
+<li><p>Then, in the <strong>OnNavigateTo</strong> method, add a call to the GetItem method and press <strong>CTRL+S</strong> to save.</p>
+
+<!-- mark:3-4     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">override</span> <span style="color:#0000FF">void</span> OnNavigatedTo(NavigationEventArgs e)
+{
+<strong class="markLine">    <span style="color:#0000FF">this</span>.GetItems();</strong>
+<strong class="markLine">}</strong>
+</code></pre></li>
+<li><p>Open <strong>MainPage.xaml</strong> and add the following controls in the grid to display the service values.</p>
+
+<p>You will add a listbox that will bind against a values list.</p>
+
+<!-- mark:2-9     -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">Grid</span> <span style="color:#FF0000">Background</span>=<span style="color:#0000FF">&quot;{StaticResource ApplicationPageBackgroundThemeBrush}&quot;</span><span style="color:#0000FF">&gt;</span>        
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">ListBox</span> <span style="color:#FF0000">x</span>:<span style="color:#FF0000">Name</span>=<span style="color:#0000FF">&quot;listValues&quot;</span> <span style="color:#FF0000">HorizontalAlignment</span>=<span style="color:#0000FF">&quot;Left&quot;</span> <span style="color:#FF0000">Width</span>=<span style="color:#0000FF">&quot;250&quot;</span> <span style="color:#FF0000">ScrollViewer</span>.<span style="color:#FF0000">VerticalScrollBarVisibility</span>=<span style="color:#0000FF">&quot;Visible&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">ListBox.ItemTemplate</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">             <span style="color:#0000FF">&lt;</span><span style="color:#800000">DataTemplate</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                  <span style="color:#0000FF">&lt;</span><span style="color:#800000">TextBlock</span> <span style="color:#FF0000">Text</span>=<span style="color:#0000FF">&quot;{Binding Name}&quot;</span> <span style="color:#FF0000">Width</span>=<span style="color:#0000FF">&quot;200&quot;</span> <span style="color:#FF0000">Height</span>=<span style="color:#0000FF">&quot;25&quot;</span> <span style="color:#FF0000">FontSize</span>=<span style="color:#0000FF">&quot;18&quot;</span> <span style="color:#0000FF">/&gt;</span>         </strong>
+<strong class="markLine">             <span style="color:#0000FF">&lt;/</span><span style="color:#800000">DataTemplate</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">ListBox.ItemTemplate</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">ListBox</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">TextBlock</span> <span style="color:#FF0000">HorizontalAlignment</span>=<span style="color:#0000FF">&quot;Left&quot;</span> <span style="color:#FF0000">Margin</span>=<span style="color:#0000FF">&quot;265,10,0,0&quot;</span> <span style="color:#FF0000">TextWrapping</span>=<span style="color:#0000FF">&quot;Wrap&quot;</span> <span style="color:#FF0000">Text</span>=<span style="color:#0000FF">&quot;Web API default service values&quot;</span> <span style="color:#FF0000">VerticalAlignment</span>=<span style="color:#0000FF">&quot;Top&quot;</span> <span style="color:#FF0000">FontSize</span>=<span style="color:#0000FF">&quot;25&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">Grid</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Make sure the Metro Style application is the start up project and press <strong>F5</strong> to run the solution. </p>
+
+<p>You will see that the values retrieved from the service are listed in the List Box</p>
+
+<p><img src="images/basic-service-output.png?raw=true" alt="Basic service output" title="basic service output" />
+</p>
+
+<p><em>Service output</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Basic_Data_Binding_and_Data_Access_Using_Windows_Azure_SQL_Databases_and_Entity_Framework_Code_First">Exercise 2: Basic Data Binding and Data Access Using Windows Azure SQL Databases and Entity Framework Code First</h3>
+
+<p>In this exercise, you will learn how to bind your Windows 8 Metro Style application to an ASP.NET Web API service which is using Code First to generate the database from the model in SQL Database.</p>
+
+<p>You will start the exercise provisioning a new SQL Database. Then, you will create a new ASP.NET Web API service and use Entity Framework Scaffolding with Code First to generate the service methods and a database in SQL Database.
+Finally, you will explore and customize your Metro Style application to consume the service and show a customer list.</p>
+
+<p><strong>About Entity Framework Code First</strong></p>
+
+<p>Entity Framework (EF) is an object-relational mapper (ORM) that enables you to create data access applications by programming with a conceptual application model instead of programming directly using a relational storage schema.</p>
+
+<p>The Entity Framework Code First modeling workflow allows you to use your own domain classes to represent the model that EF relies on when performing querying, change tracking and when updating functions. Using the Code First development workflow, you do not need to begin your application by creating a database or specifying schema!. Instead, you can begin by writing standard .NET classes that define the most appropriate domain model objects for your application, and Entity Framework will create the database for you.</p>
+<blockquote>
+<p><strong>Note:</strong> You can learn more about Entity Framework <a href="http://www.asp.net/entity-framework">here</a>.</p>
+</blockquote>
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_SQL_Database_Server">Task 1 - Creating a SQL Database Server</h4>
+<blockquote>
+<p><strong>Note:</strong> If you already have a SQL Database server provisioned in your Windows Azure account, you can skip this task. </p>
+</blockquote>
+<p>In this task you will provision a SQL Database server in Windows Azure that will store your service data.</p>
+
+<ol>
+<li><p>Switch to Windows Azure Management portal and click <strong>SQL Databases</strong> on the left pane.</p></li>
+<li><p>Click the <strong>Servers</strong> link.</p></li>
+<li><p>Click <strong>Add</strong> at the bottom of the page to start creating a SQL Database server.</p>
+
+<p><img src="images/creating-a-new-sql-database-server.png?raw=true" alt="Creating a New SQL Database server" title="Creating a New SQL Database server" />
+</p>
+
+<p><em>Creating a New SQL Database server</em></p></li>
+<li><p>In the <strong>Server Settings</strong> dialog, enter a login name (e.g. User), a password and a region. Leave the default option checked and click the <strong>OK</strong> confirmation button to start creating the server.</p>
+
+<p><img src="images/server-settings-dialog.png?raw=true" alt="Server settings dialog" title="Server settings dialog" />
+</p>
+
+<p><em>Server settings dialog</em></p></li>
+<li><p>Once the server is created, enter to the server <strong>Dashboard</strong> and copy the server URL from the <strong>Manage URL</strong> value. You will use it later in this lab to configure the Web API service data source.</p>
+
+<p><img src="images/servers-dashboard.png?raw=true" alt="servers-dashboard" />
+</p>
+
+<p><em>Server dashboard</em></p></li>
+</ol>
+
+<p><a name="Ex2Task2"></a></p>
+
+<h4 id="Task_2_-_Creating_an_ASPNET_Web_API_Service_with_Entity_Framework_Code_First_and_Scaffolding">Task 2 - Creating an ASP.NET Web API Service with Entity Framework Code First and Scaffolding</h4>
+
+<p>In this task you will create a new ASP.NET Web API service with Entity Framework Scaffolding and Code First. At the end of this task, you will have a basic  API service for performing CRUD operations (Create, Read, Update and Delete) implemented and published in Windows Azure Web Sites.</p>
+
+<ol>
+<li><p>In Visual Studio, open <strong>CustomerManager.sln</strong> located in the <strong>source/Ex2-DataAccess/Begin</strong> folder of this lab.</p>
+
+<p>This solution already contains a Metro Style application; you will now add a Web API service used by the application to retrieve the data.</p></li>
+<li><p>Right-click the Solution Explorer and select <strong>Add | New Project</strong>. </p>
+
+<p><img src="images/add-new-service-project.png?raw=true" alt="Add New Service project" title="Add New Service project" />
+</p>
+
+<p><em>Adding a new project</em></p></li>
+<li><p>In the <strong>Add New Project</strong> dialog, select the <strong>ASP.NET MVC 4 Web Application</strong> located under the <strong>Visual C# | Web</strong> node, and name it <em>CustomerManager.WebApi</em>. Make sure <strong>.NET Framework 4</strong> is selected.</p>
+
+<p><img src="images/adding-a-new-webapi-project.png?raw=true" alt="Adding a new Web API project" title="Adding a new Web API project" />
+</p>
+
+<p><em>Adding a new Web API project</em></p></li>
+<li><p>In the <strong>New ASP.NET MVC 4 Project</strong> dialog, select the <strong>Web API</strong> template.</p>
+
+<p><img src="images/new-aspnet-mvc4-webapi-project2.png?raw=true" alt="New ASP.NET MVC 4 Web API project" title="New ASP.NET MVC 4 WebApi project" />
+</p>
+
+<p><em>New ASP.NET MVC 4 Web API project</em></p></li>
+<li><p>Once the project is created, add a reference to <em>System.Runtime.Serialization</em>. In Solution Explorer, right-click the references folder and select <strong>Add Reference</strong>.</p>
+
+<p><img src="images/adding-a-new-reference.png?raw=true" alt="Adding a new reference" title="Adding a new reference" />
+</p>
+
+<p><em>Adding a new reference</em></p></li>
+<li><p>Select the <strong>Assemblies</strong> section and search for <em>System.Runtime.Serialization</em> and select it. Then click <strong>OK</strong>.</p>
+
+<p><img src="images/adding-a-reference.png?raw=true" alt="Adding a reference " title="Adding a reference " />
+</p>
+
+<p><em>Adding a reference to System.Runtime.Serialization</em></p></li>
+<li><p>Right-click the <strong>Models</strong> folder in the <strong>Solution Explorer</strong> and select <strong>Add | Class</strong>. Name it <strong>Customer.cs</strong>.</p>
+
+<p><img src="images/add-model-class.png?raw=true" alt="Adding a model class" title="Add model class" />
+</p>
+
+<p><em>Adding a model class</em></p>
+<blockquote>
+<p><strong>Note:</strong> You will start by creating a Customer model class, and your CRUD operations in the service will be automatically created using scaffolding features.</p>
+</blockquote></li>
+<li><p>Replace the Customer.cs class content with the following code. Press <strong>CTRL+S</strong> to save the changes.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex2 - Customer class</em>)</p>
+
+<!-- mark:1-36     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">namespace</span> CustomerManager.Models</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">     <span style="color:#0000FF">using</span> System.Collections.Generic;</strong>
+<strong class="markLine">     <span style="color:#0000FF">using</span> System.ComponentModel.DataAnnotations;</strong>
+<strong class="markLine">     <span style="color:#0000FF">using</span> System.Linq;</strong>
+<strong class="markLine">     <span style="color:#0000FF">using</span> System;</strong>
+<strong class="markLine">     <span style="color:#0000FF">using</span> System.Runtime.Serialization;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">     [DataContract]</strong>
+<strong class="markLine">     <span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> Customer</strong>
+<strong class="markLine">     {</strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">int</span> CustomerId { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Name { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Phone { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Address { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Company { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Title { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Email { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">          [DataMember]</strong>
+<strong class="markLine">          <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> Image { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine">     }</strong>
+<strong class="markLine">}</strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You are adding <strong>DataContract</strong> and <strong>DataMember</strong> annotations to the class and its attributes because the Metro Style client application is using DataContractJSONSerializer object to read and serialize the customers to JSON. </p>
+</blockquote></li>
+<li><p>In Solution Explorer, right-click the WebApi project and select <strong>Build</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> If you build the entire solution you will get errors as the Metro app client is still incomplete.</p>
+</blockquote></li>
+<li><p>In Solution Explorer, right-click the <strong>Controllers</strong> folder of the Web API project and select <strong>Add | Controller</strong> to open the <strong>Add Controller</strong> dialog.</p></li>
+<li><p>Select <strong>CustomersController</strong> as the controller name. In the <strong>Scaffolding options</strong>, select the <strong>API controller with read/write actions, using Entity Framework</strong> Template, and <strong>Customer</strong> as the Model class.</p>
+
+<p><img src="images/adding-a-controller-with-scaffolding.png?raw=true" alt="Adding a controller with Scaffolding" title="Adding a controller with Scaffolding" />
+</p>
+
+<p><em>Adding a controller with Scaffolding</em></p>
+<blockquote>
+<p><strong>Note:</strong> If you do not have model classes to select you need to build the project.</p>
+</blockquote></li>
+<li><p>In the Data context class, select <strong>New data context</strong>. Name the new data context <em>CustomerContext</em>.</p>
+
+<p><img src="images/new-customers-context.png?raw=true" alt="New customers context" title="New customers context" />
+</p>
+
+<p><em>New customers context</em></p></li>
+<li><p>Click <strong>Add</strong> to add the controller. By using the 'API controller with read/write actions and Entity Framework' template, the CRUD operations for customers will be automatically generated in the Web API service.</p></li>
+<li><p>Once the controller with scaffolding is created, open CustomersController. Notice that the following CRUD actions were added:</p>
+
+<p>-DeleteCustomers(int id)</p>
+
+<p>-GetCustomer(int id)</p>
+
+<p>-GetCustomers(int id)</p>
+
+<p>-PostCustomer(Customer customer)</p>
+
+<p>-PutCustomer(int id, Customer customer)</p>
+
+<p>Notice that each operation has the HTTP verb as a prefix in the name (Delete, Get, Post, etc.).</p></li>
+<li><p>Now, you will add a database initializer method in your database context to populate the database with initial data. Add the following <strong>CustomerContextInitializer</strong> class in CustomerContext.cs file after CustomerContext class, and save the changes.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex2 - Context Initializer</em>)</p>
+
+<!-- mark:15-20     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">using</span> System.Data.Entity;
+<span style="color:#0000FF">using</span> CustomerManager.Models;
+
+<span style="color:#0000FF">namespace</span> CustomerManager.WebApi.Models
+{
+     <span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> CustomerContext : DbContext
+     {
+          <span style="color:#0000FF">public</span> CustomerContext() : <span style="color:#0000FF">base</span>(<span style="color:#8B0000">&quot;name=CustomerContext&quot;</span>)
+          {
+          }
+
+          <span style="color:#0000FF">public</span> DbSet&lt;Customer&gt; Customers { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }
+     }
+
+<strong class="markLine">     <span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> CustomerContextInitializer : DropCreateDatabaseIfModelChanges&lt;CustomerContext&gt;</strong>
+<strong class="markLine">     {</strong>
+<strong class="markLine">          <span style="color:#0000FF">protected</span> <span style="color:#0000FF">override</span> <span style="color:#0000FF">void</span> Seed(CustomerContext context)</strong>
+<strong class="markLine">          {</strong>
+<strong class="markLine">          }</strong>
+<strong class="markLine">     }</strong>
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Code First allows us to insert into our database by using a database initializer and overriding the Seed method. In this case the class inherits from <strong>DropCreateDatabaseIfModelChanges&lt;TContext&gt;</strong>, where TContext is CustomerContext.</p>
+
+<p>The <strong>DropCreateDatabaseIfModelChanges&lt;TContext&gt;</strong> class is an implementation of <strong>IDatabaseInitializer&lt;TContext&gt;</strong> that will delete, recreate, and optionally reseed the database with data only if the model has changed since the database was created. This is achieved by writing a hash of the store model to the database when it is created and then comparing that hash with one generated from the current model.</p>
+
+<p>Alternatively, you can use <strong>CreateDatabaseIfNotExists&lt;TContext&gt;</strong>, which recreates and optionally re-seeds the database with data only if the database does not exist, or <strong>DropCreateDatabaseAlways&lt;TContext&gt;</strong>, which always recreates and optionally re-seeds the database with data the first time that a context is used in the application domain.</p>
+</blockquote></li>
+<li><p>In the CustomerContextInitializer <strong>Seed</strong> method, add the following customers to the context to populate the database with customers.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex2 - Context Initializer Seed</em>)</p>
+
+<!-- mark:3-102     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">override</span> <span style="color:#0000FF">void</span> Seed(CustomerContext context)
+{
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Catherine Abel&quot;</span>, Email = <span style="color:#8B0000">&quot;catherine.abel@vannuys.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Van Nuys&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA, 98052&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Kim Branch&quot;</span>, Email = <span style="color:#8B0000">&quot;kim.branch@contoso.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Contoso&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA, 98052&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Frances Adams&quot;</span>, Email = <span style="color:#8B0000">&quot;frances.adams@contoso.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Contoso&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot; 1 Microsoft Way, Redmond, WA, 98052&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Mark Harrington&quot;</span>, Email = <span style="color:#8B0000">&quot;mark.harrington@datum.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;A. Datum Corporation&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA, 98052&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Keith Harris&quot;</span>, Email = <span style="color:#8B0000">&quot;keith.harris@adventureworks.com&quot;</span>, </strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Adventure Works&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA, 98052&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Roger Harui&quot;</span>, Email = <span style="color:#8B0000">&quot;roger.harui@baldwinmuseum.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Baldwin Museum of Art&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA, 98052&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Pilar Pinilla&quot;</span>, Email = <span style="color:#8B0000">&quot;pilar.pinilla@blueyonderairlines.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Blue Yonder Airlines&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Kari Hensien&quot;</span>, Email = <span style="color:#8B0000">&quot;kari.hensien@citypowerlight.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;City Power &amp; Light&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Johny Porter&quot;</span>, Email = <span style="color:#8B0000">&quot;johny.porter@cohowinery.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Coho Winery&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;Peter Brehm&quot;</span>, Email = <span style="color:#8B0000">&quot;peter.brehm@cohowinery.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Coho Winery&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.Customers.Add(<span style="color:#0000FF">new</span> Customer</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         Name = <span style="color:#8B0000">&quot;John Smith&quot;</span>, Email = <span style="color:#8B0000">&quot;john.smith@contoso.com&quot;</span>,</strong>
+<strong class="markLine">         Company = <span style="color:#8B0000">&quot;Contoso&quot;</span>, Phone = <span style="color:#8B0000">&quot;541 555 0100&quot;</span>,</strong>
+<strong class="markLine">         Address = <span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA&quot;</span>,</strong>
+<strong class="markLine">         Image = <span style="color:#8B0000">&quot;Assets/CustomerPlaceholder.png&quot;</span>,</strong>
+<strong class="markLine">         Title = <span style="color:#8B0000">&quot;Sales&quot;</span></strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    context.SaveChanges();</strong>
+}
+</code></pre></li>
+<li><p>Open <strong>Global.asax.cs</strong> and add a reference to <strong>CustomerManager.WebApi.Models</strong></p>
+
+<!-- mark:1     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> CustomerManager.WebApi.Models;</strong>
+</code></pre></li>
+<li><p>Add the database initializer in the <strong>Application_Start</strong> method in Global.asax.cs.</p>
+
+<!-- mark:5     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">void</span> Application_Start()
+{
+    ...
+
+<strong class="markLine">    Database.SetInitializer&lt;CustomerContext&gt;(<span style="color:#0000FF">new</span> CustomerContextInitializer());</strong>
+}
+</code></pre></li>
+</ol>
+
+<p><a name="Ex2Task3"></a></p>
+
+<h4 id="Task_3_-_Publishing_the_Customers_Web_API_Service_to_Windows_Azure">Task 3 - Publishing the Customers Web API Service to Windows Azure</h4>
+
+<p>In this task you will first replace the connection string to use a SQL Database, and then publish the updated Web API service in Windows Azure Web Sites.</p>
+
+<ol>
+<li><p>Open <strong>Web.Config</strong> and locate the <strong>connectionStrings</strong> section under the <strong>configuration</strong> section.</p>
+
+<p>Before publishing the service in Windows Azure Web Sites, you will change the connection string and use the SQL Database you have created in the first task of this exercise.</p>
+
+<p>You will now replace the default CustomerContext connection string, which is using LocalDB, to target your SQL Database server. To do this, replace the <strong>connectionString</strong> value of the <strong>CustomerContext</strong> connection string with the following value. Replace the placeholders as follows: </p>
+<blockquote>
+<p><strong>Note</strong>: LocalDB is a version of SQL Server Express, installed by default with Visual Studio 2012 and created specifically for developers. It is very easy to install and requires no management, yet it offers the same T-SQL language, programming surface and client-side providers as the regular SQL Server Express. </p>
+</blockquote>
+<p>-<strong>Server  URL:</strong> Complete this value with your server URL. For example: eswngivxru.windows.database.net</p>
+
+<p>-<strong>Server Name</strong>: This is your server name. For example: eswngivxru</p>
+
+<p>-<strong>Server Admin User:</strong> Use your server's administrator login.</p>
+
+<p>-<strong>Password:</strong> Use your server's administrator password.</p>
+
+<p>-<strong>Database:</strong> Make sure the Initial Catalog value does <strong>NOT</strong> match the name of any existing database in your server. Entity Framework Code First will create the database for you.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML">Server=tcp:[SERVER_URL],1433;Database=CustomersDB;User ID=[SERVER_ADMIN_LOGIN];Password=[SERVER_ADMIN_PASSWORD];Trusted_Connection=False;Encrypt=True;Connection Timeout=30;
+</code></pre>
+
+<p>For example:</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;CustomerContext&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;Server=tcp:eswngivxru.windows.database.net,1433;Database=CustomersDB;User ID=User@eswngivxru;Password=...;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;&quot;</span>
+  <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.SqlClient&quot;</span> <span style="color:#0000FF">/&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You can get your <strong>Server URL</strong> from the SQL Database Server <strong>Dashboard</strong> in the Windows Azure Management portal. For simplicity purposes you are using you server administrator user to connect to the database, however in a production scenario it is recommended that you create another SQL Server user.</p>
+
+<p><img src="images/servers-dashboard.png?raw=true" alt="Server's dashboard" title="Server's dashboard" />
+</p>
+</blockquote></li>
+<li><p>Press <strong>CTRL+S</strong> to save the changes.</p></li>
+<li><p>Now that the connection string is targeting your SQL Database, you will publish the service in Windows Azure Web Sites. </p></li>
+<li><p>Follow the steps in <a href="#Ex1Task1">Task 1 from Exercise 1</a> to create a new Windows Azure Web Site. You can delete the one created in exercise 1 if you want. Also download its publish profile.</p></li>
+<li><p>Back in Visual Studio, right-click the Web API service project in the Solution Explorer, and select <strong>Publish</strong>.</p></li>
+<li><p>Click <strong>Import</strong>, and import the web site publish profile.</p></li>
+<li><p>Click <strong>Publish</strong> to publish the web service, and wait until the process is completed.</p></li>
+<li><p>In the browser opened, go to <strong>/api/customers</strong> to retrieve the full list of customers.</p>
+<blockquote>
+<p><strong>Note:</strong> Entity Framework will create the database the first time you run the application. You can also access the database tables in Windows Azure portal and check if the data was added.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex2Task4"></a></p>
+
+<h4 id="Task_4_-_Exploring_the_Windows_8_Metro_Style_Application">Task 4 - Exploring the Windows 8 Metro Style Application</h4>
+
+<p>In this task you will explore the Customer client application, built using a Windows 8 Metro Style application Grid Template. You will perform a brief lap around and learn about the main components of a Metro Grid application. </p>
+
+<ol>
+<li><p>In Visual Studio, expand the <strong>CustomerManager.Metro</strong> project in the Solution Explorer. This is a client Metro Style application that displays customers. It is based on the Visual Studio Grid template.</p>
+<blockquote>
+<p><strong>Note:</strong> The Grid application is one of the Visual Studio 2012 available templates for Metro Style applications, which contains three pages. The first page displays a group of items in a grid layout. When a group is clicked, the second page shows the details of the selected group. Finally, when an item is selected, the third page shows the item details.</p>
+</blockquote>
+<p>In this solution you will find a simplified Grid template, which only contains group and detail pages with a custom data model for customers.</p>
+
+<p><img src="images/customermanager-metro-app.png?raw=true" alt="CustomerManager Metro Style Application" title="CustomerManager Metro Style Application" />
+</p>
+
+<p><em>CustomerManager Metro Style Application</em></p>
+
+<p>The main application pages are the following ones:</p>
+
+<p>-<em>GroupedCustomersPage:</em> Shows the customers in a grid layout</p>
+
+<p>-<em>CustomerDetailPage:</em> Shows customer's details</p>
+
+<p>-<em>NewCustomerPage:</em> Adds a new customer</p></li>
+<li><p>Expand the <strong>ViewModels</strong> folder and open <strong>GroupedCustomersViewModel.cs</strong>. </p>
+
+<p>The XAML pages of this solution are bound against ViewModels classes that retrieve and prepare the necessary data that will be displayed.</p>
+
+<p>GroupedCustomersViewModel contains an ObservableCollection of CustomerViewModel and a method to retrieve the customers asynchronously (in the next exercise you will complete the CustomersWebApiClient call).</p>
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> GroupedCustomersViewModel : BindableBase
+{
+    <span style="color:#0000FF">public</span> ObservableCollection&lt;CustomerViewModel&gt; CustomersList { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }
+
+    <span style="color:#0000FF">public</span> GroupedCustomersViewModel()
+    {
+        <span style="color:#0000FF">this</span>.CustomersList = <span style="color:#0000FF">new</span> ObservableCollection&lt;CustomerViewModel&gt;();
+
+        <span style="color:#0000FF">this</span>.GetCustomers();
+    }
+
+    <span style="color:#0000FF">private</span> <span style="color:#0000FF">async</span> <span style="color:#0000FF">void</span> GetCustomers()
+    { 
+        IEnumerable&lt;Customer&gt; customers = <span style="color:#0000FF">await</span> CustomersWebApiClient.GetCustomers();
+
+        <span style="color:#0000FF">foreach</span> (<span style="color:#0000FF">var</span> customer <span style="color:#0000FF">in</span> customers)
+        {
+            <span style="color:#0000FF">this</span>.CustomersList.Add(<span style="color:#0000FF">new</span> CustomerViewModel(customer));                
+        }        
+    }
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The Windows Runtime now supports using ObservableCollection to set up dynamic bindings so that insertions or deletions in the collection update the UI automatically.</p>
+</blockquote>
+<p>The GroupedCustomersPage.cs code-behind declares, initializes and binds the view model as follows.</p>
+
+<span class="codelanguage">C#</span><pre><code class="C#">...
+
+<span style="color:#0000FF">private</span> GroupedCustomersViewModel ViewModel { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }
+
+<span style="color:#0000FF">public</span> GroupedCustomersPage()
+{            
+    <span style="color:#0000FF">this</span>.InitializeComponent();
+    <span style="color:#0000FF">this</span>.ViewModel = <span style="color:#0000FF">new</span> GroupedCustomersViewModel();
+}
+
+... 
+
+<span style="color:#0000FF">protected</span> <span style="color:#0000FF">override</span> <span style="color:#0000FF">void</span> LoadState(Object navigationParameter, Dictionary&lt;String, Object&gt; pageState)
+{            
+    <span style="color:#0000FF">this</span>.DataContext = <span style="color:#0000FF">this</span>.ViewModel;
+}
+
+...
+</code></pre>
+
+<p>In the XAML code of this page, each collection is bound to the ViewModel through a CollectionViewSource, that points to the customers list from the ViewModel.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">Page.Resources</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">CollectionViewSource</span>
+        <span style="color:#FF0000">x</span>:<span style="color:#FF0000">Name</span>=<span style="color:#0000FF">&quot;groupedItemsViewSource&quot;</span>
+        <span style="color:#FF0000">Source</span>=<span style="color:#0000FF">&quot;{Binding CustomersList}&quot;</span>            
+        <span style="color:#FF0000">IsSourceGrouped</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#0000FF">/&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">Page.Resources</span><span style="color:#0000FF">&gt;</span>
+
+... 
+</code></pre>
+
+<p>Then, each of the page elements (lists, grids, etc.) use the defined collection view source and bind to specific properties.</p>
+
+<!-- mark:8,17     -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">GridView</span>
+        <span style="color:#FF0000">x</span>:<span style="color:#FF0000">Name</span>=<span style="color:#0000FF">&quot;itemGridView&quot;</span>
+        <span style="color:#FF0000">AutomationProperties</span>.<span style="color:#FF0000">AutomationId</span>=<span style="color:#0000FF">&quot;ItemGridView&quot;</span>
+        <span style="color:#FF0000">AutomationProperties</span>.<span style="color:#FF0000">Name</span>=<span style="color:#0000FF">&quot;Grouped Items&quot;</span>
+        <span style="color:#FF0000">Grid</span>.<span style="color:#FF0000">Row</span>=<span style="color:#0000FF">&quot;1&quot;</span>
+        <span style="color:#FF0000">Margin</span>=<span style="color:#0000FF">&quot;0,-3,0,0&quot;</span>
+        <span style="color:#FF0000">Padding</span>=<span style="color:#0000FF">&quot;116,0,40,46&quot;</span>
+<strong class="markLine">        <span style="color:#FF0000">ItemsSource</span>=<span style="color:#0000FF">&quot;{Binding Source={StaticResource groupedItemsViewSource}}&quot;</span>            </strong>
+        <span style="color:#FF0000">SelectionMode</span>=<span style="color:#0000FF">&quot;None&quot;</span>
+        <span style="color:#FF0000">IsItemClickEnabled</span>=<span style="color:#0000FF">&quot;True&quot;</span>
+        <span style="color:#FF0000">ItemClick</span>=<span style="color:#0000FF">&quot;CustomerItem_Click&quot;</span><span style="color:#0000FF">&gt;</span>
+
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">GridView.ItemTemplate</span><span style="color:#0000FF">&gt;</span>
+            <span style="color:#0000FF">&lt;</span><span style="color:#800000">DataTemplate</span><span style="color:#0000FF">&gt;</span>
+                <span style="color:#0000FF">&lt;</span><span style="color:#800000">Grid</span> <span style="color:#FF0000">HorizontalAlignment</span>=<span style="color:#0000FF">&quot;Center&quot;</span> <span style="color:#FF0000">VerticalAlignment</span>=<span style="color:#0000FF">&quot;Center&quot;</span> <span style="color:#FF0000">Width</span>=<span style="color:#0000FF">&quot;300&quot;</span> <span style="color:#FF0000">Height</span>=<span style="color:#0000FF">&quot;225&quot;</span>  <span style="color:#FF0000">Margin</span>=<span style="color:#0000FF">&quot;0,0,0,0&quot;</span><span style="color:#0000FF">&gt;</span>
+                    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Border</span> <span style="color:#FF0000">Background</span>=<span style="color:#0000FF">&quot;{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}&quot;</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">                        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Image</span> <span style="color:#FF0000">Source</span>=<span style="color:#0000FF">&quot;{Binding Image}&quot;</span> <span style="color:#FF0000">Stretch</span>=<span style="color:#0000FF">&quot;None&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+</code></pre></li>
+</ol>
+
+<p><a name="Ex2Task5"></a></p>
+
+<h4 id="Task_5_-_Integrating_the_Web_API_Service_with_the_Windows_8_Metro_Style_Application">Task 5 - Integrating the Web API Service with the Windows 8 Metro Style Application</h4>
+
+<p>In this task you will bind your Windows 8 Metro Style Application against your customer's model retrieving data from the Web API service. You will start by configuring the binding, and then you will modify the application to call the service asynchronously and display the customers.</p>
+
+<ol>
+<li><p>Right-click the <strong>DataModel</strong> project folder in the solution explorer and select <strong>Add | Existing Item</strong>. </p></li>
+<li><p>Browse to the <strong>CustomerManager.WebApi</strong> project, open the <strong>Models</strong> folder and select <strong>Customer.cs</strong>. Click the arrow next to the <strong>Add</strong> button and click <strong>Add as link</strong>.</p>
+
+<p><img src="images/add-customercs-as-an-existing-item.png?raw=true" alt="Adding Customer.cs model class as a link" title="Adding Customer.cs model class as a link" />
+</p>
+
+<p><em>Adding Customer.cs model class as a link</em></p>
+
+<p>By adding the Customer class as a link, your application will be using the same model class from the Web API service. This class will serve as data contract between the Web API service and the Metro app.</p></li>
+<li><p>Right-click the <strong>DataModel</strong> project folder in the Solution Explorer and select <strong>Add | Class</strong>. Name it <em>CustomersWebApiClient.cs</em>. </p>
+
+<p>This class will contain the methods that retrieve the customers from the Web API service you have already published on Windows Azure.</p>
+
+<p><img src="images/adding-a-new-class.png?raw=true" alt="Adding a new class" title="Adding a new class" />
+</p>
+
+<p><em>Adding a new class</em></p></li>
+<li><p>Open the <strong>CustomersWebApiClient.cs</strong> class and add the following using directives. </p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex2 - CustomersWebApiClient namespace</em>)</p>
+
+<!-- mark:1-4     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> System.IO;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> System.Net.Http;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> System.Runtime.Serialization.Json;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> CustomerManager.Models;</strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> CustomerManager.Models references your service models, and it is necessary to use the customer class you have added as a link.</p>
+</blockquote></li>
+<li><p>In the CustomersWebApiClient class, add the following <strong>GetCustomers()</strong> method.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex2 - CustomersWebApiClient GetCustomers Method</em>)</p>
+
+<!-- mark:1-18     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">public</span> <span style="color:#0000FF">static</span> <span style="color:#0000FF">async</span> Task&lt;IEnumerable&lt;Customer&gt;&gt; GetCustomers()</strong>
+<strong class="markLine">{            </strong>
+<strong class="markLine">    <span style="color:#0000FF">object</span> serviceUrl;</strong>
+<strong class="markLine">    App.Current.Resources.TryGetValue(<span style="color:#8B0000">&quot;ServiceUrl&quot;</span>, <span style="color:#0000FF">out</span> serviceUrl);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">using</span> (HttpClient client = <span style="color:#0000FF">new</span> HttpClient())</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">         HttpResponseMessage response = <span style="color:#0000FF">await</span> client.GetAsync(serviceUrl <span style="color:#0000FF">as</span> <span style="color:#0000FF">string</span>);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">         response.EnsureSuccessStatusCode();</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">         <span style="color:#0000FF">using</span> (<span style="color:#0000FF">var</span> stream = <span style="color:#0000FF">await</span> response.Content.ReadAsStreamAsync())</strong>
+<strong class="markLine">         {                    </strong>
+<strong class="markLine">              DataContractJsonSerializer serializer = <span style="color:#0000FF">new</span> DataContractJsonSerializer(<span style="color:#0000FF">typeof</span>(IEnumerable&lt;Customer&gt;));</strong>
+<strong class="markLine">              <span style="color:#0000FF">return</span> serializer.ReadObject(stream) <span style="color:#0000FF">as</span> IEnumerable&lt;Customer&gt;;                                       </strong>
+<strong class="markLine">         }                </strong>
+<strong class="markLine">    }            </strong>
+<strong class="markLine">}</strong>
+</code></pre>
+
+<p>This method performs an asynchronous call to the Web API service. After the data is retrieved, the method uses the <a href="http://msdn.microsoft.com/en-us/library/system.runtime.serialization.json.datacontractjsonserializer(v=vs.110).aspx">DataContractJSonSerializer</a> to read the array of customers, using the Customers data contract defined.</p>
+
+<p>The Web API service URL is retrieved from a resources dictionary in App.xaml.</p></li>
+<li><p>Now add the <strong>CreateCustomer</strong> method to post new customers to the service.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex2 - CustomersWebApiClient CreateCustomer Method</em>)</p>
+
+<!-- mark:1-21     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">public</span> <span style="color:#0000FF">static</span> <span style="color:#0000FF">async</span> <span style="color:#0000FF">void</span> CreateCustomer(Customer customer)</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">    <span style="color:#0000FF">object</span> serviceUrl;</strong>
+<strong class="markLine">    App.Current.Resources.TryGetValue(<span style="color:#8B0000">&quot;ServiceUrl&quot;</span>, <span style="color:#0000FF">out</span> serviceUrl);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">using</span> (HttpClient client = <span style="color:#0000FF">new</span> HttpClient())</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">        DataContractJsonSerializer serializer = <span style="color:#0000FF">new</span> DataContractJsonSerializer(<span style="color:#0000FF">typeof</span>(Customer));</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        <span style="color:#0000FF">using</span> (MemoryStream stream = <span style="color:#0000FF">new</span> MemoryStream())</strong>
+<strong class="markLine">        {                    </strong>
+<strong class="markLine">            serializer.WriteObject(stream, customer);                    </strong>
+<strong class="markLine">            stream.Seek(0, SeekOrigin.Begin);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">            <span style="color:#0000FF">var</span> json = <span style="color:#0000FF">new</span> StreamReader(stream).ReadToEnd();</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">            <span style="color:#0000FF">var</span> response = <span style="color:#0000FF">await</span> client.PostAsync(serviceUrl <span style="color:#0000FF">as</span> <span style="color:#0000FF">string</span>, <span style="color:#0000FF">new</span> StringContent(json, Encoding.UTF8, <span style="color:#8B0000">&quot;application/json&quot;</span>));</strong>
+<strong class="markLine">            response.EnsureSuccessStatusCode();</strong>
+<strong class="markLine">        }</strong>
+<strong class="markLine">    }</strong>
+<strong class="markLine">}</strong>
+</code></pre>
+
+<p>This method executes an asynchronous post to the Web API service, sending the customer serialized in JSON. </p></li>
+<li><p>Finally, you will configure the ServiceUrl value using your Web API service URL. Open <strong>App.xaml</strong> and locate the <strong>ServiceURL</strong> key. Change the key value using your service site URL.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#C71585">x</span>:<span style="color:#800000">String</span> <span style="color:#FF0000">x</span>:<span style="color:#FF0000">Key</span>=<span style="color:#0000FF">&quot;ServiceUrl&quot;</span><span style="color:#0000FF">&gt;</span>[YOUR-SERVICE-SITE-URL]/api/customers<span style="color:#0000FF">&lt;/</span><span style="color:#C71585">x</span>:<span style="color:#800000">String</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You can find your service URL in the  dashboard of your Windows Azure Web Sites.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex2Task6"></a></p>
+
+<h4 id="Task_6_-_A_Lap_Around_the_Customer_Manager_Application">Task 6 - A Lap Around the Customer Manager Application</h4>
+
+<ol>
+<li><p>Press <strong>CTRL+SHIFT+B</strong> to build the solution. Make sure the Metro Style application project is selected as the startup project.</p></li>
+<li><p>Press <strong>F5</strong> to run the solution.</p>
+
+<p><img src="images/customer-manager-grid.png?raw=true" alt="Customer Manager Grid" title="Customer Manager Grid" />
+</p>
+
+<p><em>Customer Manager - Grid</em></p></li>
+<li><p>Click on a customer to open the <strong>Customer Details</strong> page. Notice that you can click the arrow on the left side of the screen to browse through the customers. </p>
+
+<p>Then, click the upper left arrow to go back.</p>
+
+<p><img src="images/customer-details.png?raw=true" alt="Customer Details" title="Customer Details" />
+</p>
+
+<p><em>Customer Details</em></p></li>
+<li><p>Back in the Home page, right-click to bring the application bar up and select <strong>Add</strong> to go to the new customer page.</p>
+
+<p><img src="images/add-button.png?raw=true" alt="Add button" title="Add button" />
+</p>
+
+<p><em>Add button</em></p></li>
+<li><p>Complete the new customer's data and click <strong>Create</strong>.</p>
+
+<p><img src="images/new-customer.png?raw=true" alt="New Customer" title="New Customer" />
+</p>
+
+<p><em>New Customer</em></p></li>
+<li><p>Back in the Home page, you will see the new customer added.</p>
+<blockquote>
+<p><strong>Note:</strong> If you cannot see the new customer added, go to the details page and come back to the home page. As the CreateCustomer method is asynchronous, to avoid blocking the UI, the GetCustomers method might execute before the new customer is posted to the service.</p>
+</blockquote></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercise3"></a></p>
+
+<h3 id="Exercise_3_Adding_Push_Notification_Support_to_your_Metro_Style_Application">Exercise 3: Adding Push Notification Support to your Metro Style Application</h3>
+
+<p>The Windows Push Notification Services (WNS) enables third-party developers to send toast, tile, and badge updates from their own cloud service. This provides a mechanism to deliver new updates to your users in a power-efficient and dependable way.</p>
+
+<p>The process of sending a notification requires few steps:</p>
+
+<ol>
+<li><p><strong>Request a channel.</strong> Utilize the WinRT API to request a Channel Uri from WNS. The Channel Uri will be the unique identifier you use to send notifications to an application instance.</p></li>
+<li><p><strong>Register the channel with your Windows Azure cloud services.</strong> Once you have your channel you can then store your channel and associate it with any application specific data (e.g user profiles and such) until your services decide that it's time to send a notification to the given channel.</p></li>
+<li><p><strong>Authenticate against WNS.</strong> To send notifications to your channel URI you are first required to Authenticate against WNS using OAuth2 to retrieve a token to be used for each subsequent notification that you push to WNS.</p></li>
+<li><p><strong>Push notification to channel recipient.</strong> Once you have your channel, notification payload and WNS access token you can then perform an HttpWebRequest to post your notification to WNS for delivery to your client.</p>
+
+<p><img src="images/wns-flow-diagram.png?raw=true" alt="WNS Flow Diagram" title="WNS Flow Diagram" />
+</p>
+
+<p><em>WNS Flow Diagram</em></p></li>
+</ol>
+
+<p>In this exercise you will learn how to send a toast notification from the Web API service (cloud service) to the registered clients (Metro Style applications) whenever a new customer is added.</p>
+
+<p>A toast notification is a transient message to the user that contains relevant, time-sensitive information and provides quick access to related content in an app. It can appear whether you are in another app, the Start screen, the lock screen, or on the desktop. Toasts should be viewed as an invitation to return to your app to follow up on something of interest.</p>
+
+<p><a name="Ex3Task1"></a></p>
+
+<h4 id="Task_1_-_Registering_the_Customer_Manager_Application_for_Push_Notifications">Task 1 - Registering the Customer Manager Application for Push Notifications</h4>
+
+<p>Before you can send notifications through WNS, you must register your application with the Windows developer center that supports the end-to-end process for submitting, certifying, and managing applications for sale in the Windows Store. When you register your application with the Dashboard, you are given credentials - a Package security identifier (SID) and a secret key - which your cloud service will use to authenticate itself with WNS.</p>
+
+<p>In this task you will obtain the information that will be needed to enable your application to communicate with WNS and Live Connect.</p>
+
+<ol>
+<li><p>In Visual Studio, continue working with the solution obtained from the previous exercise. If you did not executed the previous exsercise you can open <strong>CustomerManager.sln</strong> located in the <strong>Source/Ex3-Notifications/Begin</strong> folder of this lab.</p></li>
+<li><p>If you opened *CustomerManager.sln** located in the <strong>Source/Ex3-Notifications/Begin</strong> folder of this lab, open <strong>Web.config</strong> and configure the <strong>CustomerContext</strong> connection string to point to a Windows Azure SQL Database. You can use the connection string below replacing the placeholders. <a href="#Ex2Task3">Exercise 2 - Task 3</a> instructs how to do this.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;CustomerContext&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;Server=tcp:[SERVER_URL],1433;Database=CustomersDB;User ID=[SERVER_ADMIN_LOGIN];Password=[SERVER_ADMIN_PASSWORD];Trusted_Connection=False;Encrypt=True;Connection Timeout=30;&quot;</span> <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.SqlClient&quot;</span> <span style="color:#0000FF">/&gt;</span>
+</code></pre></li>
+<li><p>Build the solution.</p></li>
+<li><p>Open the Package Manager Console and execute the following commands to revert Entity Framework to a previous version. MVC 4 is using Entity Framework 5 Beta and the Windows Azure Toolkit for Windows 8 is designed for version 4.3.1. </p>
+
+<span class="codelanguage">PowerShell</span><pre><code class="PowerShell">Uninstall-Package EntityFramework
+Install-Package EntityFramework -version 4.3.1
+</code></pre></li>
+<li><p>Now you need to remove an Entity Framework custom configuration section in Web.config. Open file and remove the <code>&lt;entityFramework&gt;</code> section, near the end of the file.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">entityFramework</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">defaultConnectionFactory</span> <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">parameters</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">parameter</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;v11.0&quot;</span> <span style="color:#0000FF">/&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">parameters</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">defaultConnectionFactory</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">entityFramework</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>In the Solution Explorer, open <strong>Package.appxmanifest</strong> from the <strong>CustomerManager.Metro</strong> project.</p>
+<blockquote>
+<p><strong>Note:</strong> The package manifest is an XML document that contains the info the system needs to deploy, display, or update a Metro Style app. This info includes package identity, package dependencies, required capabilities, visual elements, and extensibility points. Every application package must include one package manifest.</p>
+</blockquote></li>
+<li><p>Open the <strong>Packaging</strong> tab and take note of the <strong>Package display name</strong> and <strong>Publisher</strong>.</p>
+
+<p><img src="images/packaging-tab.png?raw=true" alt="Packaging tab" title="Packaging tab" />
+</p>
+
+<p><em>Packaging tab</em></p></li>
+<li><p>Go to <a href="http://manage.dev.live.com/build">http://manage.dev.live.com/build</a>.</p></li>
+<li><p>Follow the steps to register your application:</p>
+
+<ol>
+<li><p>Enter your <strong>Package Display Name</strong> and <strong>Publisher display name</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> Make sure the Publisher value you provide matches exactly (case included) the Publisher value from Package.appxmanifest.</p>
+</blockquote></li>
+<li><p>Click <strong>I accept</strong>.</p>
+
+<p><img src="images/register-application-step-2.png?raw=true" alt="Register application step 2" />
+</p>
+
+<p><em>Registering your application</em></p></li>
+<li><p>Take note of the values from step 3.</p>
+
+<p><img src="images/register-application-step-3.png?raw=true" alt="Register application step 3" />
+</p>
+
+<p><em>Application registered</em></p></li>
+</ol></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> To send notifications to this application, your cloud service must use these credentials exactly. You cannot use another cloud service credentials to send notifications to this application, and you cannot use these credentials to send notifications to another app.</p>
+</blockquote>
+<p><a name="Ex3Task2"></a></p>
+
+<h4 id="Task_2_-_Enabling_Push_Notifications">Task 2 - Enabling Push Notifications</h4>
+
+<p>In this task you will configure your application  to be capable of raising toast notifications. Then, you will install NuGet packages with assets to simplify the code required for sending and receiving push notifications.</p>
+
+<ol>
+<li><p>Go back to Visual Studio and paste the <strong>Package name</strong> value in the Packaging tab of the application manifest.
+<img src="images/package-name.png?raw=true" alt="Package name" title="Package name" />
+</p>
+
+<p><em>Package name</em></p></li>
+<li><p>Select the <strong>Application.UI</strong> tab.</p></li>
+<li><p>Find the <strong>Notifications</strong> section and set <strong>Yes</strong> for <strong>Toast capable</strong>.</p>
+
+<p><img src="images/enabling-toast-notifications.png?raw=true" alt="Enabling toast notifications" title="Enabling toast notifications" />
+</p>
+
+<p><em>Enabling toast notifications</em></p></li>
+<li><p>Switch to the <strong>Capabilities</strong> tab and mark the following capabilities:</p>
+
+<ul>
+<li>Home or Work Networking</li>
+<li>Internet (Client &amp; Server)</li>
+<li>Internet (Client)</li>
+</ul>
+
+<p><img src="images/enabling-network-capabilities.png?raw=true" alt="Enabling network capabilities" title="Enabling network capabilities" />
+</p>
+
+<p><em>Enabling network capabilities</em></p></li>
+<li><p>Open the <strong>Package Manager Console</strong> from the <strong>Tools | Library Package Manager</strong> menu.</p></li>
+<li><p>In <strong>Default project</strong> select <strong>CustomerManager.Metro</strong>.</p></li>
+<li><p>Execute the following command to install <strong>Windows8.Notifications</strong> package in the Metro Style application.</p>
+
+<span class="codelanguage">PowerShell</span><pre><code class="PowerShell">Install-Package Windows8.Notifications
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Windows Push Notification Client Recipe (<strong>Windows8.Notifications</strong>) provides a client object to allow open a notification channel from a device, and register it with a notification service at a particular endpoint.</p>
+</blockquote></li>
+<li><p>In the Package Manager Console, change the default project to <strong>CustomerManager.WebApi</strong>.</p></li>
+<li><p>Execute the following command to install the packages required for the server project.</p>
+
+<span class="codelanguage">PowerShell</span><pre><code class="PowerShell">Install-Package WnsRecipe
+Install-Package WindowsAzure.Notifications.Sql
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The WindowsAzure.Notifications.Sql package depends on <strong>WindowsAzure.Notifications</strong> which allows client devices to register (and unregister) for receiving push notifications messages. 
+The <strong>WindowsAzure.Notifications.Sql</strong> package provides storage in a SQL Database for the Push Notification Registration Cloud Service.</p>
+
+<p>The Windows Push Notification Service Recipe (<strong>WnsRecipe</strong>) is a push notification server-side helper library that provides an easy way to send all three types of push notification messages supported by Windows Push Notification Services (WNS): Tile, Toast, and Badge.</p>
+</blockquote></li>
+</ol>
+
+<p>These NuGet packages are also available in the <a href="http://watwindows8.codeplex.com/" title="Windows Azure Toolkit for Windows 8">Windows Azure Toolkit for Windows 8</a>.
+In this toolkit you can also find additional samples and documentation about push notifications. In particular, you may found useful the following resources:</p>
+
+<ul>
+<li><a href="http://watwindows8.codeplex.com/wikipage?title=Project%20Templates%2c%20Samples%20and%20Libraries%20Source%20Code&amp;referringTitle=Documentation">Windows Azure Toolkit for Windows 8 Content</a></li>
+<li><a href="http://watwindows8.codeplex.com/wikipage?title=Raw%20Notifications%20Sample">Raw Notifications Sample - C# and JavaScript</a></li>
+<li><a href="http://watwindows8.codeplex.com/wikipage?title=Notifications%20Sample%20%E2%80%93%20C%23%20and%20JavaScript">Notifications Samples - C# and JavaScript</a></li>
+<li><a href="http://watwindows8.codeplex.com/wikipage?title=Push%20Notification%20Worker%20Sample&amp;referringTitle=Documentation">Push Notification Worker Sample</a></li>
+</ul>
+
+<p><a name="Ex3Task3"></a></p>
+
+<h4 id="Task_3_-_Sending_Push_Notifications">Task 3 - Sending Push Notifications</h4>
+
+<p>To send a notification, the cloud service must be authenticated through WNS. The first step in this process occurs when you register your application with the Windows Store Dashboard. During the registration process, your application is given a Package security identifier (SID) and a secret key. This information is used by your cloud service to authenticate with WNS.</p>
+
+<p>The WNS authentication scheme is implemented using the client credentials profile from the <a href="http://go.microsoft.com/fwlink/?linkid=226787">OAuth 2.0</a> protocol. The cloud service authenticates with WNS by providing its credentials (Package SID and secret key). In return, it receives an access token. This access token allows a cloud service to send a notification. The token is required with every notification request sent to the WNS.</p>
+
+<ol>
+<li><p>Open the <strong>CustomersController.cs</strong> file from the CustomerManager.WebApi project and add the following using directives.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - Send Notifications Namespaces</em>)</p>
+
+<!-- mark:1-4     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> System.Configuration;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> NotificationsExtensions;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> NotificationsExtensions.ToastContent;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> CustomerManager.WebApi.CloudServices.Notifications;</strong>
+</code></pre></li>
+<li><p>Add the following private method to send a toast notification about the new customers.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - SendNotification</em>)</p>
+
+<!-- mark:1-17     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">private</span> <span style="color:#0000FF">void</span> SendNotification(Customer customer)</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">    <span style="color:#0000FF">var</span> clientId = ConfigurationManager.AppSettings[<span style="color:#8B0000">&quot;ClientId&quot;</span>];</strong>
+<strong class="markLine">    <span style="color:#0000FF">var</span> clientSecret = ConfigurationManager.AppSettings[<span style="color:#8B0000">&quot;ClientSecret&quot;</span>];</strong>
+<strong class="markLine">    <span style="color:#0000FF">var</span> tokenProvider = <span style="color:#0000FF">new</span> WnsAccessTokenProvider(clientId, clientSecret);</strong>
+<strong class="markLine">    <span style="color:#0000FF">var</span> notification = ToastContentFactory.CreateToastText02();</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    notification.TextHeading.Text = <span style="color:#8B0000">&quot;New customer added!&quot;</span>;</strong>
+<strong class="markLine">    notification.TextBodyWrap.Text = customer.Name;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">var</span> provider = NotificationServiceContext.Current.Configuration.StorageProvider;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">foreach</span> (<span style="color:#0000FF">var</span> endpoint <span style="color:#0000FF">in</span> provider.All())</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">        <span style="color:#0000FF">var</span> result = notification.Send(<span style="color:#0000FF">new</span> Uri(endpoint.ChannelUri), tokenProvider);</strong>
+<strong class="markLine">    }</strong>
+<strong class="markLine">}</strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> A channel is a unique address that represents a single user on a single device for a single application or secondary tile. Using the channel URI, the cloud service can send a notification whenever it has an update for the user. With the <strong>NotificationServiceContext</strong> we can get the full list of the client endpoints registered with the cloud service.</p>
+</blockquote></li>
+<li><p>Find the <strong>PostCustomer</strong> function and add a call to <strong>SendNotification</strong> method.</p>
+
+<!-- mark:9     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#008000">// POST api/Customers</span>
+<span style="color:#0000FF">public</span> HttpResponseMessage PostCustomer(Customer customer)
+{
+    <span style="color:#0000FF">if</span> (ModelState.IsValid)
+    {
+        db.Customers.Add(customer);
+        db.SaveChanges();
+
+<strong class="markLine">        <span style="color:#0000FF">this</span>.SendNotification(customer);</strong>
+
+        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
+        response.Headers.Location = <span style="color:#0000FF">new</span> Uri(Url.Link(<span style="color:#8B0000">&quot;DefaultApi&quot;</span>, <span style="color:#0000FF">new</span> { id = customer.CustomerId }));
+        <span style="color:#0000FF">return</span> response;
+    }
+    <span style="color:#0000FF">else</span>
+    {
+        <span style="color:#0000FF">return</span> Request.CreateResponse(HttpStatusCode.BadRequest);
+    }
+}
+</code></pre></li>
+<li><p>Open the <strong>Web.config</strong> file and add the following settings in the <code>appSettings</code> section. Replace the placeholders using the values from the Windows Developer Center obtained on the first task.</p>
+
+<!-- mark:2-3     -->
+
+<span class="codelanguage">XML</span><pre><code class="XML">  ...
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;ClientId&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;[Package Security Identifier (SID)]&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;ClientSecret&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;[Client secret]&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> For demo purposes we simply store these values in the Web.config file, but the Package security identifier SID and client secret should be securely stored. Disclosure or theft of this information could enable an attacker to send notifications to your users without your permission or knowledge.</p>
+</blockquote></li>
+<li><p>Open <strong>App_Start\NotificationsServiceSql.cs</strong> and replace the code in the <strong>PostStart</strong> method with the following code.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - Set Connection String</em>)</p>
+
+<!-- mark:7     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">public</span> <span style="color:#0000FF">static</span> <span style="color:#0000FF">void</span> PostStart()
+{
+    <span style="color:#008000">// Configure the SQL database as the storage for the Push Notifications Registration Service.</span>
+    NotificationServiceContext.Current.Configure(
+        c =&gt;
+        {
+<strong class="markLine">            <span style="color:#0000FF">var</span> connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[<span style="color:#8B0000">&quot;DefaultConnection&quot;</span>].ConnectionString;</strong>
+            c.StorageProvider = <span style="color:#0000FF">new</span> SqlEndpointRepository(connectionString);
+        });
+}
+</code></pre></li>
+<li><p>Open <strong>Web.config</strong> and configure the <strong>DefaultConnection</strong> connection string to point to a Windows Azure SQL Database. You can use the connection string below replacing the placeholders. <a href="#Ex2Task3">Exercise 2 - Task 3</a> instructs how to do this.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;DefaultConnection&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;Server=tcp:[SERVER_URL],1433;Database=CustomersDB.Notifications;User ID=[SERVER_ADMIN_LOGIN];Password=[SERVER_ADMIN_PASSWORD];Trusted_Connection=False;Encrypt=True;Connection Timeout=30;&quot;</span> <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.SqlClient&quot;</span> <span style="color:#0000FF">/&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> For simplicity purposes the service is using two different databases for storing application data (customers) and notifications. In a production scenario you might want to use one database by merging the two different Entity Framework contexts.</p>
+</blockquote></li>
+<li><p>Open <strong>App_Start\NotificationsService.cs</strong> and in the <strong>PostStart</strong> method, comment the line that configures the storage provider as shown below. As you are using the SQL version of the WindowsAzure.Notifications NuGet, which stores notifications data in a SQL database, you should remove this line that configures Windows Azure Storage.</p>
+
+<!-- mark:12     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">public</span> <span style="color:#0000FF">static</span> <span style="color:#0000FF">void</span> PreStart()
+{
+    NotificationServiceContext.Current.Configure(
+         c =&gt;
+         {
+              ...
+
+              <span style="color:#008000">// TODO: Specify a rule for authorizing users when registring (register, unregister)</span>
+              c.AuthorizeRegistrationRequest = AuthorizeUserRequest;
+
+              <span style="color:#008000">// TODO: Replace with your own Windows Azure Storage account name and key, or read it from a configuration file</span>
+<strong class="markLine">              <span style="color:#008000">//c.StorageProvider = new WindowsAzureEndpointRepository(CloudStorageAccount.DevelopmentStorageAccount);</span></strong>
+
+              ...
+         });
+}
+</code></pre></li>
+<li><p>Publish the Customers Web API service in Windows Azure. To do this, follow the steps in <a href="#Ex2Task3">Exercise 2, Task 3</a>.</p></li>
+</ol>
+
+<p><a name="Ex3Task4"></a></p>
+
+<h4 id="Task_4_-_Registering_the_Notifications_Client">Task 4 - Registering the Notifications Client</h4>
+
+<p>When an application that is capable of receiving push notifications runs, it must first request a notification channel.
+After the application has successfully created a channel URI, it sends it to its cloud service, together with any app-specific metadata that should be associated with this URI.</p>
+
+<p>In this task you will use the class library provided by the <strong>Windows8.Notifications</strong> package to request the channel and register your application with the service when it is launched and unregister it when it is suspended. </p>
+
+<ol>
+<li><p>Open <strong>App.xaml.cs</strong> from the <strong>CustomerManager.Metro</strong> project and add the following using directive.</p>
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">using</span> Windows8.Notifications;
+</code></pre></li>
+<li><p>Add the following members to the App class. Update the <strong>ServiceEnpointsUrl</strong> value according to the location of the deployed Web API project.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - App Members</em>)</p>
+
+<!-- mark:1-5     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">private</span> <span style="color:#0000FF">const</span> <span style="color:#0000FF">string</span> ServiceEnpointsUrl = <span style="color:#8B0000">&quot;[YOUR_WEB_API_URL]/endpoints&quot;</span>;</strong>
+<strong class="markLine"><span style="color:#0000FF">private</span> <span style="color:#0000FF">const</span> <span style="color:#0000FF">string</span> ApplicationId = <span style="color:#8B0000">&quot;CustomerManager&quot;</span>;</strong>
+<strong class="markLine"><span style="color:#0000FF">private</span> <span style="color:#0000FF">const</span> <span style="color:#0000FF">string</span> DeviceId = <span style="color:#8B0000">&quot;deviceId&quot;</span>;</strong>
+<strong class="markLine"></strong>
+<strong class="markLine"><span style="color:#0000FF">private</span> NotificationClient notificationClient;</strong>
+</code></pre></li>
+<li><p>Initialize the <strong>notificationClient</strong> member in the constructor.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - NotificationClient Initialization</em>)</p>
+
+<!-- mark:3     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">public</span> App()
+{
+<strong class="markLine">    <span style="color:#0000FF">this</span>.notificationClient = <span style="color:#0000FF">new</span> NotificationClient(ApplicationId, DeviceId, ServiceEnpointsUrl);</strong>
+    <span style="color:#0000FF">this</span>.InitializeComponent();
+    <span style="color:#0000FF">this</span>.Suspending += OnSuspending;
+}
+</code></pre></li>
+<li><p>Call the <strong>Register</strong> function from the <strong>notificationClient</strong> member in the <strong>OnLaunched</strong> event.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - Register Notification Client</em>)</p>
+
+<!-- mark:5     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">override</span> <span style="color:#0000FF">async</span> <span style="color:#0000FF">void</span> OnLaunched(LaunchActivatedEventArgs args)
+{
+    ...
+
+<strong class="markLine">    <span style="color:#0000FF">await</span> <span style="color:#0000FF">this</span>.notificationClient.Register();</strong>
+}
+</code></pre></li>
+<li><p>Call the <strong>Unregister</strong> function from the <strong>notificationClient</strong> member in the <strong>OnSuspending</strong> event.</p>
+
+<p>(Code Snippet - <em>Building Windows 8 Apps - Ex3 - Unregister Notification Client</em>)</p>
+
+<!-- mark:7     -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">private</span> <span style="color:#0000FF">async</span> <span style="color:#0000FF">void</span> OnSuspending(<span style="color:#0000FF">object</span> sender, SuspendingEventArgs e)
+{
+    <span style="color:#0000FF">var</span> deferral = e.SuspendingOperation.GetDeferral();
+    <span style="color:#0000FF">await</span> SuspensionManager.SaveAsync();
+    deferral.Complete();
+
+<strong class="markLine">    <span style="color:#0000FF">await</span> <span style="color:#0000FF">this</span>.notificationClient.Unregister();</strong>
+}
+</code></pre></li>
+<li><p>Open <strong>App.xaml</strong> and locate the <strong>ServiceURL</strong> key. Make sure the <strong>ServiceUrl</strong> key value has the URL of the Web API service URL deployed.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#C71585">x</span>:<span style="color:#800000">String</span> <span style="color:#FF0000">x</span>:<span style="color:#FF0000">Key</span>=<span style="color:#0000FF">&quot;ServiceUrl&quot;</span><span style="color:#0000FF">&gt;</span>[YOUR-SERVICE-SITE-URL]/api/customers<span style="color:#0000FF">&lt;/</span><span style="color:#C71585">x</span>:<span style="color:#800000">String</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Run the Metro Style application.</p></li>
+<li><p>Create a new customer and notice the toast notification.</p>
+
+<p><img src="images/toast-notification.png?raw=true" alt="Toast notification" title="Toast notification" />
+</p>
+
+<p><em>Toast notification</em></p></li>
+</ol>
+
+<hr />
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-BuildingWindows8AppsWithWindowsAzure/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

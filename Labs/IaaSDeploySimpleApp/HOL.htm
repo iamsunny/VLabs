@@ -1,0 +1,666 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Introduction to Windows Azure Virtual Machines</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroToWindowsAzureVirtualMachines" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroToWindowsAzureVirtualMachines" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="HOLTop"></a></p>
+
+<h1 id="Introduction_to_Windows_Azure_Virtual_Machines">Introduction to Windows Azure Virtual Machines</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>Using Windows Azure as your IaaS platform, will enable you to create and manage your infrastructure quickly, provisioning and accessing any host ubiquitously. Grow your business through the cloud-based infrastructure, reducing the costs of licensing, provisioning and backup.</p>
+
+<p>In this hands-on Lab, you will learn how to deploy a simple ASP.NET MVC4 Web application to a Web server hosted in Windows Azure, using SQL Server and configuring load balancing.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li>Create a Web Farm using Windows Azure Management Portal</li>
+<li>Configure Load Balancing in IIS</li>
+<li>Deploy a Simple MVC4 Application that consumes SQL Server Features</li>
+<li>Create a VM with SQL Server Full-Text Search feature to be consumed by the MVC Application</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li>A Windows Azure subscription with the Virtual Machines Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li><a href="#Exercise1">Creating VMs for IIS</a></li>
+<li><a href="#Exercise2">Creating a SQL Server VM</a></li>
+<li><a href="#Exercise3">Deploying a Simple MVC4 Application</a></li>
+</ol>
+
+<p>Estimated time to complete this lab: <strong>45 minutes</strong>.</p>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Creating_VMs_for_IIS">Exercise 1: Creating VMs for IIS</h3>
+
+<p>In this exercise, you will learn how to create a Virtual Machine in Windows Azure. Then, you will configure an Internet Information Server adding roles to use later on in this lab.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_IIS_VMs">Task 1 - Creating IIS VMs</h4>
+
+<p>In this task, you will provision a Virtual Machine and configure the Load Balancing to host an MVC4 application.</p>
+
+<ol>
+<li><p>Open Internet Explorer and browse <a href="https://manage.windowsazure.com/"><a href="https://manage.windowsazure.com/">https://manage.windowsazure.com/</a></a> to enter the Windows Azure portal. Then, log in with your credentials.</p></li>
+<li><p>In the menu located at the bottom, select <strong>New | Virtual Machine | From Gallery</strong> to start creating a new virtual machine.</p>
+
+<p><img src="images/creating-a-new-virtual-machine.png?raw=true" alt="Creating a new Virtual Machine" />
+</p>
+
+<p><em>Creating a new Virtual Machine</em></p>
+
+<ol>
+<li>In the <strong>VM OS Selection</strong> page, click <strong>Platform Images</strong> on the left menu and select the <strong>Windows Server 2008 R2</strong> OS image from the list. Click the arrow to continue.<br /></li>
+<li><p>In the <strong>VM Configuration</strong> page, enter the <strong>Virtual Machine Name</strong> (i.e. &quot;<em>iisvm1</em>&quot;) and the administrator user's <strong>Password</strong>. Click the <strong>right arrow</strong> to continue.</p>
+
+<p><img src="images/creating-a-vm-configuration.png?raw=true" alt="Configuring a Custom VM" />
+</p>
+
+<p><em>Creating a VM - Configuration</em></p>
+<blockquote>
+<p><strong>Note:</strong> It is suggested to use secure passwords for admin users, as Windows Azure virtual machines could be accessible from the Internet knowing just their DNS.</p>
+
+<p>You can also read this document on the Microsoft Security website that will help you select a secure password:  <a href="http://www.microsoft.com/security/online-privacy/passwords-create.aspx"><a href="http://www.microsoft.com/security/online-privacy/passwords-create.aspx">http://www.microsoft.com/security/online-privacy/passwords-create.aspx</a></a></p>
+</blockquote></li>
+<li><p>In the <strong>VM Mode</strong> page, select <strong>Standalone Virtual Machine</strong>, enter the <strong>DNS Name</strong>, select a <strong>Storage Account</strong> or leave the default value <em>Use Automatically Generated Storage Account</em>, and select a <strong>Region/Affinity Group/Virtual Network</strong>. Click the <strong>right arrow</strong> to continue. </p>
+
+<p><img src="images/creating-a-vm-vm-mode.png?raw=true" alt="Configuring a Custom VM, VM Mode" />
+</p>
+
+<p><em>Creating a VM - VM Mode</em></p></li>
+<li><p>In the <strong>VM Options</strong> page, leave the default values and click the button to create a new VM.</p>
+
+<p><img src="images/creating-a-vm--vm-options.png?raw=true" alt="Creating a VM - VM Options" title="Creating a VM - VM Options" />
+</p>
+
+<p><em>Creating a VM - VM Options</em></p></li>
+</ol></li>
+<li><p>In the <strong>Virtual Machines</strong> section, you will see the VM you created with a <em>provisioning</em> status. Wait until it changes to <em>Running</em> in order to continue with the following step.</p>
+
+<p><img src="./images/creating-vm-for-iis-web-farm.png?raw=true" alt="Creating VM for IIS Web Farm" title="Creating VM for IIS Web Farm" />
+</p>
+
+<p><em>Creating VM for IIS Web Farm</em></p>
+<blockquote>
+<p><strong>Note:</strong> It will take from 8 to 10 minutes for the Virtual Machine to complete the provisioning process.</p>
+</blockquote></li>
+<li><p>You will now add the second VM for the IIS Load Balancing. In the portal, select <strong>New | Virtual Machine | From Gallery</strong>. </p></li>
+<li><p>In the <strong>VM OS Selection</strong> page, click <strong>Platform Images</strong> on the left menu and select the <strong>Windows Server 2008 R2</strong> OS image from the list. Click the <strong>arrow</strong> to continue.   </p></li>
+<li><p>In the <strong>VM Configuration</strong> page, enter the <strong>Virtual Machine Name</strong> (i.e. &quot;<em>iisvm2</em>&quot;, the administrator user's <strong>Password</strong> and the <strong>Size</strong>. Click the <strong>right arrow</strong> to continue.</p></li>
+<li><p>In the <strong>VM Mode</strong> page, select <strong>Connect to existing Virtual Machine</strong> and choose the first VM you created from the drop down list. Select a <strong>Storage Account</strong> or leave the default value <em>Use Automatically Generated Storage Account</em> and click the <strong>right arrow</strong> to continue. This step adds the new virtual machine to the cloud service created in the previous step. This allows the virtual machines to be on the same network.</p>
+
+<p><img src="images/creating-a-vm-vm-mode2.png?raw=true" alt="Configuring a Custom VM, VM Mode" />
+</p>
+
+<p><em>Creating a VM - VM Mode</em></p></li>
+<li><p>In the <strong>VM Options</strong> page, leave the default values and click the button to create a new VM.</p></li>
+<li><p>Wait until the second VM is created. You can check the VM status from the Virtual Machines section within the portal.</p>
+<blockquote>
+<p><strong>Note:</strong> It will take from 8 to 10 minutes for the Virtual Machine to complete the provisioning process.</p>
+</blockquote></li>
+<li><p>After creating the second VM, you will create an endpoint in the port 80 in the Virtual Machine you created first. To do this, click on the first VM Name (<em>iisvm1</em>) to go to the <strong>Dashboard</strong> page and then click <strong>Endpoints</strong>.</p></li>
+<li><p>Click <strong>Add Endpoint</strong> on the bottom pane. Make sure that <strong>Add Endpoint</strong> option is selected and then click the <strong>right arrow</strong> button to continue.</p>
+
+<p><img src="images/adding-a-new-endpoint.png?raw=true" alt="Adding a new Endpoint" title="Adding a new Endpoint" />
+</p>
+
+<p><em>Adding a new Endpoint</em></p></li>
+<li><p>In the <strong>Specify endpoint details</strong> page, set the <strong>Name</strong> to <em>webport</em>, the <strong>Protocol</strong> to <em>TCP</em> and the <strong>Public Port</strong> and <strong>Private Port</strong> to <em>80</em>. Click the button to create the endpoint.</p>
+
+<p><img src="images/new-endpoint-details.png?raw=true" alt="New Endpoint Details" title="New Endpoint Details" />
+</p>
+
+<p><em>New Endpoint Details</em></p>
+<blockquote>
+<p><strong>Note:</strong> It will take some minutes to create a new endpoint.</p>
+</blockquote></li>
+<li><p>Now, create a new Endpoint in the second VM in order to enable Load Balancing between both VMs. To do this, click <strong>Virtual Machines</strong> and then select the second VM you created. Then, click <strong>Endpoints</strong>.</p></li>
+<li><p>Click <strong>Add Endpoint</strong>, select <strong>Load Balance Traffic On An Existing Endpoint</strong> option. Select the endpoint you created for the first VM from the drop down list and then click the <strong>right arrow</strong> to continue.</p>
+
+<p><img src="images/load-balance-traffic-an-an-existing-endpoint.png?raw=true" alt="Load Balance Traffic An Existing Endpoint" title="Load Balance Traffic An Existing Endpoint" />
+</p>
+
+<p><em>Load Balance Traffic An Existing Endpoint</em></p></li>
+<li><p>In the <strong>New Endpoint Details</strong> page, set the <strong>Name</strong> to <em>webport</em> and the <strong>Private Port</strong> to <em>80</em>. Click the button to create the endpoint. </p>
+<blockquote>
+<p><strong>Note:</strong> It will take some minutes to create a new endpoint.</p>
+</blockquote></li>
+<li><p>In the <strong>Virtual Machines</strong> section, click on the first VM Name (<em>iisvm1</em>) and then click <strong>Endpoints</strong>. </p></li>
+<li><p>Select the <strong>webport</strong> endpoint you have created. Make sure the <strong>Load Balancer</strong> column value is <strong>Yes</strong>. </p>
+
+<p><img src="images/creating-load-balancing-endpoint-1.png?raw=true" alt="Verification: enabling IIS Load Balancing" />
+</p>
+
+<p><em>Verification: enabling IIS Load Balancing</em></p></li>
+<li><p>Click the <strong>Edit Endpoint</strong> button in the bottom bar to enter the endpoint details and verify the load balancing is enabled. Repeat this step in the second VM.</p>
+
+<p><img src="images/creating-load-balancing-endpoint-2.png?raw=true" alt="Verification: enabling IIS Load Balancing, details" />
+</p>
+
+<p><em>Verification: enabling IIS Load Balancing, details</em></p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Configuring_IIS_VMs">Task 2 - Configuring IIS VMs</h4>
+
+<p>In this task, you will configure the IIS VMs by adding the necessary roles to deploy the MVC application.</p>
+
+<ol>
+<li><p>In the Portal, click <strong>Virtual Machines</strong> on the left menu.</p></li>
+<li><p>You will see a list with your existing VMs. Select the first one you created in Task 1 and click <strong>Connect</strong>. If you used the proposed name, this VM should be named <strong>iisvm1</strong>.</p></li>
+<li><p>You will be asked to download the remote desktop client. Click <strong>Open</strong> and log on using the Admin credentials you defined when creating the VM.</p></li>
+<li><p>In the Azure VM, open <strong>Server Manager</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>In the <strong>Server Manager</strong> window, select <strong>Roles</strong> node.</p>
+
+<p><img src="./images/Server-Manager.png?raw=true" alt="Server Manager" title="Server Manager" />
+</p>
+
+<p><em>Server Manager</em></p></li>
+<li><p>Click <strong>Add Roles</strong> link.</p>
+
+<p><img src="./images/Adding-Server-Roles.png?raw=true" alt="Adding Server Roles" title="Adding Server Roles" />
+</p>
+
+<p><em>Adding Server Roles</em></p></li>
+<li><p>The <strong>Add Roles Wizard</strong> will appear.</p>
+
+<ol>
+<li> In the <strong>Before you Begin</strong> page, read the content and click <strong>Next</strong>.</li>
+<li><p>In <strong>Select Server Roles</strong> page, check the <strong>Application Server</strong> and <strong>Web Server (IIS)</strong>. A warning will show, informing the Required Role Services that are missing. Click <strong>Add Required Role Services</strong> to install them and then click <strong>Next</strong>.</p>
+
+<p><img src="images/add-roles-wizard2.png?raw=true" alt="Add Roles Wizard(2)" />
+</p>
+
+<p><em>Add Roles Wizard</em></p></li>
+<li><p>The <strong>Application Server</strong> page provides a brief introduction about Application Server's capabilities. Click <strong>Next</strong> when you complete reading it.</p></li>
+<li><p>In the <strong>Select Role Services</strong> page for <strong>Application Server</strong>, select <strong>Web Server (IIS)</strong> <strong>Support</strong> and make sure <strong>.NET Framework 3.5.1</strong> is selected. It will prompt a dialog warning about missing Required Role Services. Click <strong>Add Required Role Services</strong> to install them and then click <strong>Next</strong></p>
+
+<p><img src="images/add-roles-wizard3.png?raw=true" alt="Add Roles Wizard(3)" />
+</p>
+
+<p><em>Add Roles Wizard</em></p></li>
+<li><p>The <strong>Web Server (IIS)</strong> page provides a brief introduction about Web Server (IIS) capabilities. Click <strong>Next</strong> when you complete reading.</p></li>
+<li><p>The <strong>Select Role Services</strong> page for <strong>Web Server (IIS)</strong> page will display the selected role services that will be installed. Click <strong>Next</strong>.</p>
+
+<p><img src="images/add-roles-wizard4.png?raw=true" alt="Add Roles Wizard(4)" />
+</p>
+
+<p><em>Add Roles Wizard</em></p></li>
+<li><p>In the <strong>Confirm Installation Selections</strong> page, make sure the displayed services that will be installed are the ones you have selected (.NET Framework 3.5.1 support and IIS), and then click <strong>Install</strong>.</p>
+
+<p><img src="./images/Add-Roles-Wizard.png?raw=true" alt="Add Roles Wizard" title="Add Roles Wizard" />
+</p>
+
+<p><em>Add Roles Wizard</em></p></li>
+</ol></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> It will take some minutes to complete the installation.</p>
+</blockquote>
+<ol>
+<li><p>Close the <strong>Remote Desktop Connection</strong>.</p>
+
+<p>Repeat this task on the second VM to install IIS, starting from step 4. If you used the proposed name, the second VM should be named <strong>iisvm2</strong>.</p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Creating_a_SQL_Server_VM">Exercise 2: Creating a SQL Server VM</h3>
+
+<p>In this exercise, you will create a new VM and learn how to install SQL Server. You will add disk images to the existing VM in order to split the data from the logs generated by SQL Server.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_SQL_Server_VM">Task 1 - Creating a SQL Server VM</h4>
+
+<p>In this task, you will create a new VM using the Windows Azure portal in the same Cloud App you deployed the IIS VMs.</p>
+
+<ol>
+<li><p>In the menu located at the bottom, select <strong>New | Virtual Machine | From Gallery</strong> to start creating a new virtual machine.</p></li>
+<li><p>In the <strong>VM OS Selection</strong> page, click <strong>Platform Images</strong> on the left menu and select the <strong>SQL Server 2012</strong> OS image from the list. Click the arrow to continue.  </p></li>
+<li><p>In the <strong>VM Configuration</strong> page, enter the <strong>Virtual Machine Name</strong> (i.e. &quot;<em>sqlvm1</em>&quot;), the administrator user's <strong>Password</strong> and the <strong>Size</strong>. Click the <strong>right arrow</strong> to continue.</p></li>
+<li><p>In the <strong>VM Mode</strong> page, select <strong>Connect to existing Virtual Machine</strong> and choose the first IIS VM you created from the drop down list. Click the <strong>right arrow</strong> to continue.</p></li>
+<li><p>In the <strong>VM Options</strong> page, leave the default values and click the button to create a new VM.</p></li>
+<li><p>In the <strong>Virtual Machines</strong> section, you will see the VM you created with a <em>provisioning</em> status. Wait until it changes to <em>Running</em> in order to continue with the following step.</p>
+<blockquote>
+<p><strong>Note:</strong> It will take from 8 to 10 minutes for the Virtual Machine to complete the provisioning process.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex2Task2"></a> </p>
+
+<h4 id="Task_2_-_Attaching_Empty_Disk_Images">Task 2 - Attaching Empty Disk Images</h4>
+
+<p>In this task, you will create two empty data disks and attach them to an existing VM using the Windows Azure Management Portal. You will use these data disks to split SQL Server Data and Logs.</p>
+
+<ol>
+<li><p>Now, you will create and attach empty data disks to store the SQL Server logs and data files, and you will also add an endpoint. To do this, in the <strong>Virtual Machines</strong> section, select the SQL Server VM you created in the previous task.</p></li>
+<li><p>In the VM's <strong>Dashboard</strong>, click <strong>Attach</strong> in the menu at the bottom of the page and select <strong>Attach Empty Disk</strong>.</p>
+
+<p><img src="images/attach-empty-disk.png?raw=true" alt="Attach Empty Disk" title="Attach Empty Disk" />
+</p>
+
+<p><em>Attach Empty Disk</em></p></li>
+<li><p>In the <strong>Attach Empty Disk</strong> page, set the <strong>Size</strong> to <em>50</em> GB and create the Disk.</p></li>
+<li><p>Wait until the process to attach the disk finishes. Repeat the steps 1 to 3 to create a second disk.</p></li>
+<li><p>You will see three disks for the VM: one for the <strong>OS</strong> and other two for <strong>Data</strong> and <strong>Logs</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> It might take a few minutes until the data disks appear in the VM's dashboard within the Azure Portal.</p>
+</blockquote>
+<p><img src="./images/Attached-Data-Disks.png?raw=true" alt="Attached Data Disks" title="Attached Data Disks" />
+</p>
+
+<p><em>Attached Data Disks</em></p></li>
+<li><p>Finally, you need to format the disks in order to access them from the Virtual Machine. To do this, click <strong>Connect</strong> to connect to the VM using <strong>Remote Desktop connection</strong>.</p></li>
+<li><p>It will ask you to download the remote desktop client. Click <strong>Open</strong> and log on using the Admin credentials you defined when creating the VM.</p></li>
+<li><p>In the Virtual Machine, open <strong>Server Manager</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>Expand <strong>Storage</strong> node and select <strong>Disk Management</strong> option.</p>
+
+<p><img src="images/disk-management2.png?raw=true" alt="Disk Management(2)" />
+</p>
+
+<p><em>Disks Management</em></p></li>
+<li><p>Locate the disks you created using the <strong>Attach Empty Disk</strong> feature from the Windows Azure Management Portal. Right-click the first disk and select <strong>Initialize Disk</strong>.</p></li>
+<li><p>In the <strong>Initialize Disk</strong> dialog, leave the default values and click <strong>OK</strong>.</p></li>
+<li><p>Right-click the first disk unallocated space and select <strong>New Simple Volume</strong>.</p>
+
+<p><img src="images/disk-management.png?raw=true" alt="Disk Management" />
+</p>
+
+<p><em>Disks Management</em></p></li>
+<li><p>Follow the <strong>New Simple Volume Wizard</strong>. When asked for the <strong>Volume Label</strong> use <em>SQLData</em>.</p></li>
+<li><p>Wait until the process for the first disk is completed. Repeat the steps 15 to 16 but this time using the second disk. Set the <strong>Volume Label</strong> to <em>SQLLogs</em>.</p></li>
+<li><p>The <strong>Disk Management</strong> list of available disks should now show the <strong>SQLData</strong> and <strong>SQLLogs</strong> disks like in the following figure:</p>
+
+<p><img src="./images/Disks-Management.png?raw=true" alt="Disks Management" title="Disks Management" />
+</p>
+
+<p><em>Disks Management</em></p>
+<blockquote>
+<p><strong>Note:</strong> Do not close the <strong>Remote Desktop Connection</strong>. You will use it in the following task.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex2Task3"></a> </p>
+
+<h4 id="Task_3_-_Configuring_SQL_Server_in_the_VM">Task 3 - Configuring SQL Server in the VM</h4>
+
+<p>In this task, you will configure SQL Server 2012. You will create the database that will be used by the MVC4 application and add Full-Text Search capabilities to it. Additionally, you will create a SQL Server user for the MVC4 website.</p>
+
+<ol>
+<li><p>Open the SQL Server Management Studio from <strong>Start | All Programs | Microsoft SQL Server 2012 | SQL Server Management Studio</strong>.</p></li>
+<li><p>Connect to the SQL Server 2012 default instance using your Windows Account.</p></li>
+<li><p>Now, you will update the database's default locations in order to split the DATA from the LOGS. To do this, right click on you SQL Server instance and select <strong>Properties</strong>.</p></li>
+<li><p>Select <strong>Database Settings</strong> from the left side pane.</p></li>
+<li><p>Locate the <strong>Database default locations</strong> section and update the default values to point to the disks you attached in the previous task.</p>
+
+<p><img src="./images/Setting-Database-Default-Locations.png?raw=true" alt="Setting Database Default Locations" title="Setting Database Default Locations" />
+</p>
+
+<p><em>Setting Database Default Locations</em></p></li>
+<li><p>Using Windows Explorer create the following folders: <strong>F:\Data, G:\Logs</strong> and <strong>G:\Backups</strong>.</p></li>
+<li><p>In order to enable downloads from Internet Explorer you will need to update <strong>Internet Explorer Enhanced Security Configuration</strong>. In the Azure VM, open <strong>Server Manager</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>In the <strong>Server Manager</strong>, click <strong>Configure IE ESC</strong> within <strong>Security Information</strong> section.</p></li>
+<li><p>In the <strong>Internet explorer Enhanced Security</strong> configuration, turn <strong>off</strong> the enhanced security for <strong>Administrators</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/internet-explorer-enhanced-security2.png?raw=true" alt="Internet Explorer Enhanced Security(2)" />
+</p>
+
+<p><em>Internet Explorer Enhanced Security</em></p>
+<blockquote>
+<p><strong>Note:</strong> Modifying <strong>Internet Explorer Enhanced Security</strong> configurations is not good practice and is only for the purpose of this particular lab. The correct approach should be to download the files locally and then copy them to a shared folder or directly to the VM.</p>
+</blockquote></li>
+<li><p>This lab uses the <strong>AdventureWorks</strong> database. Open an <strong>Internet Explorer</strong> browser and go to <a href="http://msftdbprodsamples.codeplex.com/">http://msftdbprodsamples.codeplex.com/</a> to download  the <strong>SQL Server 2012</strong> sample databases. Once on the page click SQL Server 2012 DW and then download Adventure Works 2012 Data File. Download the file to F:\Data.</p></li>
+<li><p>Right click the database file and open the properties. Click <strong>unblock</strong>.</p></li>
+<li><p>Add the <strong>AdventureWorks</strong> sample database to your SQL Server. To do this, in the <strong>SQL Server Management Studio</strong>, locate your SQL Server instance node and expand it. Right click the <strong>Databases</strong> folder and select <strong>Attach</strong>.</p>
+
+<p><img src="images/attaching-adventureworks-database-menu.png?raw=true" alt="Attaching the database" />
+</p>
+
+<p><em>Attaching the database</em></p></li>
+<li><p>In the <strong>Attach Databases</strong> dialog, press <strong>Add</strong>. Browse to the data disk and select the Adventure Works data file.</p>
+
+<p><img src="images/attaching-adventureworks-database.png?raw=true" alt="Attaching AdventureWorks Database" />
+</p>
+
+<p><em>Attaching AdventureWorks Database</em></p></li>
+<li><p>Select the <strong>AdventureWorks2012</strong> Log entry and click <strong>Remove</strong>.</p></li>
+<li><p>Press <strong>OK</strong> to add the database.</p></li>
+<li><p>In the <strong>Databases</strong> folder, locate the new <strong>AdventureWorks2012</strong> database and explore its tables.</p>
+
+<p><img src="./images/adventureworks-sample-database.png?raw=true" alt="AdventureWorks Sample Database" title="Northwind Sample Database" />
+</p>
+
+<p><em>AdventureWorks Sample Database</em></p></li>
+<li><p>Expand <strong>Storage</strong> node within <strong>AdventureWorks</strong> database , right-click <strong>Full Text Catalogs</strong> folder and select <strong>New Full-Text Catalog</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> You are creating a Full Text Catalog for the database that will be used later by the MVC application. </p>
+</blockquote>
+<p><img src="images/create-new-full-text-catalog2.png?raw=true" alt="Create New Full-Text Catalog(2)" />
+</p>
+
+<p><em>Create New Full-Text Catalog</em></p></li>
+<li><p>In the New Full-Text Catalog dialog, set the <strong>Name</strong> value to <em>AdventureWorksCatalog</em> and press <strong>OK</strong>.</p>
+
+<p><img src="images/create-new-full-text-catalog3.png?raw=true" alt="Create New Full-Text Catalog(3)" />
+</p>
+
+<p><em>Create New Full-Text Catalog</em></p></li>
+<li><p>Right-click <strong>AdventureWorksCatalog</strong> and select <strong>Properties</strong>. In the <strong>Full-Text Catalog Properties</strong> dialog, switch to <strong>Tables/Views</strong> page.</p></li>
+<li><p>Add the <strong>Production.Product</strong> table to the <strong>Table/View objects assigned to the Catalog</strong> list. Then, check the <em>Name</em> column and click <strong>OK</strong>.</p>
+
+<p><img src="images/create-new-full-text-catalog4.png?raw=true" alt="Create New Full-Text Catalog(4)" />
+</p>
+
+<p><em>Create New Full-Text Catalog</em></p></li>
+<li><p>Check that the Full-Text Catalog you created appears in the <strong>Full-Text Catalogs</strong> folder.</p>
+
+<p><img src="images/create-new-full-text-catalog5.png?raw=true" alt="Create NEw Full-Text Catalog(5)" />
+</p>
+
+<p><em>Create New Full-Text Catalog</em></p></li>
+<li><p>Add a new user for the MVC4 application you will deploy in the following exercise. To do this, expand <strong>Security</strong> folder within the SQL Server instance. Right-click <strong>Logins</strong> folder and select <strong>New Login</strong>.</p>
+
+<p><img src="images/creating-a-new-login2.png?raw=true" alt="Creating a New Login(2)" />
+</p>
+
+<p><em>Creating a New Login</em></p></li>
+<li><p>In the <strong>General</strong> section, set the <strong>Login name</strong> to <em>AzureStore.</em> Select <strong>SQL Server authentication</strong> option and set the <strong>Password</strong> to <em>Azure$123</em>.</p>
+<blockquote>
+<p><strong>Note:</strong> If you enter a different username or password than those suggested in this step, do not forget in the next exercise to update the web.config file of the MVC4 application to match those values.</p>
+</blockquote></li>
+<li><p>Unselect <strong>Enforce password policy</strong> checkbox to avoid having to change the password the first time you log on, and set the <strong>Default database</strong> to <em>AdventureWorks</em>.</p>
+
+<p><img src="./images/Creating-a-New-Login.png?raw=true" alt="Creating a New Login" title="Creating a New Login" />
+</p>
+
+<p><em>Creating a New Login</em></p></li>
+<li><p>Click <strong>User Mapping</strong> on the left pane. Select the map checkbox in the <em>AdventureWorks</em> database row and click <strong>OK</strong>.</p>
+
+<p><img src="./images/mapping-new-user-database-2.png?raw=true" alt="Mapping the new User to the AdventureWorks Database" title="Mapping the new User to the AdventureWorks Database" />
+</p>
+
+<p><em>Mapping the new User to the AdventureWorks Database</em></p></li>
+<li><p>Expand <strong>AdventureWorks</strong> database within <strong>Databases</strong> folder. In the <strong>Security/Users</strong> folder, double-click <strong>AzureStore</strong> user.</p></li>
+<li><p>Select the <strong>Membership</strong> page, and select the <em>db_owner</em> role checkbox for the <strong>AzureStore</strong> user and click <strong>OK</strong>.</p>
+
+<p><img src="./images/Adding-Database-role-membership-to-AzureStore-user.png?raw=true" alt="Adding Database role membership to AzureStore user" title="Adding Database role membership to AzureStore user" />
+</p>
+
+<p><em>Adding Database role membership to AzureStore user</em></p>
+<blockquote>
+<p><strong>Note:</strong> The application you will deploy in the next exercise uses Universal Providers to manage sessions. The first time the application runs, the provider will create the Sessions table within the  database. For that reason, you are assigning a db_owner role to the AzureStore user. Once you run the application for the first time, you can remove this role as these permissions will not be needed.</p>
+</blockquote></li>
+<li><p>Now, enable <strong>Mixed Mode Authentication</strong> to the SQL Server instance. To do this, in the <strong>SQL Server Management Studio</strong>, right-click the server instance and click <strong>Properties</strong>.</p></li>
+<li><p>Click <strong>Security</strong> in the right side pane and then select <strong>SQL Server and Windows Authentication</strong> mode under <strong>Server Authentication</strong> section. Click <strong>OK</strong> to save changes.</p></li>
+<li><p>Restart the SQL Server instance. To do this, right-click the SQL Server instance and click <strong>Restart</strong>.</p></li>
+<li><p>Close the <strong>SQL Server Management Studio</strong>.</p></li>
+<li><p>In order to allow the MVC4 application access the SQL Server database you will need to add an <strong>Inbound Rule</strong> for the SQL Server requests in the <strong>Windows Firewall</strong>. To do this, open <strong>Windows Firewall with Advance Security</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>Select <strong>Inbound Rules</strong> node, right-click it and select <strong>New Rule</strong> to open the <strong>New Inbound Rule Wizard</strong>.</p>
+
+<p><img src="./images/Creating-an-Inbound-Rule.png?raw=true" alt="Creating an Inbound Rule" title="Creating an Inbound Rule" />
+</p>
+
+<p><em>Creating an Inbound Rule</em></p>
+
+<ol>
+<li><p>In the <strong>Rule Type</strong> page, select <strong>Port</strong> and click <strong>Next</strong>.</p>
+
+<p><img src="images/new-inbound-rule-wizard2.png?raw=true" alt="New Inbound Rule Wizard" />
+</p>
+
+<p><em>New Inbound Rule Wizard</em></p></li>
+<li><p>In <strong>Protocols and Ports</strong> page, leave TCP selected, select <strong>Specific local ports,</strong> and set its  value to <em>1433</em>. Click <strong>Next</strong> to continue.</p>
+
+<p><img src="images/new-inbound-rule-wizard.png?raw=true" alt="New Inbound Rule Wizard" />
+</p>
+
+<p><em>New Inbound Rule Wizard</em></p></li>
+<li><p>In the <strong>Action</strong> page, make sure that <strong>Allow the connection</strong> is selected and click <strong>Next</strong>.</p>
+
+<p><img src="images/new-inbound-rule-wizard3.png?raw=true" alt="New Inbound Rule Wizard(3)" />
+</p>
+
+<p><em>New Inbound Rule Wizard</em></p></li>
+<li><p>In the <strong>Profile</strong> page, leave the default values and click <strong>Next</strong>.</p></li>
+<li><p>In the <strong>Name</strong> page, set the Inbound Rule's <strong>Name</strong> to <em>SQLServerRule</em> and click <strong>Finish</strong></p>
+
+<p><img src="images/new-inbound-rule-wizard4.png?raw=true" alt="New Inbound Rule Wizard(4)" />
+</p></li>
+</ol>
+
+<p><em>New Inbound Rule Wizard</em></p></li>
+<li><p>Close <strong>Windows Firewall with Advanced Security</strong> window.</p>
+<blockquote>
+<p><strong>Note:</strong> Make sure the Named Pipes and TCP/IP protocols are enabled for the Server Instance. You can verify this by going to the SQL Server Configuration Manager and within SQL Server Network Configuration node check that these protocols' status are set to enable.</p>
+
+<p>Remember to restart the SQL Server instance after enabling a protocol.</p>
+</blockquote></li>
+<li><p>Close the <strong>Remote Desktop Connection</strong>.</p></li>
+</ol>
+
+<p><a name="Exercise3"></a> </p>
+
+<h3 id="Exercise_3_Deploying_a_Simple_MVC4_Application">Exercise 3: Deploying a Simple MVC4 Application</h3>
+
+<p>In this exercise, you will learn how to deploy a simple ASP.NET MVC4 application in the IIS of the Azure Virtual Machine you have previously configured.</p>
+<blockquote>
+<p><strong>Note:</strong> To make this solution highly available, you need to configure the SQL Servers in an availability set and set up SQL Server Mirroring between the instances.</p>
+</blockquote>
+<p><a name="Ex3Task1"></a></p>
+
+<h4 id="Task_1_-_Deploying_a_Simple_MVC4_Application">Task 1 - Deploying a Simple MVC4 Application</h4>
+
+<p>In this task, you will deploy the MVC4 application to the IIS VMs.</p>
+
+<ol>
+<li><p>In the Azure Portal, Click <strong>Virtual Machines</strong> on the left menu.</p></li>
+<li><p>You will see a list with your existing VMs. Select the first one you created in Exercise 1 and click <strong>Connect</strong>. If you used the proposed name, this VM's should be named <strong>iisvm1</strong>.</p></li>
+<li><p>You will be prompted to download the remote desktop client. Click <strong>Open</strong> and log on using the Admin credentials you defined when creating the VM.</p></li>
+<li><p>You need to install <strong>.NET Framework 4.0</strong> before deploying the MVC4 application. In order to do that, you will enable downloads from IE update <strong>Internet Explorer Enhanced Security Configuration</strong>.</p>
+
+<ol>
+<li>In the Azure VM, open Server Manager from <strong>Start | All Programs | Administrative Tools</strong>.</li>
+<li><p>In the <strong>Server Manager</strong>, click <strong>Configure IE ESC</strong> <strong>within Security Information</strong> <strong>section</strong>.</p>
+
+<p><img src="images/internet-explorer-enhanced-security3.png?raw=true" alt="Internet Explorer Enhanced Security(3)" />
+</p>
+
+<p><em>Internet Explorer Enhanced Security</em></p></li>
+<li><p>In the <strong>Internet explorer Enhanced Security</strong> dialog, turn <strong>off</strong> enhanced security for <strong>Administrators</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="./images/Internet-Explorer-Enhanced-Security.png?raw=true" alt="Internet Explorer Enhanced Security" title="Internet Explorer Enhanced Security" />
+</p>
+
+<p><em>Internet Explorer Enhanced Security</em></p>
+<blockquote>
+<p><strong>Note:</strong> Modifying Internet Explorer Enhanced Security configurations is not a good practice and it only for the purpose of this particular lab. The correct approach would be to download the files locally and then copy them to a shared folder or directly to the VM.</p>
+</blockquote></li>
+</ol></li>
+<li><p>Now that you have permissions to download files, open an <strong>Internet Explorer</strong> browser session and navigate to <a href="http://go.microsoft.com/fwlink/?linkid=186916"><a href="http://go.microsoft.com/fwlink/?linkid=186916">http://go.microsoft.com/fwlink/?linkid=186916</a></a>. Download and install <strong>.NET Framework 4.0</strong>.</p></li>
+<li><p>Minimize the <strong>Remote Desktop Connection</strong>, and open with <strong>Notepad</strong>, the <strong>Web.config</strong> file located in <strong>AzureStore</strong> folder within <strong>Source\Assets</strong> folder of this lab. At the end of the file, replace the connection strings placeholder with the name of your SQL Server (by default, is the VM's name).</p>
+
+<!--mark: 1-4   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><strong class="markLine"><span style="color:#0000FF">&lt;</span><span style="color:#800000">connectionStrings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;AdventureWorksEntities&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;metadata=res://*/Models.AdventureWorks.csdl|res://*/Models.AdventureWorks.ssdl|res://*/Models.AdventureWorks.msl;provider=System.Data.SqlClient;provider connection string=&amp;quot;data source=[ENTER YOUR SQL SERVER NAME];initial catalog=AdventureWorks2012;Uid=AzureStore;Password=Azure$123;multipleactiveresultsets=True;App=EntityFramework&amp;quot;&quot;</span> <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.EntityClient&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;DefaultConnection&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;Data Source=[ENTER YOUR SQL SERVER NAME];initial catalog=AdventureWorks2012;Uid=AzureStore;Password=Azure$123;MultipleActiveResultSets=True&quot;</span> <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.SqlClient&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine"><span style="color:#0000FF">&lt;/</span><span style="color:#800000">connectionStrings</span><span style="color:#0000FF">&gt;</span></strong>
+</code></pre></li>
+<li><p>Go back to the <strong>Remote Desktop Connection</strong>. Once <strong>.Net Framework 4.0</strong> installation finishes, open <strong>wwwroot</strong> folder located at <strong>C:\inetpub</strong> and copy the MVC4 application located in <strong>AzureStore</strong> folder within <strong>Source\Assets</strong> folder of this lab. To do this, copy <strong>AzureStore</strong> folder (<strong>Ctrl + C</strong>) and paste it (<strong>Ctrl + V</strong>) in the VM's <strong>wwwroot</strong> folder.</p>
+
+<p><img src="./images/wwwroot-folder.png?raw=true" alt="wwwroot folder" title="wwwroot folder" />
+</p>
+
+<p><em>wwwroot folder</em></p></li>
+<li><p>Open the <strong>Internet Information Services (IIS) Manager</strong> from <strong>Start | All Programs | Administrative Tools</strong>.</p></li>
+<li><p>In the <strong>Connections</strong> pane, expand <strong>Default Web Site</strong> within your IIS Server's node. You will see the <strong>AzureStore</strong> folder you copied in the <strong>wwwroot</strong> folder.</p>
+
+<p><img src="./images/IIS-Manager.png?raw=true" alt="IIS Manager" title="IIS Manager" />
+</p>
+
+<p><em>IIS Manager</em></p></li>
+<li><p>Right-click <strong>AzureStore</strong> folder and select <strong>Convert to Application</strong>.</p>
+
+<p><img src="images/iis-manager-convert-to-application.png?raw=true" alt="IIS Manager Convert to Application" />
+</p>
+
+<p><em>IIS Manager - Convert to Application</em></p></li>
+<li><p>In the <strong>Add Application</strong> dialog, click <strong>OK</strong>.</p>
+
+<p><img src="./images/Add-Application-dialog.png?raw=true" alt="Add Application dialog" title="Add Application dialog" />
+</p>
+
+<p><em>Add Application dialog</em></p></li>
+<li><p>Finally, select the <strong>Application Pools</strong> node and double-click <strong>DefaultAppPool</strong> application pool.</p>
+
+<p><img src="./images/Updating-Default-Application-Pool.png?raw=true" alt="Updating Default Application Pool" title="Updating Default Application Pool" />
+</p>
+
+<p><em>Updating Default Application Pool</em></p></li>
+<li><p>In the <strong>Edit Application Pool</strong> dialog, change the <strong>.Net Framework</strong> version to <strong>v4.0</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="./images/Editing-Application-Pool.png?raw=true" alt="Editing Application Pool" title="Editing Application Pool" />
+</p>
+
+<p><em>Editing Application Pool</em></p></li>
+<li><p>Now, the <strong>DefaultAppPool's</strong> .Net Framework should be <strong>v4.0</strong> instead of v2.0.</p>
+
+<p><img src="./images/Updating-Default-Application-Pool.png?raw=true" alt="Updating Default Application Pool" title="Updating Default Application Pool" />
+</p>
+
+<p><em>Updating Default Application Pool</em></p></li>
+<li><p>Close the <strong>Internet Information Server (IIS) Manager</strong> window.</p></li>
+<li><p>Close the <strong>Remote Desktop Connection</strong>.</p></li>
+<li><p>Repeat this task in the second VM you created in <strong>Exercise 1 -Task 1</strong>. If you used the proposed name, this VM should be named <strong>iisvm2</strong>.</p></li>
+</ol>
+
+<p><a name="Verification"></a> </p>
+
+<h4 id="Verification">Verification</h4>
+
+<p>In this task, you will test the Azure Store MVC4 application you deployed in the previous task.</p>
+
+<ol>
+<li><p>In your local machine, open <strong>Internet Explorer</strong>.</p></li>
+<li><p>Go to http://[<strong>YOUR-SERVICE-NAME</strong>].cloudapp.net/AzureStore. The Service Name is the one you used when creating the IIS VMs (you can also check it in the Azure Portal, within VM's dashboard).</p>
+
+<p><img src="./images/MVC4-Application-running-in-the-Web-Farm.png?raw=true" alt="MVC4 Application running in the Web Farm" title="MVC4 Application running in the Web Farm" />
+</p>
+
+<p><em>MVC4 Application running in the Web Farm</em></p></li>
+<li><p>In the <strong>Search</strong> box, write <em>Classic</em> and click <strong>Search</strong>. It will show all the products that have a product name that match the search criteria.</p>
+
+<p><img src="images/searching-products2.png?raw=true" alt="Searching Products(2)" />
+</p>
+
+<p><em>Searching Products</em></p></li>
+</ol>
+
+<hr />
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroToWindowsAzureVirtualMachines/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,565 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Building and Publishing ASP.NET Applications with Windows Azure Web Sites and Visual Studio 2012</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-ASPNETWebAppsWithAzureWebSitesAndVS2012" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-ASPNETWebAppsWithAzureWebSitesAndVS2012" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="Title"></a></p>
+
+<h1 id="Building_and_Publishing_ASPNET_Applications_with_Windows_Azure_Web_Sites_and_Visual_Studio_2012">Building and Publishing ASP.NET Applications with Windows Azure Web Sites and Visual Studio 2012</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>Web site publication and deployment has never been easier in Windows Azure. Using familiar tools such as Web Deploy or Git, and virtually no changes to the development workflow, Windows Azure Web Sites is the next step in the Microsoft Azure platform for web developers. </p>
+
+<p>In this hands-on lab, you will explore the basic elements of the <strong>Windows Azure Web Sites</strong> service by creating a simple <a href="http://www.asp.net/mvc/mvc4">ASP.NET MVC 4</a> application, which uses scaffolding to automatically generate the baseline of your application's CRUD (Create, Read, Update and Delete). Then, you will deploy it using Web Deploy from Microsoft Visual Studio 2012 and Git commit.</p>
+
+<p>Starting from a simple model class and without writing a single line of code, you will create a controller that will contain all the CRUD operations, as well as the all the necessary views. After publishing and running the solution, you will have the application database generated in your SQL Database server, together with the MVC logic and views for data manipulation.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this Hands-on Lab, you will learn how to:</p>
+
+<ul>
+<li>Create a Web Site from the Windows Azure Management Portal</li>
+<li>Use Microsoft Visual Studio 2012 to build a new ASP.NET MVC 4 application</li>
+<li>Deploy the application using Web Deploy from Visual Studio</li>
+<li>Create a new Web Site with Git Repository enabled to publish the ASP.NET MVC 4 application using Git</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><a href="http://msdn.microsoft.com/vstudio/products/">Microsoft Visual Studio 2012</a></li>
+<li><a href="http://git-scm.com/download">GIT Version Control System</a></li>
+<li>A Windows Azure subscription with the Web Sites Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 8 Operating System.</p>
+</blockquote>
+<p><a name="Setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</p></li>
+<li><p>Right click the <strong>Setup.cmd</strong> file and click <strong>Run as administrator</strong>. This will launch the setup process that will check the necessary dependencies.</p></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Make sure you have checked all the dependencies for this lab before running the setup. </p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ul>
+<li><a href="#GettingStarted">Getting Started: Creating an MVC 4 Application using Entity Framework Code First</a></li>
+<li><a href="#Exercise1">Exercise 1: Publishing an MVC 4 Application using Web Deploy</a></li>
+<li><a href="#Exercise2">Exercise 2: Publishing an MVC 4 Application using Git</a></li>
+</ul>
+
+<p><a name="GettingStarted"></a></p>
+
+<h3 id="Getting_Started_Creating_an_MVC_4_Application_using_Entity_Framework_Code_First">Getting Started: Creating an MVC 4 Application using Entity Framework Code First</h3>
+
+<p>In this section, you will create a simple ASP.NET MVC 4 web application, using MVC 4 scaffolding with Entity Framework code first to create the CRUD methods.</p>
+
+<p><a name="GettingStartedTask1"></a></p>
+
+<h4 id="Task_1_-_Creating_an_ASPNET_MVC_4_Application_in_Visual_Studio">Task 1 - Creating an ASP.NET MVC 4 Application in Visual Studio</h4>
+
+<ol>
+<li><p>Open <strong>Microsoft Visual Studio 2012</strong> and click the <strong>New Project</strong> link in the start page. Otherwise use  <strong>File</strong> | <strong>New</strong> | <strong>Project</strong>.</p>
+
+<p><img src="images/new-website-vs2012.png?raw=true" alt="Creating a new project" title="Crating a new project" />
+</p>
+
+<p><em>Creating a new project</em></p></li>
+<li><p>Create a new <strong>ASP.NET MVC 4 Web Application</strong> using <strong>.NET Framework 4</strong> and name it <strong>MVC4Sample.Web</strong>.</p>
+
+<p><img src="images/mvc4-sample.png?raw=true" alt="Creating a new ASP.NET MVC 4 Web Application" title="Creating a new ASP.NET MVC 4 Web Application" />
+</p>
+
+<p><em>Creating a new ASP.NET MVC 4 Web Application</em></p></li>
+<li><p>Select <strong>Internet Application</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/internet-application.png?raw=true" alt="Choosing Internet Application" title="Choosing Internet Application" />
+</p>
+
+<p><em>Choosing Internet Application</em></p></li>
+<li><p>In the Solution Explorer, right-click <strong>Models</strong> and select <strong>Add | Class</strong> to create a simple class person (POCO). Name it <em>Person</em> and click <strong>Add</strong>.</p></li>
+<li><p>Open the <strong>Person</strong> class and insert the following three attributes.</p>
+
+<!-- mark:10-14    -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">using</span> System;
+<span style="color:#0000FF">using</span> System.Collections.Generic;
+<span style="color:#0000FF">using</span> System.Linq;
+<span style="color:#0000FF">using</span> System.Web;
+
+<span style="color:#0000FF">namespace</span> MVC4Sample.Web.Models
+{
+    <span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> Person
+    {
+<strong class="markLine">        <span style="color:#0000FF">public</span> <span style="color:#0000FF">int</span> PersonID { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> FirstName { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">        <span style="color:#0000FF">public</span> <span style="color:#0000FF">string</span> LastName { <span style="color:#0000FF">get</span>; <span style="color:#0000FF">set</span>; }        </strong>
+    }
+}
+</code></pre></li>
+<li><p>Click <strong>Build | Build MVC4Sample.Web</strong> to save the changes and build the project.</p>
+
+<p><img src="images/visual-studio-build-application.png?raw=true" alt="Building the application" title="Building the application" />
+</p>
+
+<p><em>Building the Application</em></p></li>
+<li><p>In the Solution Explorer, right-click the controllers folder and select <strong>Add | Controller</strong>. </p></li>
+<li><p>Name the controller <em>PersonController</em> and complete the <strong>Scaffolding options</strong> with the following values.   </p>
+
+<ul>
+<li>In the <strong>Template</strong> drop-down list, select the <strong>MVC Controller with read/write actions and views, using Entity Framework</strong> option.</li>
+<li>In the <strong>Model class</strong> drop-down list, select the <strong>Person</strong> class.</li>
+<li>In the <strong>Data Context class</strong> list, select <strong>&lt;New data context...&gt;</strong>. In the dialog box displayed, set the name to <strong>PersonContext</strong> and click <strong>OK</strong>.</li>
+<li>In the <strong>Views</strong> drop-down list, make sure that <strong>Razor</strong> is selected.</li>
+</ul>
+
+<p><img src="images/add-person-controller.png?raw=true" alt="Adding the Person controller with scaffolding" title="Adding the Person controller with scaffolding" />
+</p>
+
+<p><em>Adding the Person controller with scaffolding</em></p></li>
+<li><p>Click <strong>Add</strong> to create the new controller for <strong>Person</strong> with scaffolding. You have now generated the controller actions as well as the views. </p>
+
+<p><img src="images/person-scaffolding.png?raw=true" alt="After creating the Person controller with scaffolding " title="After creating the Person controller with scaffolding" />
+</p>
+
+<p><em>After creating the Person controller with scaffolding</em></p></li>
+<li><p>Open <strong>PersonController</strong> class. Notice that the full CRUD action methods have been generated automatically. </p>
+
+<p><img src="images/person-controller-code.png?raw=true" alt="Inside the Person controller" title="Inside the Person controller" />
+</p>
+
+<p><em>Inside the Person controller</em></p></li>
+<li><p>Do not close Visual Studio.</p></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Publishing_an_MVC_4_Application_using_Web_Deploy">Exercise 1: Publishing an MVC 4 Application using Web Deploy</h3>
+
+<p>In this exercise you will create a new web site from the Windows Azure Management Portal and publish the application you obtained in the Getting Started, taking advantage of the Web Deploy publishing feature provided by Windows Azure.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Web_Site_from_the_Windows_Azure_Portal">Task 1 - Creating a New Web Site from the Windows Azure Portal</h4>
+
+<ol>
+<li><p>Go to the <a href="https://manage.windowsazure.com/">Windows Azure Management Portal</a> and sign in using the Microsoft credentials associated with your subscription.</p>
+
+<p><img src="images/login.png?raw=true" alt="Log on to Windows Azure portal" title="Log on to Windows Azure portal" />
+</p>
+
+<p><em>Log on to Windows Azure Management Portal</em></p></li>
+<li><p>Click <strong>New</strong> on the command bar.</p>
+
+<p><img src="images/new-website.png?raw=true" alt="Creating a new Web Site" title="Creating a new Web Site" />
+</p>
+
+<p><em>Creating a new Web Site</em></p></li>
+<li><p>Click <strong>Web Site</strong> and then <strong>Quick Create</strong>. Provide an available URL for the new web site and click <strong>Create Web Site</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> A Windows Azure Web Site is the host for a web application running in the cloud that you can control and manage. The Quick Create option allows you to deploy a completed web application to the Windows Azure Web Site from outside the portal. It does not include steps for setting up a database.</p>
+</blockquote>
+<p><img src="images/quick-create.png?raw=true" alt="Creating a new Web Site using Quick Create" title="Creating a new Web Site using Quick Create" />
+</p>
+
+<p><em>Creating a new Web Site using Quick Create</em></p></li>
+<li><p>Wait until the new <strong>Web Site</strong> is created.</p></li>
+<li><p>Once the Web Site is created click the link under the <strong>URL</strong> column. Check that the new Web Site is working.</p>
+
+<p><img src="images/navigate-website.png?raw=true" alt="Browsing to the new web site" title="Browsing to the new web site" />
+</p>
+
+<p><em>Browsing to the new web site</em></p>
+
+<p><img src="images/website-working.png?raw=true" alt="Web site running" title="Web site running" />
+</p>
+
+<p><em>Web site running</em></p></li>
+<li><p>Go back to the portal and click the name of the web site under the <strong>Name</strong> column to display the management pages.</p>
+
+<p><img src="images/go-to-the-dashboard.png?raw=true" alt="Opening the web site management pages" title="Opening the web site management pages" />
+</p>
+
+<p><em>Opening the Web Site management pages</em></p></li>
+<li><p>In the <strong>Dashboard</strong> page, under the <strong>quick glance</strong> section, click the <strong>Download publish profile</strong> link.</p>
+<blockquote>
+<p><strong>Note:</strong> The <em>publish profile</em> contains all of the information required to publish a web application to a Windows Azure website for each enabled publication method. The publish profile contains the URLs, user credentials and database strings required to connect to and authenticate against each of the endpoints for which a publication method is enabled. <strong>Microsoft WebMatrix 2</strong>, <strong>Microsoft Visual Web Developer</strong> and <strong>Microsoft Visual Studio 2012</strong> support reading publish profiles to automate configuration of these programs for publishing web applications to Windows Azure websites. </p>
+</blockquote>
+<p><img src="images/download-publish-profile.png?raw=true" alt="Downloading the web site publish profile" title="Downloading the web site publish profile" />
+</p>
+
+<p><em>Downloading the Web Site publish profile</em></p></li>
+<li><p>Download the publish profile file to a known location. Further in this exercise you will see how to use this file to publish a web application to a Windows Azure Web Sites from Visual Studio.</p>
+
+<p><img src="images/save-link.png?raw=true" alt="Saving the publish profile file" title="Saving the publish profile" />
+</p>
+
+<p><em>Saving the publish profile file</em></p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Configuring_the_Database_Server">Task 2 - Configuring the Database Server</h4>
+
+<ol>
+<li><p>You will need a SQL Database server for storing the application database. You can view the SQL Database servers from your subscription in the Windows Azure Management portal at <strong>Sql Databases</strong> | <strong>Server</strong> | <strong>Server's Dashboard</strong>. If you do not have a server created, you can create one using the <strong>Add</strong> button on the command bar. Take note of the <strong>server name and URL, administrator login name and password</strong>, as you will use them in the next tasks. Do not create the database yet, as it will be created in a later stage.</p>
+
+<p><img src="images/sql-database-server-dashboard.png?raw=true" alt="SQL Database Server Dashboard" title="SQL Database Server Dashboard" />
+</p>
+
+<p><em>SQL Database Server Dashboard</em></p></li>
+<li><p>In the next task you will test the database connection from Visual Studio, for that reason you need to include your local IP address in the server's list of <strong>Allowed IP Addresses</strong>. To do that, click <strong>Configure</strong>, select the IP address from <strong>Current Client IP Address</strong> and paste it on the <strong>Start IP Address</strong> and <strong>End IP Address</strong> text boxes and click the <img src="images/add-client-ip-address-ok-button.png?raw=true" alt="add-client-ip-address-ok-button" />
+ button.</p>
+
+<p><img src="images/add-client-ip-address.png?raw=true" alt="Adding Client IP Address" />
+</p>
+
+<p><em>Adding Client IP Address</em></p></li>
+<li><p>Once the <strong>Client IP Address</strong> is added to the allowed IP addresses list, click on <strong>Save</strong> to confirm the changes.</p>
+
+<p><img src="images/add-client-ip-address-confirm.png?raw=true" alt="Confirm Changes" />
+</p>
+
+<p><em>Confirm Changes</em></p></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Publishing_an_ASPNET_MVC_4_Application_using_Web_Deploy">Task 3 - Publishing an ASP.NET MVC 4 Application using Web Deploy</h4>
+
+<ol>
+<li><p>Go back to the MVC 4 solution. In the <strong>Solution Explorer</strong>,  right-click the web site project and select <strong>Publish</strong>.</p>
+
+<p><img src="images/publishing-the-application.png?raw=true" alt="Publishing the Application" title="Publishing the Application" />
+</p>
+
+<p><em>Publishing the web site</em></p></li>
+<li><p>Import the publish profile you saved in the first task.</p>
+
+<p><img src="images/importing-the-publish-profile.png?raw=true" alt="Importing the publish profile" title="Importing the publish profile" />
+</p>
+
+<p><em>Importing publish profile</em></p></li>
+<li><p>After importing the profile, click <strong>Next</strong>.</p></li>
+<li><p>Click <strong>Validate Connection</strong>.</p>
+
+<p><img src="images/validating-connection.png?raw=true" alt="Validating connection" title="Validating connection" />
+</p>
+
+<p><em>Validating connection</em></p></li>
+<li><p>After validating the connection, click <strong>Next</strong>.</p>
+
+<p><img src="images/connection-validated.png?raw=true" alt="Connection validated" title="Connection validated" />
+</p>
+
+<p><em>Connection validated</em></p></li>
+<li><p>In the <strong>Settings</strong> page, under the <strong>Databases</strong> section, click the button next to the <strong>PersonContext</strong> textbox.</p>
+
+<p><img src="images/web-deploy-configuration.png?raw=true" alt="Web deploy configuration" title="Web deploy configuration" />
+</p>
+
+<p><em>Web deploy configuration</em></p></li>
+<li><p>Configure the database connection as follows:</p>
+
+<ul>
+<li>In the <strong>Server name</strong> type your SQL Database server URL using the <em>tcp:</em> prefix.</li>
+<li>In <strong>User name</strong> type your server administrator login name.</li>
+<li>In <strong>Password</strong> type your server administrator login password.</li>
+<li>Type a new database name, for example: <em>MVC4SampleDB</em>.</li>
+</ul>
+
+<p><img src="images/configuring-destination-connection-string.png?raw=true" alt="Configuring destination connection string" title="Configuring destination connection string" />
+</p>
+
+<p><em>Configuring destination connection string</em></p></li>
+<li><p>Then click <strong>OK</strong>. When prompted to create the database click <strong>Yes</strong>.</p>
+
+<p><img src="images/creating-the-database.png?raw=true" alt="Creating the database" title="Creating the database string" />
+</p>
+
+<p><em>Creating the database</em></p></li>
+<li><p>Copy the connection string from Person Context to use it later. Then click <strong>Next</strong>.</p>
+
+<p><img src="images/sql-database-connection-string.png?raw=true" alt="Connection string pointing to SQL Database" title="Connection string pointing to SQL Database" />
+</p>
+
+<p><em>Connection string pointing to SQL Database</em></p></li>
+<li><p>In the <strong>Preview</strong> page, click <strong>Publish</strong>.</p>
+
+<p><img src="images/publishing-the-web-application.png?raw=true" alt="Publishing the web application" title="Publishing the web application" />
+</p>
+
+<p><em>Publishing the web application</em></p></li>
+<li><p>Once the publishing process finishes, your default browser will open the published web site.</p>
+
+<p><img src="images/application-published-to-windows-azure.png?raw=true" alt="Application published to Windows Azure" title="Application published to Windows Azure" />
+</p>
+
+<p><em>Application published to Windows Azure</em></p></li>
+<li><p>Go to <strong>/Person</strong> to verify that the Persons views are working as expected. You can try adding a new Person to verify it is successfully saved to the database.</p>
+
+<p><img src="images/application-running.png?raw=true" alt="Application Running" title="Application Running" />
+</p>
+
+<p><em>Add Person view</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Publishing_an_MVC_4_Application_using_Git">Exercise 2: Publishing an MVC 4 Application using Git</h3>
+
+<p>In this exercise you will publish again the web application you created in exercise 1, but this time using Git.</p>
+
+<p>If you did not executed exercise 1 you can still perform this exercise by deploying the site in the <strong>Source\Assets</strong> folder of this lab.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Web_Site_from_the_Windows_Azure_Portal">Task 1 - Creating a New Web Site from the Windows Azure Portal</h4>
+
+<ol>
+<li><p>Go to the <a href="https://manage.windowsazure.com/">Windows Azure Management Portal</a> and sign in using your Microsoft Account credentials associated with your subscription.</p>
+
+<p><img src="images/login.png?raw=true" alt="Log on to Windows Azure portal" title="Log on to Windows Azure portal" />
+</p>
+
+<p><em>Log on to Windows Azure Management Portal</em></p></li>
+<li><p>Click <strong>New</strong> on the command bar.</p>
+
+<p><img src="images/new-website.png?raw=true" alt="Creating a new Web Site" title="Creating a new Web Site" />
+</p>
+
+<p><em>Creating a new Web Site</em></p></li>
+<li><p>Click <strong>Web Site</strong> and then <strong>Quick Create</strong>. Provide an available URL for the new web site and click <strong>Create Web Site</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> A Windows Azure Web Site is the host for a web application running in the cloud that you can control and manage. The Quick Create option allows you to deploy a completed web application to the Windows Azure Web Site from outside the portal. It does not include steps for setting up a database.</p>
+</blockquote>
+<p><img src="images/quick-create.png?raw=true" alt="Creating a new Web Site using Quick Create" title="Creating a new Web Site using Quick Create" />
+</p>
+
+<p><em>Creating a new Web Site using Quick Create</em></p></li>
+<li><p>Wait until the new web site is created.</p></li>
+<li><p>Once the web site is created, click the link under the <strong>URL</strong> column. Check that the new web site is working.</p>
+
+<p><img src="images/navigate-website.png?raw=true" alt="Browsing to the new web site" title="Browsing to the new web site" />
+</p>
+
+<p><em>Browsing to the new web site</em></p>
+
+<p><img src="images/website-working.png?raw=true" alt="Web site running" title="Web site running" />
+</p>
+
+<p><em>Web site running</em></p></li>
+</ol>
+
+<p><a name="Ex3Task2"></a>  </p>
+
+<h4 id="Task_2_-_Setting_up_Git_Publishing">Task 2 - Setting up Git Publishing</h4>
+
+<ol>
+<li><p>Go back to the Windows Azure Management Portal. In the <strong>Web Sites</strong> section, locate the web site you created in the previous task and open its dashboard. To do this, click the web site's <strong>Name</strong>. </p></li>
+<li><p>At the bottom of the page, click <strong>Set up Git publishing</strong> link.</p>
+
+<p><img src="images/set-up-git-publishing.png?raw=true" alt="Set up Git publishing" title="Set up Git publishing" />
+</p>
+
+<p><em>Set up Git publishing</em></p></li>
+<li><p>A message indicating that your Git repository is being created will appear.</p>
+
+<p><img src="images/creating-git-repository.png?raw=true" alt="Creating Git Repository" title="Creating Git Repository" />
+</p>
+
+<p><em>Creating Git repository</em></p></li>
+<li><p>Wait until your Git repository is ready to use before continue with the following task.</p>
+
+<p><img src="images/git-repository-ready.png?raw=true" alt="Git repository ready" title="Git repository ready" />
+</p>
+
+<p><em>Git repository ready</em></p></li>
+<li><p>Copy the <strong>Git URL</strong> value. You will use it later in this exercise.</p></li>
+</ol>
+
+<p><a name="Ex3Task3"></a>  </p>
+
+<h4 id="Task_3_-_Pushing_the_Application_to_Widows_Azure_using_Git">Task 3 - Pushing the Application to Widows Azure using Git</h4>
+
+<ol>
+<li><p>Open the solution you have obtained in <a href="#Exercise1">exercise 1</a> with Visual Studio. Alternatively, you can open the <strong>MVC4Sample.Web</strong> solution located in the <strong>Source\Assets</strong> folder of this lab.</p></li>
+<li><p>Press <strong>CTRL+SHIFT+B</strong> to build the solution and download the NuGet package dependencies.</p></li>
+<li><p>Open Web.config and update the <strong>PersonContext</strong> connection string using the one obtained from <a href="#Ex1Task3">Exercise 1 - Task 3</a>. You can also use the following connection string replacing the placeholders.</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">connectionStrings</span><span style="color:#0000FF">&gt;</span>
+ ...
+ <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;PersonContext&quot;</span> <span style="color:#FF0000">connectionString</span>=<span style="color:#0000FF">&quot;Data Source=tcp:{SERVER_URL};Initial Catalog=MVC4SampleDB;User ID={SERVER_ADMIN_LOGIN};Password={PASSWORD}&quot;</span>
+    <span style="color:#FF0000">providerName</span>=<span style="color:#0000FF">&quot;System.Data.SqlClient&quot;</span> <span style="color:#0000FF">/&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">connectionStrings</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Open a new <strong>Git Bash</strong> console and insert the following commands. Update the <em>[YOUR-APPLICATION-PATH]</em> placeholder with the path of the MVC 4 solution you've created in <a href="#Exercise1">Exercise 1</a>. </p>
+
+<!-- mark:1-4    -->
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt"><strong class="markLine">cd &quot;[YOUR-APPLICATION-PATH]&quot;</strong>
+<strong class="markLine">git init</strong>
+<strong class="markLine">git add .</strong>
+<strong class="markLine">git commit -m &quot;Initial commit&quot;</strong>
+</code></pre>
+
+<p><img src="images/git-initialization-and-first-commit.png?raw=true" alt="Git initialization and first commit" title="Git initialization and first commit" />
+</p>
+
+<p><em>Git initialization and first commit</em></p></li>
+<li><p>Push your web site to the remote <strong>Git</strong> repository by running the following command. Replace the placeholder with the URL you obtained from the Windows Azure Management Portal. You will be prompted for your deployment password.</p>
+
+<!-- mark:1-2    -->
+
+<span class="codelanguage">CommandPrompt</span><pre><code class="CommandPrompt"><strong class="markLine">git remote add azure [GIT-CLONE-URL]</strong>
+<strong class="markLine">git push azure master</strong>
+</code></pre>
+
+<p><img src="images/pushing-to-windows-azure.png?raw=true" alt="Pushing to Windows Azure" title="Pushing to Windows Azure" />
+</p>
+
+<p><em>Pushing to Windows Azure</em></p>
+<blockquote>
+<p><strong>Note:</strong> When you deploy content to the FTP host or GIT repository of a Windows Azure website you must authenticate using <strong>deployment credentials</strong> that you create from the website's <strong>Quick Start</strong> or <strong>Dashboard</strong> management pages.  If you don't know your deployment credentials you can easily reset them using the management portal. Open the web site <strong>Dashboard</strong> page and click the <strong>Reset deployment credentials</strong> link. Provide a new password and click Ok. Deployment credentials are valid for use with all Windows Azure websites associated with your subscription. </p>
+</blockquote></li>
+<li><p>In order to verify the web site was successfully pushed to Windows Azure, go back to the <strong>Windows Azure Management Portal</strong> and click <strong>Web Sites</strong>.</p></li>
+<li><p>Locate your <strong>Web Site</strong> (where you deployed the application) and click its <strong>Name</strong> to see the <strong>Dashboard</strong>.</p></li>
+<li><p>Click <strong>Deployments</strong> to see the <strong>deployment history</strong>. Verify that there is an <strong>Active Deployment</strong> with your <em>&quot;Initial Commit&quot;</em>.</p>
+
+<p><img src="images/deployment.png?raw=true" alt="Deployment" title="Deployment" />
+</p>
+
+<p><em>Active deployment</em></p></li>
+<li><p>Finally, click <strong>Browse</strong> on the bottom bar to go to the web site. </p>
+
+<p><img src="images/browse-web-site.png?raw=true" alt="Browse web site" title="Browse web site" />
+</p>
+
+<p><em>Browse web site</em></p></li>
+<li><p>If the application was successfully deployed, you will see the ASP.NET MVC 4 template's default home page.</p>
+
+<p><img src="images/application-running-in-windows-azure.png?raw=true" alt="Application Running in Windows Azure" title="Application Running in Windows Azure" />
+</p>
+
+<p><em>Application Running in Windows Azure</em></p></li>
+<li><p>Go to <strong>/Person</strong> to verify that the Persons views are working as expected. You can try adding a new Person to verify it is successfully saved to the database.</p>
+
+<p><img src="images/application-running.png?raw=true" alt="Application Running" title="Application Running" />
+</p>
+
+<p><em>Add Person view</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>In this hands-on lab, you have created a new MVC web site using MVC 4 Scaffolding and published it to Windows Azure Web Sites. Web site publication and deployment has never been easier in Windows Azure. Using familiar tools such as Web Deploy or Git, and virtually no changes to the development workflow, Windows Azure Web Sites is the next step in the Microsoft Azure platform for web developers. </p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-ASPNETWebAppsWithAzureWebSitesAndVS2012/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,414 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Introduction to Windows Azure Virtual Machines (Linux)</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroToWindowsAzureVirtualMachinesLinux" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroToWindowsAzureVirtualMachinesLinux" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="handsonlab"></a></p>
+
+<h1 id="Introduction_to_Windows_Azure_Virtual_Machines_Linux">Introduction to Windows Azure Virtual Machines (Linux)</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>Using Windows Azure as your IaaS platform will enable you to create and manage your infrastructure quickly, provisioning and accessing any host ubiquitously. Grow your business through the cloud-based infrastructure, reducing the costs of licensing, provisioning and backup.</p>
+
+<p>In this Hands-On Lab, you will learn how to use the Windows Azure IaaS platform to provision Linux based VMs in the cloud and manage it remotely. </p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to: </p>
+
+<ul>
+<li>Create Linux virtual machines in Windows Azure</li>
+<li>Install and configure an Apache web server with MySql </li>
+<li>Install and configure Drupal CMS</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<ul>
+<li>A Windows Azure subscription with the Virtual Machines Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use <strong>OpenSUSE</strong> linux distribution when creating the new Virtual Machine in Windows Azure.</p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li><p><a href="#Exercise1">Creating a Linux VM in Windows Azure</a></p></li>
+<li><p><a href="#Exercise2">Installing and Configuring the VM</a></p></li>
+<li><p><a href="#Exercise3">Installing and Configuring Drupal</a></p></li>
+</ol>
+
+<p>Estimated time to complete this lab: <strong>45 minutes</strong>.</p>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Creating_a_Linux_VM_in_Windows_Azure">Exercise 1: Creating a Linux VM in Windows Azure</h3>
+
+<p>In this exercise, you will learn how to provision Linux Virtual Machines in the Azure portal.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Linux_Virtual_Machine">Task 1 - Creating a New Linux Virtual Machine</h4>
+
+<ol>
+<li>Open Internet Explorer and browse <a href="https://manage.windowsazure.com"><a href="https://manage.windowsazure.com">https://manage.windowsazure.com</a></a> to enter the Windows Azure portal. Then, log in with your credentials.</li>
+<li><p>In the menu located at the bottom, select <strong>New | Virtual Machine | From Gallery</strong> to start creating a new virtual machine.</p>
+
+<p><img src="images/creating-a-new-virtual-machine.png?raw=true" alt="Creating a new Virtual Machine" />
+</p>
+
+<p><em>Creating a new Virtual Machine</em></p>
+
+<ol>
+<li><p>In the <strong>VM OS Selection</strong> page, click <strong>Platform Images</strong> on the left menu and select the <strong>OpenSUSE</strong> OS image from the list. Click the arrow to continue. </p>
+
+<p><img src="images/creating-a-vm-suse.png?raw=true" alt="Selecting OpenSUSE from the image list" />
+   </p>
+
+<p><em>Selecting OpenSUSE from the image list</em></p></li>
+<li><p>In the <strong>VM Configuration</strong> page, enter the <strong>Virtual Machine Name</strong>, set the <strong>New User Name</strong> to <strong>Administrator</strong>, the <strong>Password</strong> and the <strong>Size</strong> for the VM. Click the <strong>right arrow</strong> to continue.</p>
+
+<p><img src="images/creating-a-vm-configuration.png?raw=true" alt="Configuring a Custom VM" />
+ </p>
+
+<p><em>Creating a VM - Configuration</em></p>
+<blockquote>
+<p><strong>Note:</strong> It is suggested to use secure passwords for admin users, as Windows Azure virtual machines could be accessible from the Internet knowing just their DNS.</p>
+
+<p>You can also read this document on the Microsoft Security website that will help you select a secure password:  <a href="http://www.microsoft.com/security/online-privacy/passwords-create.aspx"><a href="http://www.microsoft.com/security/online-privacy/passwords-create.aspx">http://www.microsoft.com/security/online-privacy/passwords-create.aspx</a></a></p>
+</blockquote></li>
+<li><p>In the <strong>VM Mode</strong> page, select <strong>Standalone Virtual Machine</strong>, enter the <strong>DNS Name</strong>, you can automatically generate a new Storage Account or select one you already own. Then, select the <strong>Region/Affinity group/Virtual Network</strong> value (by default, West US) and select the <strong>subscription</strong>. Click the <strong>right arrow</strong> to continue. </p>
+
+<p><img src="images/creating-a-vm-vm-mode.png?raw=true" alt="Configuring a Custom VM, VM Mode" />
+</p>
+
+<p><em>Creating a VM - VM Mode</em></p></li>
+<li><p>In the <strong>VM Options</strong> page, select the <strong>Terms and Conditions and Privacy Policy</strong> agreement checkbox and click the button to create a new VM.</p>
+
+<p><img src="images/creating-a-vm--vm-options.png?raw=true" alt="Creating a VM - VM Options" title="Creating a VM - VM Options" />
+</p>
+
+<p><em>Creating a VM - VM Options</em></p></li>
+</ol></li>
+<li><p>In the <strong>Virtual Machines</strong> section, you will see the VM you created with a <em>provisioning</em> status. Wait until it changes to <em>Running</em> in order to continue with the following step.</p>
+
+<p><img src="images/creating-linux-vm.png?raw=true" alt="Creating Linux VM" />
+</p>
+
+<p><em>Creating Linux VM</em></p></li>
+<li><p>Now, you will create the endpoints required to manage the VM. To do this, select the VM to go to the <strong>Dashboard</strong> page and then click <strong>Endpoints</strong>.</p></li>
+<li><p>Click <strong>Add Endpoint</strong>, select <strong>Add Endpoint</strong> option and then click the <strong>right arrow</strong> to continue.</p>
+
+<p><img src="images/adding-a-new-endpoint.png?raw=true" alt="Adding a new Endpoint" title="Adding a new Endpoint" />
+</p>
+
+<p><em>Adding a new Endpoint</em></p></li>
+<li><p>In the <strong>Specify endpoint details</strong> page, set the <strong>Name</strong> to <em>web</em>, the <strong>Protocol</strong> to <em>TCP</em> and the <strong>Public Port</strong> and <strong>Private Port</strong> to <em>80</em>.</p>
+
+<p><img src="images/new-endpoint-details.png?raw=true" alt="New Endpoint Details" title="New Endpoint Details" />
+</p>
+
+<p><em>Specify Endpoint Details</em></p>
+<blockquote>
+<p><strong>Note:</strong> This endpoint enables the port 80 that will be used by the Apache Server in the following tasks.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Verification_Connecting_to_the_Virtual_Machine_by_using_a_SSH_client">Task 2 - Verification: Connecting to the Virtual Machine by using a SSH client</h4>
+
+<p>Now that you have provisioned and configured a Linux Virtual Machine, you will connect by using an SSH client.</p>
+<blockquote>
+<p><strong>Note:</strong> You can download Putty, a free SSH client for Windows, here: <a href="http://www.putty.org/"><a href="http://www.putty.org/">http://www.putty.org/</a></a></p>
+</blockquote>
+<ol>
+<li><p>In the Windows Azure Portal, select the Linux VM from the list to enter the <strong>Dashboard</strong>. Locate the <strong>DNS Name</strong> field at the bottom of the page, which is the public address you will use to access and connect to the virtual machine.</p>
+
+<p><img src="images/dashboard---dns-name-of-the-virtual-machine.png?raw=true" alt="Dashboard - DNS name of the virtual machine" />
+</p>
+
+<p><em>Dashboard  - DNS name of the virtual machine</em></p></li>
+<li><p>Open the Putty client (or any other SSH client) and create a new connection to the VM, using the public ssh port (E.g. 54022), and DNS name as the host name or IP address.</p>
+
+<p><img src="images/connecting-to-the-linux-vm-via-putty-client.png?raw=true" alt="Connecting to the Linux VM via Putty Client" />
+</p>
+
+<p><em>Connecting to the Linux VM via Putty Client</em></p>
+<blockquote>
+<p><strong>Note:</strong> You can verify the public port for the SSH connection in the <strong>Endpoints</strong> section of the VM.</p>
+</blockquote></li>
+<li><p>Use the VM credentials to login.</p>
+
+<p><img src="images/logging-in-to-the-linux-virtual-machine.png?raw=true" alt="Logging in to the Linux Virtual Machine" />
+</p>
+
+<p><em>Logging in to the Linux Virtual Machine</em></p></li>
+<li><p>Execute the following command to impersonate with <strong>Administrator</strong> rights.</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">sudo su -
+</code></pre>
+
+<p><img src="images/logging-in-with-administrator-rights.png?raw=true" alt="Logging in with Administrator rights" />
+</p>
+
+<p><em>Logging in with Administrator rights</em></p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Installing_and_Configuring_the_VM">Exercise 2: Installing and Configuring the VM</h3>
+
+<p>In this exercise, you will learn how to install and configure a Web Server in the Linux VM by using a SSH client. First, you will install the Apache Web server and the MySQL database server by using Yast2 application. Then, you will configure the VM and create an example database. </p>
+<blockquote>
+<p><strong>Note:</strong> If you have not run Exercise 1, make sure you have the following items ready before proceeding with Exercise 2:</p>
+
+<ul>
+<li>A Linux Virtual Machine created in Windows Azure Portal.</li>
+<li>A TCP Endpoint enabled in port 22.<br /></li>
+<li>An TCP Endpoint enabled in port 80.</li>
+</ul>
+</blockquote>
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Installing_and_Configuring_Apache_and_MySQL">Task 1 - Installing and Configuring Apache and MySQL</h4>
+
+<p>In this task, you will install and configure an Apache HTTP Server and MySQL Database Management System.</p>
+
+<ol>
+<li><p>To install the prerequisites for Drupal you will use <strong>Yast2</strong> to automatically install Apache and MySQL with their dependencies. In the terminal, execute <strong>Yast2</strong>. This will open the <strong>Yast2</strong> application.</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">yast2
+</code></pre></li>
+<li><p>Using the arrow keys from your keyboard, select <strong>Software</strong>, press the right arrow and select <strong>Software Management</strong> and hit <strong>ENTER</strong>.</p>
+
+<p><img src="images/yast2-control-center.png?raw=true" alt="YaST2 Control Center" />
+</p>
+
+<p><em>Software Management in YaST2</em></p></li>
+<li><p>Press <strong>ALT+F</strong> to change the Filter type and select <strong>Patterns</strong>.</p>
+
+<p><img src="images/selecting-the-patterns-filter.png?raw=true" alt="Selecting the Patterns Filter" />
+</p>
+
+<p><em>Selecting the Patterns Filter</em></p></li>
+<li><p>Scroll down the options until you find <strong>Web and LAMP Server</strong>. Press <strong>ENTER</strong> to select it and press <strong>ALT+A</strong> to start the installation. Press <strong>ENTER</strong> when prompted for confirmation.</p>
+
+<p><img src="images/installing-web-and-lamp-server.png?raw=true" alt="Installing Web and LAMP Server" />
+</p>
+
+<p><em>Installing Web and LAMP Server</em></p></li>
+<li><p>Once the installation is completed, the program will take you back to the main menu. Enter again the <strong>Software Management</strong>. Type <strong>php5-gd</strong> to search for this package and hit <strong>ENTER</strong> to select it. Press <strong>ALT+A</strong> to start the installation. Repeat the steps to install <strong>php5-mbstring</strong>.</p>
+
+<p><img src="images/installing-php-extensions.png?raw=true" alt="Installing PHP extensions" />
+</p>
+
+<p><em>Installing PHP extensions</em></p></li>
+<li><p>In the main menu, press the left arrow key and select <strong>Network Services</strong>. Press the right arrow key, select <strong>HTTP Server</strong> and press <strong>ENTER</strong>.</p>
+
+<p><img src="images/configuring-http-server.png?raw=true" alt="Configuring HTTP Server" />
+</p>
+
+<p><em>Configuring HTTP Server</em></p></li>
+<li><p>Press <strong>ALT+E</strong> to enable the HTTP services and then press <strong>ALT+F</strong> to confirm the changes.</p>
+
+<p><img src="images/enabling-http-service.png?raw=true" alt="Enabling HTTP service" />
+</p>
+
+<p><em>Enabling HTTP service</em></p></li>
+<li><p>Back to the main menu, press the left arrow key and select <strong>System</strong> from the menu options. Press the right arrow and select <strong>System Services (Runlevel)</strong> and press <strong>ENTER</strong>.</p>
+
+<p><img src="images/configuring-system-services.png?raw=true" alt="Configuring System Services" />
+</p>
+
+<p><em>Configuring System Services</em></p></li>
+<li><p>Scroll down until you find <strong>mysql</strong> and press <strong>ALT+E</strong> to enable the service. Wait until the service is running. Press <strong>F10</strong> to save the settings.</p>
+
+<p><img src="images/enabling-mysql-service.png?raw=true" alt="Enabling MySQL service" />
+</p>
+
+<p><em>Enabling MySQL service</em></p></li>
+<li><p>Press <strong>ALT+Q</strong> to exit <strong>YaST2</strong>.</p></li>
+</ol>
+
+<p><a name="Exercise3"></a></p>
+
+<h3 id="Exercise_3_-_Installing_and_Configuring_Drupal">Exercise 3 - Installing and Configuring Drupal</h3>
+
+<p>In this exercise, you will install and configure the Drupal CMS in the Linux virtual machine. At the end of the exercise, you will be able to host a Drupal CMS website. </p>
+<blockquote>
+<p><strong>Note:</strong> Before starting this exercise, make sure you have completed Exercise 2.</p>
+</blockquote>
+<p><a name="Ex3Task1"></a></p>
+
+<h4 id="Task_1_-_Installing_and_Configuring_Drupal">Task 1 - Installing and Configuring Drupal</h4>
+
+<p>In this task, you will install and configure a Drupal portal on your Windows Azure Linux Virtual Machine. Additionally, you will create an empty database to be used by Drupal CMS.</p>
+
+<ol>
+<li><p>Open the root websites folder and create a folder named <strong>drupal</strong> by executing the following.</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">cd /srv/www/htdocs
+mkdir drupal
+cd drupal
+</code></pre></li>
+<li><p>Download and extract <strong>Drupal</strong>.</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">wget http://drupal.org/files/projects/drupal-7.10.tar.gz
+tar -xzf drupal-7.10.tar.gz --strip-components=1 
+</code></pre>
+
+<p><img src="images/downloading-drupal.png?raw=true" alt="Downloading Drupal" />
+</p>
+
+<p><em>Downloading Drupal</em></p></li>
+<li><p>Copy the <strong>default.settings.php</strong> file, located in the <strong>sites/default</strong> directory, and rename the copied file to <strong>settings.php</strong>. Additionally, give the web server write privileges to the configuration file.</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">cp sites/default/default.settings.php sites/default/settings.php
+chmod a+w sites/default/settings.php
+chmod a+w sites/default
+</code></pre>
+
+<p><img src="images/creating-the-configuration-file-and-granting.png?raw=true" alt="Creating the configuration file and granting permissions" />
+</p>
+
+<p><em>Creating the configuration file and granting permissions</em></p></li>
+<li><p>To complete the installation, create an empty database for <strong>Drupal</strong> in <strong>MySQL</strong>. Execute the following:</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">mysqladmin create drupaldb
+</code></pre></li>
+<li><p>Execute <strong>mysql</strong>. At the MySQL prompt execute the following query. Replace <strong>username</strong> and <strong>password</strong> with your user account.</p>
+
+<span class="codelanguage">Linux</span><pre><code class="Linux">GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES  
+ON drupaldb.*
+TO 'username'@'localhost' IDENTIFIED BY 'password';
+</code></pre>
+
+<p><img src="images/granting-permissions-in-mysql.png?raw=true" alt="Granting permissions in MySQL" />
+</p>
+
+<p><em>Granting permissions in MySQL</em></p></li>
+<li><p>Open Internet Explorer and locate the virtual machine DNS Name. Browse to <em>https://[YOUR-DNS-URL]/drupal</em> to complete Drupal installation.</p>
+
+<p><img src="images/opening-drupal-for-the-first-time.png?raw=true" alt="Opening Drupal for the first time" />
+</p>
+
+<p><em>Opening Drupal for the first time</em> </p>
+<blockquote>
+<p><strong>Note:</strong>  You can find more details about Drupal configuration in the official documentation (<a href="http://drupal.org/documentation/install/run-script"><a href="http://drupal.org/documentation/install/run-script">http://drupal.org/documentation/install/run-script</a></a>).</p>
+</blockquote></li>
+<li><p>In the Set up Database page, enter the name of the database you have created in Task 1 (`drupaldb'), and the <strong>username</strong> and <strong>password</strong>. </p>
+
+<p><img src="images/opening-drupal-for-the-first-time2.png?raw=true" alt="Opening Drupal for the first time(2)" />
+</p>
+
+<p><em>Opening Drupal for the first time</em></p></li>
+<li><p>In the <strong>Configure site</strong> website, enter a user name, an e-mail address and a password to create a new <strong>site maintenance account</strong>.</p>
+
+<p><img src="images/configuring-a-drupal-account.png?raw=true" alt="Configuring a Drupal account" />
+</p>
+
+<p><em>Configuring a Drupal account</em></p></li>
+<li><p>Open the Virtual Machines dashboard in the Windows Azure Portal and click the <strong>DNS Name</strong> link to verify that the Drupal home page loads. </p>
+
+<p><img src="images/drupal-cms-home-page.png?raw=true" alt="Drupal CMS home page" />
+</p>
+
+<p><em>Drupal CMS home page</em></p></li>
+<li><p>In Putty, execute the following commands to revert the writing and execution permission assigned to install and configure Drupal. You are ready to use Drupal in a Linux Virtual Machine running on Windows Azure.</p>
+
+<!--mark: 1,2   -->
+
+<span class="codelanguage">Bash</span><pre><code class="Bash"><strong class="markLine">sudo chmod go-w sites/default/settings.php</strong>
+<strong class="markLine">sudo chmod go-w sites/default</strong>
+</code></pre></li>
+</ol>
+
+<hr />
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-IntroToWindowsAzureVirtualMachinesLinux/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+html
+head
+	title New Contact
+body
+	div.container
+
+		title Contact Manager
+		
+		div.page-header
+			h1 Contact Manager
+
+		h3 New Contact
+
+		form(action="/contacts/newContact", method="post")
+			table(class="table")
+				tr
+					td First Name:
+					td
+						input(name="item[firstname]", type="textbox")
+				tr
+					td Last Name:
+					td
+						input(name="item[lastname]", type="textbox")
+				tr
+					td Address:
+					td
+						input(name="item[address]", type="textbox")
+				tr
+					td E-Mail:
+					td
+						input(name="item[email]", type="textbox")
+			hr
+			input(class="btn btn-primary btn-large", type="submit", value="Add contact")				

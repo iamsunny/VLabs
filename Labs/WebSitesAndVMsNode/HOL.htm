@@ -1,0 +1,698 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Windows Azure Web Sites and Virtual Machines for Node.js Applications (OS X)</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-WebSitesAndVMsNode" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-WebSitesAndVMsNode" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="handsonlab"></a></p>
+
+<h1 id="Windows_Azure_Web_Sites_and_Virtual_Machines_for_Nodejs_Applications_OS_X">Windows Azure Web Sites and Virtual Machines for Node.js Applications (OS X)</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>A virtual machine in Windows Azure is a server in the cloud that you can control and manage. After you create a virtual machine in Windows Azure, you can start, stop, and delete it whenever you need to, and you can access the virtual machine just as you do with a server in your office. In this lab, you will learn how to create a virtual machine running Linux and use it as a database server for a Node.js application. You will see how diverse technologies can run and interact in Windows Azure's cloud-based infrastructure.</p>
+
+<p>In the lab, you will first create a new virtual machine starting from a Linux image from the Windows Azure Management Portal. Then, you will install and configure a <a href="http://www.mongodb.org/">MongoDB</a> server on the virtual machine that can be accessible from an Internet application. Once the server is configured, you will publish a <a href="http://nodejs.org/">Node.js</a> application using Windows Azure Web Sites that connects to the database server running in the virtual machine.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to: </p>
+
+<ul>
+<li>Create a Linux virtual machine running on Windows Azure</li>
+<li>Install and configure a MongoDB server in a Linux Virtual Machine running on Windows Azure</li>
+<li>Create a Node.js web application that connects to the MongoDB server running on the Linux virtual machine</li>
+<li>Publish a Node.js web application using GIT to Windows Azure Web Sites</li>
+</ul>
+
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><a href="http://www.apple.com/macosx/">Mac OS X</a></li>
+<li><a href="http://git-scm.com/">Git Version Control System</a></li>
+<li>A Windows Azure subscription with the Web Sites and Virtual Machines Preview enabled - you can sign up for free trial <a href="http://bit.ly/WindowsAzureFreeTrial">here</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li><p><a href="#Exercise1">Creating a Linux Virtual Machine in Windows Azure and Configuring MongoDB</a></p></li>
+<li><p><a href="#Exercise2">Connecting to the Virtual Machine from  a Node.js Application</a></p></li>
+</ol>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Creating_a_Linux_Virtual_Machine_in_Windows_Azure_and_Configuring_MongoDB">Exercise 1: Creating a Linux Virtual Machine in Windows Azure and Configuring MongoDB</h3>
+
+<p>In this exercise, you will create new a Linux virtual machine using the Windows Azure Management portal. You will then connect to the virtual machine using SSH and configure and start MongoDB server.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_and_Configuring_a_New_Linux_Virtual_Machine">Task 1 - Creating and Configuring a New Linux Virtual Machine</h4>
+
+<ol>
+<li><p>Open Safari and browse to the <a href="http://manage.windowsazure.com/">Windows Azure Management Portal</a>. Then, log in with your Live Id credentials associated with your Windows Azure subscription.</p></li>
+<li><p>In the menu located at the bottom, select <strong>New | Virtual Machine | From Gallery</strong> to start creating a new virtual machine.</p>
+
+<p><img src="images/creating-a-new-virtual-machine.png?raw=true" alt="Creating a new Virtual Machine" />
+</p>
+
+<p><em>Creating a new Virtual Machine</em></p></li>
+<li><p>In the <strong>VM OS Selection</strong> page, click <strong>Platform Images</strong> on the left menu and select the <strong>openSUSE 12.1</strong> image from the list. Click the arrow to continue.   </p>
+
+<p><img src="images/vm-os-selection.png?raw=true" alt="Creating a VM - OS Selection" title="Creating a VM - OS Selection" />
+</p>
+
+<p><em>Creating a VM - OS Selection</em></p>
+<blockquote>
+<p><strong>Note:</strong> You can also upload your own customized image for your virtual machine, using the <strong>Images</strong> section. An image is a virtual hard drive (VHD) file that you can use as a template to create a new virtual machine. When you choose to create a virtual machine from an image, Windows Azure creates a disk for you from the image, and then it uses it for the virtual machine. </p>
+</blockquote></li>
+<li><p>In the <strong>VM Configuration</strong> page, type a <strong>Virtual Machine Name</strong>, set the <strong>New User Name</strong> to <strong>Administrator</strong>, the <strong>Password</strong> and leave the default <strong>Size</strong> for the virtual machine. Click the <strong>right arrow</strong> to continue. Make note of the administrator username and password as you will use them later to connect to the virtual machine.</p>
+
+<p><img src="images/creating-a-vm-configuration.png?raw=true" alt="Configuring a Custom VM" />
+</p>
+
+<p><em>Creating a VM - Configuration</em></p>
+<blockquote>
+<p><strong>Note:</strong> It is suggested to use secure passwords for admin users, as Windows Azure virtual machines could be accessible from the Internet knowing just their DNS.</p>
+
+<p>You can also read this document on the Microsoft Security website that will help you select a secure password:  <a href="http://www.microsoft.com/security/online-privacy/passwords-create.aspx"><a href="http://www.microsoft.com/security/online-privacy/passwords-create.aspx">http://www.microsoft.com/security/online-privacy/passwords-create.aspx</a></a></p>
+</blockquote></li>
+<li><p>In the <strong>VM Mode</strong> page, select <strong>Standalone Virtual Machine</strong>, type a <strong>DNS Name</strong> that is available, select the <strong>Storage Account</strong> where the image should be created (or leave the default option to automatically create a new <strong>Storage Account</strong>). Finally, select the <strong>Region/Affinity group/Virtual Network</strong> value. Click the <strong>right arrow</strong> to continue. </p>
+
+<p><img src="images/creating-a-vm-vm-mode.png?raw=true" alt="Configuring a Custom VM, VM Mode" />
+</p>
+
+<p><em>Creating a VM - VM Mode</em></p></li>
+<li><p>In the <strong>VM Options</strong> page, click the submit button to create a new virtual machine.</p>
+
+<p><img src="images/creating-a-vm--vm-options.png?raw=true" alt="Creating a VM - VM Options" title="Creating a VM - VM Options" />
+</p>
+
+<p><em>Creating a VM - VM Options</em></p></li>
+<li><p>In the <strong>Virtual Machines</strong> section, you will see the virtual machines you created with a <em>provisioning</em> status. Wait until it changes to <em>Running</em> in order to continue with the following step.</p>
+<blockquote>
+<p><strong>Note:</strong> Please notice that the provisioning process might take a considerable amount of time.</p>
+</blockquote>
+<p><img src="images/creating-linux-vm.png?raw=true" alt="Creating Linux VM" />
+</p>
+
+<p><em>Creating Linux VM</em></p></li>
+<li><p>Now, you will create public endpoints for the virtual machine. This will allow you to connect to the virtual machine services running on the selected ports from another application on the Internet. In particular, you will open the ports used by MongoDB, the NoSQL database server you will install in the Linux server.</p>
+<blockquote>
+<p><strong>Note:</strong> Virtual machines use endpoints to communicate within Windows Azure and with other resources on the Internet. All virtual machines that you create in Windows Azure can automatically communicate with other virtual machines in the same cloud service or virtual network. However, you need to add an endpoint to a machine for other resources on the Internet, like web applications, or other virtual networks to communicate with it.</p>
+
+<p>For web applications to connect to the MongoDB server running on the virtual machine you will need to open the following private ports, as explained in the following steps.</p>
+
+<p>-Port <strong>27017</strong>: MongoDB Server database port</p>
+
+<p>-Port <strong>28017</strong>: MongoDB Server Web interface</p>
+</blockquote></li>
+<li><p>To create a new endpoint, select your Linux virtual machine from the list, open the <strong>Dashboard</strong> page and then click <strong>Endpoints</strong>. You will notice that the endpoint for using SSH connections is configured by default; you will later use this endpoint for accessing the virtual machine.</p>
+<blockquote>
+<p><strong>Note:</strong> SSH, an acronym for Secure SHell,  allows you to securely access a shell (command line) remotely on most Linux/Unix systems. SSH encrypts all the data transferred between machines to avoid malicious users to read (<em>sniff</em>) username, password and commands that you run.</p>
+</blockquote></li>
+<li><p>Click <strong>Add Endpoint</strong>, select <strong>Add Endpoint</strong> option and then click the <strong>right arrow</strong> to continue.</p>
+
+<p><img src="images/adding-a-new-endpoint.png?raw=true" alt="Adding a new Endpoint" title="Adding a new Endpoint" />
+</p>
+
+<p><em>Adding a new Endpoint</em></p></li>
+<li><p>In the <strong>Specify endpoint details</strong> page, type <em>MongoDB</em> in the <strong>Name</strong> field, set the <strong>Protocol</strong> to <em>TCP</em> and both the <strong>Public Port</strong> and <strong>Private Port</strong> to <em>27017</em>.</p>
+<blockquote>
+<p><strong>Note:</strong> For simplicity purposes, configure the public and private ports using the same value. However, in a production scenario you should use different values for security considerations.</p>
+</blockquote>
+<p><img src="images/new-endpoint-details.png?raw=true" alt="Specify endpoint details" title="Specify endpoint details" />
+</p>
+
+<p><em>Specify endpoint details</em></p>
+<blockquote>
+<p><strong>Note:</strong> MongoDB uses 27017 as default port, and 28017 as the webservice port. You can check MongoDB default ports <a href="http://www.mongodb.org/display/DOCS/Production+Notes#ProductionNotes-TCPPortNumbers">here</a>.</p>
+</blockquote></li>
+<li><p>Repeat the previous steps to configure the endpoint for port <strong>28017</strong>.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Connecting_to_the_Virtual_Machine_Using_an_SSH_Client">Task 2 - Connecting to the Virtual Machine Using an SSH Client</h4>
+
+<ol>
+<li><p>In the Windows Azure Portal, select the Linux VM from the list to enter its <strong>Dashboard</strong>. Locate the <strong>URL</strong> field at the bottom of the page and make note of the value (without <strong>http://</strong>). This is the public address you will use to connect to the virtual machine.</p>
+
+<p><img src="images/dashboard---dns-name-of-the-virtual-machine.png?raw=true" alt="Dashboard - DNS name of the virtual machine" />
+</p>
+
+<p><em>Dashboard  - DNS name of the virtual machine</em></p></li>
+<li><p>Click the <strong>Endpoint</strong> link, and copy the public port value for the SSH endpoint (private port 22).</p></li>
+<li><p>Open a terminal (or any other SSH client) and connect to the virtual machine using the <strong>ssh</strong> command. To do this, use the following command replacing the placeholders with the administrator username and virtual machine DNS name. The command should look similar to the following <code>ssh admin@linux-mongodb-vm.cloudapp.net  -p 50512</code>.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">ssh [YOUR-ADMIN-USER-NAME]@[YOUR-VM-DNS-NAME] -p [YOUR-SSH-PORT]
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The administrator username is the one you have configured when creating the virtual machine.</p>
+</blockquote></li>
+<li><p>Enter the administrator password to login. If it is the first time you connect, you might be prompted to accept a certificate.</p>
+
+<p><img src="images/logging-into-the-vm.png?raw=true" alt="Logging into the VM" title="Logging into the VM" />
+</p>
+
+<p><em>Logging in to the Linux Virtual Machine</em></p></li>
+</ol>
+
+<p><a name="Ex1Task3"></a></p>
+
+<h4 id="Task_3_-_Installing_and_Configuring_MongoDB">Task 3 - Installing and Configuring MongoDB</h4>
+
+<p>In this task, you will install and configure a MongoDB server in the Linux virtual machine.</p>
+
+<p>MongoDB is a document-oriented NoSQL database designed for ease of development and scalability, with particular emphasis on Internet applications and infrastructure.</p>
+
+<ol>
+<li><p>Once connected to the VM, execute the following command to switch the current user to <strong>root</strong> and get administrator privileges.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">sudo su -
+</code></pre></li>
+<li><p>Execute the following commands to download and extract MongoDB in the virtual machine. Notice that this command will download MongoDB version 2.0.4, if you prefer to use a newer version you need to adjust the following commands accordingly.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">wget http://downloads.mongodb.org/linux/mongodb-linux-i686-2.0.4.tgz
+tar xzf mongodb-linux-i686-2.0.4.tgz
+</code></pre>
+
+<p><img src="images/downloading-mongodb.png?raw=true" alt="Downloading MongoDB" title="Downloading MongoDB" />
+</p>
+
+<p><em>Downloading MongoDB</em></p></li>
+<li><p>Create a <strong>/data/db</strong> directory and grant permissions for the current user. By default, MongoDB will store data in the <strong>/data/db</strong> folder, but the directory has to be manually created.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">mkdir -p /data/db
+chown [YOUR-ADMIN-USER] /data/db
+</code></pre></li>
+<li><p>Enter the following command to start the MongoDB server. Notice in the console output that process default port is 27017, while web console default port is 28017 and both ports were opened using public endpoints.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">./mongodb-linux-i686-2.0.4/bin/mongod &amp;
+</code></pre>
+
+<p><img src="images/starting-mongodb-process.png?raw=true" alt="Starting MongoDB process" title="Starting MongoDB process" />
+</p>
+
+<p><em>Starting MongoDB process</em></p>
+<blockquote>
+<p><strong>Note:</strong> You can optionally enter the following command to start MongoDB server automatically on start up.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">  chkconfig mongod on
+</code></pre>
+</blockquote></li>
+<li><p>Press <strong>ENTER</strong> once the process is completed. </p></li>
+<li><p>Use the <code>exit</code> command to log out from root session and go back to the administrator user.</p></li>
+<li><p>Execute the following command to start MongoDB shell. The MongoDB interactive shell is a JavaScript shell that allows you to issue commands to MongoDB from the command line. You can run queries and inspect a database's contents.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">./mongodb-linux-i686-2.0.4/bin/mongo
+</code></pre>
+
+<p><img src="images/connecting-to-mongo-shell.png?raw=true" alt="Connecting to MongoDB shell" />
+</p>
+
+<p><em>Connecting to MongoDB shell</em></p></li>
+<li><p>In the shell, type the following queries to test the connection. These queries will save a new document in the <em>foo</em> collection and then retrieve it.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.foo.save( { a : 1 } )
+db.foo.<span style="color:#0000FF">find</span>()
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> MongoDB stores JSON-like documents, grouped in collections. In this case <em>foo</em> is the collection and <em>{a : 1}</em> is the document.</p>
+
+<p>One collection may have any number of documents and documents within one collection can have different schemas, which can be dynamic. This is one of the greatest differences bith relational databases: every record in a relational table has the same fields, while documents in a collection can store different fields.</p>
+</blockquote></li>
+<li><p>Then, type the following command to retrieve the server status.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.serverStatus()
+</code></pre>
+
+<p><img src="images/mongodb-server-status-shell.png?raw=true" alt="MongoDB Server status shell" title="MongoDB Server status shell" />
+</p>
+
+<p><em>MongoDB Server status shell</em></p></li>
+<li><p>You will now check the database status from a browser. Do not close the MongoDB shell.</p>
+
+<p>Open a browser and test that the MongoDB server running in your virtual machine can be accessed from the Internet. Use the following URL to get the server status in JSON format; replace the placeholders with your virtual machine data.</p>
+
+<pre><code>http://[your-vm-dns-name]:28017/_status
+</code></pre>
+
+<p><img src="images/server-status-output.png?raw=true" alt="Server status output" title="Server status output" />
+</p>
+
+<p><em>Server status</em></p></li>
+</ol>
+
+<p><a name="Ex1Task4"></a></p>
+
+<h4 id="Task_4_-_Configuring_Text_Search_on_MongoDB">Task 4 - Configuring Text Search on MongoDB</h4>
+
+<p>In this task you will create a database and configure text search by adding a keyword index to your database. The text search feature on MongoDB has to be manually implemented. For that reason, you will create an additional field, which will store the text to be retrieved by the search queries, and you will then create an index on keywords field to improve the performance.</p>
+<blockquote>
+<p><strong>Note</strong>: You can read more about MongoDB Full-Text Search configuration <a href="http://www.mongodb.org/display/DOCS/Full+Text+Search+in+Mongo">here</a>.   </p>
+</blockquote>
+<ol>
+<li><p>If not already open, open MongoDB shell (<code>./mongodb-linux-i686-2.0.4/bin/mongo</code>).</p></li>
+<li><p>Execute the following script to make MongoDB create and select a <strong>ContactDb</strong> database. </p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">use ContactDb;
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> Switching to a database with the <code>use</code> command won't immediately create the database; the database is created lazily the first time data is inserted.</p>
+</blockquote></li>
+<li><p>You will now add initial data for the next exercise. You will have a <em>Contacts</em> collection, containing first name, last name, address and e-mail fields. To implement text search, you will add the 'keywords' field, containing the values for each of the fields. </p>
+<blockquote>
+<p><strong>Note:</strong> If you do not specify the id, MongoDB will automatically create an object id. </p>
+</blockquote>
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.contacts.save({firstname: <span style="color:#8B0000">&quot;John&quot;</span>, lastname: <span style="color:#8B0000">&quot;Smith&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;john.smith@live.com&quot;</span>, _keywords: [<span style="color:#8B0000">&quot;john&quot;</span>, <span style="color:#8B0000">&quot;smith&quot;</span>, <span style="color:#8B0000">&quot;john.smith@live.com&quot;</span> ] } );
+</code></pre></li>
+<li><p>If you wish to find the contact, you can search in all the values by using <strong>findOne</strong>.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.contacts.findOne( {_keywords: <span style="color:#8B0000">&quot;smith&quot;</span>} );
+</code></pre>
+
+<p>To verify, you can also run this command that retrieve a null value:</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.contacts.findOne( {_keywords: <span style="color:#8B0000">&quot;lee&quot;</span>} );
+</code></pre>
+
+<p><img src="images/finding-a-contact.png?raw=true" alt="Finding a contact" title="Finding a contact" />
+</p>
+
+<p><em>Finding a contact</em></p></li>
+<li><p>Execute the following commands to add more sample data to the database.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.contacts.save({firstname: <span style="color:#8B0000">&quot;Catherine&quot;</span>, lastname: <span style="color:#8B0000">&quot;Abel&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;catherine.abel@vannuys.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;catherine&quot;</span>, <span style="color:#8B0000">&quot;abel&quot;</span>, <span style="color:#8B0000">&quot;catherine.abel@vannuys.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Kim&quot;</span>, lastname: <span style="color:#8B0000">&quot;Branch&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;kim.branch@contoso.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;kim&quot;</span>, <span style="color:#8B0000">&quot;branch&quot;</span>, <span style="color:#8B0000">&quot;kim.branch@contoso.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Mark&quot;</span>, lastname: <span style="color:#8B0000">&quot;Harrington&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;mark.harrington@adatum.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;mark&quot;</span>, <span style="color:#8B0000">&quot;harrington&quot;</span>, <span style="color:#8B0000">&quot;mark.harrington@adatum.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Keith&quot;</span>, lastname: <span style="color:#8B0000">&quot;Harris&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;keith.harris@adventureworks.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;keith&quot;</span>, <span style="color:#8B0000">&quot;harris&quot;</span>, <span style="color:#8B0000">&quot;keith.harris@adventureworks.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Wilson&quot;</span>, lastname: <span style="color:#8B0000">&quot;Pais&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;wilson.pais@alpineskihouse.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;wilson&quot;</span>, <span style="color:#8B0000">&quot;pais&quot;</span>, <span style="color:#8B0000">&quot;wilson.pais@alpineskihouse.com&quot;</span> ] } );   
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Roger&quot;</span>, lastname: <span style="color:#8B0000">&quot;Harui&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;roger.harui@baldwinmuseum.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;roger&quot;</span>, <span style="color:#8B0000">&quot;harui&quot;</span>, <span style="color:#8B0000">&quot;roger.harui@baldwinmuseum.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Pilar&quot;</span>, lastname: <span style="color:#8B0000">&quot;Pinilla&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;pilar.pinilla@blueyonderairlines.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;pilar&quot;</span>, <span style="color:#8B0000">&quot;pinilla&quot;</span>, <span style="color:#8B0000">&quot;pilar.pinilla@blueyonderairlines.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Roger&quot;</span>, lastname: <span style="color:#8B0000">&quot;Harui&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;roger.harui@baldwinmuseum.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;roger&quot;</span>, <span style="color:#8B0000">&quot;harui&quot;</span>, <span style="color:#8B0000">&quot;roger.harui@baldwinmuseum.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Kari&quot;</span>, lastname: <span style="color:#8B0000">&quot;Hensien&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;kari.hensien@citypowerlight&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;kari&quot;</span>, <span style="color:#8B0000">&quot;hensien&quot;</span>, <span style="color:#8B0000">&quot;kari.hensien@citypowerlight&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Peter&quot;</span>, lastname: <span style="color:#8B0000">&quot;Brehm&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;peter.brehm@cohowinery.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;peter&quot;</span>, <span style="color:#8B0000">&quot;brehm&quot;</span>, <span style="color:#8B0000">&quot;peter.brehm@cohowinery.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;Johny&quot;</span>, lastname: <span style="color:#8B0000">&quot;Porter&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;johnny.porter@cohowinery.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;johny&quot;</span>, <span style="color:#8B0000">&quot;porter&quot;</span>, <span style="color:#8B0000">&quot;johnny.porter@cohowinery.com&quot;</span> ] } );
+
+db.contacts.save({firstname: <span style="color:#8B0000">&quot;John&quot;</span>, lastname: <span style="color:#8B0000">&quot;Harris&quot;</span>, address:<span style="color:#8B0000">&quot;1 Microsoft Way, Redmond, WA.&quot;</span>, email:<span style="color:#8B0000">&quot;john.harris@contoso.com&quot;</span>, 
+_keywords: [<span style="color:#8B0000">&quot;john&quot;</span>, <span style="color:#8B0000">&quot;harris&quot;</span>, <span style="color:#8B0000">&quot;john.harris@contoso.com&quot;</span> ] } );
+</code></pre></li>
+<li><p>Once you have populated your database, you will create an index for the <strong>keywords</strong> field. To do this, execute the <code>ensureIndex</code> command, which creates an index if it does not exist.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.contacts.ensureIndex( { _keywords: 1 } );
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You can read more about MongoDB indexes <a href="http://www.mongodb.org/display/DOCS/Indexes">here</a>.</p>
+
+<p>If you want to retrieve the existing indexes, you can run the command <strong>db.system.indexes.find()</strong> and check if the keywords index was created.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="Ex1Task5"></a></p>
+
+<h4 id="Task_5_-_Creating_Database_Users_in_MongoDB">Task 5 - Creating Database Users in MongoDB</h4>
+
+<p>In this task, you will learn how to configure MongoDB security. You will first create an administrator user for the server, and then you will learn how to add users for each of the databases.</p>
+<blockquote>
+<p><strong>Note:</strong> The current version of MongoDB supports only basic security. You authenticate a username and password in the context of a particular database. For more information about MongoDB security, check <a href="http://www.mongodb.org/display/DOCS/Security+and+Authentication#SecurityandAuthentication-MongoSecurity">this article</a>.</p>
+</blockquote>
+<ol>
+<li><p>If not already open, open MongoDB shell (<code>./mongodb-linux-i686-2.0.4/bin/mongo</code>).</p></li>
+<li><p>Create an administrator user for the server process. Replace the placeholders with a user name and password. In the next exercise you will use these credentials to connect to the database server from a web application.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">use admin
+db.addUser(<span style="color:#8B0000">&quot;[YOUR-ADMIN-USERNAME]&quot;</span>,<span style="color:#8B0000">&quot;[YOUR-ADMIN-PASSWORD]&quot;</span>)
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> This user will be stored under the admin database. From now on, your database server administration will only be accessible with these credentials. To connect to the database with authentication, you will have to execute the <code>db.auth(username,password)</code> command. </p>
+
+<p>Optionally, you can configure a user for your database as shown below. Notice that this user will only be able to connect to this database, while the system administrator user previously configured has full access.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">use [YOUR-DB-NAME]
+db.addUser(<span style="color:#8B0000">&quot;[username]&quot;</span>,<span style="color:#8B0000">&quot;[password]&quot;</span>)
+</code></pre>
+
+<p><img src="images/adding-a-database-user.png?raw=true" alt="Adding a database user" title="Adding a database user" />
+</p>
+
+<p><em>Adding a database user</em></p>
+</blockquote></li>
+<li><p>Run this command to check the system users created. You should be able to see the list of users.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">db.system.users.<span style="color:#0000FF">find</span>()
+</code></pre>
+
+<p><img src="images/database-users.png?raw=true" alt="Database users" title="Database users" />
+</p>
+
+<p><em>Database users</em></p></li>
+<li><p>Type <code>exit</code> to exit from MongoDB shell.</p></li>
+<li><p>To verify the process is now secured, switch back to your browser and refresh the status page. Notice that the administrator credentials are now required to retrieve the information. </p>
+
+<p><img src="images/authentication-verification.png?raw=true" alt="Authentication verification" title="authentication verification" />
+</p>
+
+<p><em>Authentication</em></p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Connecting_to_the_Virtual_Machine_from__a_Nodejs_Application">Exercise 2: Connecting to the Virtual Machine from  a Node.js Application</h3>
+
+<p>In this exercise you will create a new web site in Windows Azure Web Sites and publish a Node.js application taking advantage of the new GIT publishing feature provided by Windows Azure. The application you will publish will use a MongoDB database located in the Linux server you have configured in Exercise 1.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Creating_a_New_Web_Site_Hosted_in_Windows_Azure">Task 1 - Creating a New Web Site Hosted in Windows Azure</h4>
+
+<ol>
+<li><p>Go to the <a href="http://manage.windowsazure.com/">Windows Azure Management Portal</a> and sign in using your <strong>Windows Live ID</strong> credentials associated with your subscription.</p></li>
+<li><p>Click <strong>New</strong> on the command bar.</p>
+
+<p><img src="images/creating-a-new-web-site.png?raw=true" alt="Creating a new web site" title="Creating a new web site" />
+</p>
+
+<p><em>Creating a new web site</em></p></li>
+<li><p>Click <strong>Web Site</strong> and then <strong>Quick Create</strong>. Provide an available URL for the new Web Site and click <strong>Create Web Site</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> A Windows Azure Web Site is the host for a web application running in the cloud that you can control and manage. The Quick Create option allows you to deploy a completed web application to the Windows Azure Web Site from outside the portal. It does not include steps for setting up a database.</p>
+</blockquote>
+<p><img src="images/creating-a-new-web-site-using-quick-create.png?raw=true" alt="Creating a new web site using quick create" title="Creating a new web site using quick create" />
+</p>
+
+<p><em>Creating a new Web Site using Quick Create</em></p></li>
+<li><p>Wait until the new web site is created.</p>
+
+<p><img src="images/creating-a-new-web-site-status.png?raw=true" alt="Creating a new web site status" title="Creating a new web site status" />
+</p>
+
+<p><em>Creating a new web site status</em></p></li>
+<li><p>Once the web site is created click the link under the <strong>URL</strong> column. Check that the new web site is working.</p>
+
+<p><img src="images/browsing-to-the-new-web-site.png?raw=true" alt="Browsing to the new web site" title="Browsing to the new web site" />
+</p>
+
+<p><em>Browsing to the new web site</em></p>
+
+<p><img src="images/web-site-running.png?raw=true" alt="Web site running" title="Web site running" />
+</p>
+
+<p><em>Web site running</em></p></li>
+<li><p>Go back to the portal and click the name of the web site under the <strong>Name</strong> column to display the management pages for the web site.</p>
+
+<p><img src="images/opening-the-web-site-management-pages.png?raw=true" alt="Opening the web site management pages" title="Opening the web site management pages" />
+</p>
+
+<p><em>Opening the web site management pages</em></p></li>
+<li><p>If this is the first time you access to the portal you might be redirected to the <strong>Quickstart</strong> page. Click <strong>Dashboard</strong> in the menu to continue.</p>
+
+<p><img src="images/opening-web-site-dashboard.png?raw=true" alt="Opening web site dashboard" title="Opening web site dashboard" />
+</p>
+
+<p><em>Opening web site dashboard</em></p></li>
+<li><p>In the <strong>Dashboard</strong> page, under the <strong>quick glance</strong> section, click the <strong>Set up Git publishing</strong> link.</p>
+
+<p><img src="images/setting-up-git-publishing.png?raw=true" alt="Setting up GIT Publishing" title="Setting up GIT Publishing" />
+</p>
+
+<p><em>Setting up Git Publishing</em></p>
+<blockquote>
+<p><strong>Note:</strong> Git is a free, open-source, distributed version control system that handles small to very large projects. After you set up Git publishing, each .Git push initiates a new deployment.</p>
+</blockquote></li>
+<li><p>Enter a user name and a password to use for Git deployment.</p>
+
+<p><img src="images/user-name-and-password-for-git.png?raw=true" alt="User name and password for git" title="User name and password for Git" />
+</p>
+
+<p><em>User name and password for GIT</em></p></li>
+<li><p>Wait a few seconds until the Git repository is ready.</p>
+<blockquote>
+<p><strong>Tip:</strong> After the Git repository is ready, quick start page will open, containing the set of commands you need to execute for pushing your web application files to Windows Azure. </p>
+</blockquote>
+<p><img src="images/git-repository-created.png?raw=true" alt="GIT repository created" title="GIT repository created" />
+</p></li>
+</ol>
+
+<p><a name="Ex2Task2"></a></p>
+
+<h4 id="Task_2_-_Exploring_the_Nodejs_Application">Task 2 - Exploring the Node.js Application</h4>
+
+<p>In this task you open and explore a simple Node.js application provided in this lab that uses the MongoDB database you have configured in Exercise 1. The application consists of a contact manager site, where you can store and search for contacts.</p>
+
+<ol>
+<li><p>Open the site files located in the <strong>/Source/Assets</strong> folder of this lab.</p></li>
+<li><p>Open <strong>server.js</strong> with a text editor, which is the main entry point of the Node.js application. Notice the require statements on the top of the file. This code is importing two main modules for this application:</p>
+
+<ul>
+<li><a href="http://expressjs.com">Express</a>: A web framework for Node.js, providing different features like views rendering, robust routing, among others.</li>
+<li><a href="http://mongoosejs.com/">Mongoose</a>: A MongoDB object modeling tool designed for Node.js. Mongoose will manage your connection and queries to MongoDb.</li>
+</ul>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript"><span style="color:#0000FF">var</span> express = require(&#39;express&#39;),
+mongoose = require(&#39;mongoose&#39;),
+...
+</code></pre>
+
+<p>Additionally notice the <code>express.createServer()</code> statement for creating and initializing an express app. The view engine used by the application is <a href="https://github.com/visionmedia/jade">jade</a>.</p>
+<blockquote>
+<p><strong>Note:</strong> You can read getting started guidance about the Express framework in <a href="http://howtonode.org/getting-started-with-express">this article</a> and about Mongoose in <a href="http://mongoosejs.com/">its documentation</a>.</p>
+</blockquote></li>
+<li><p>For retrieving and inserting data with Mongoose, you need to define a <em>Model</em> using the <strong>Schema</strong> Mongoose interface. The schema mainly defines the structure of your documents -in this case <em>Contacts</em> - and the types of data you are storing.   Once the schema is in place the model is instantiated by using the <code>mongoose.model()</code> function. The returned <strong>ContactModel</strong> object will allow you to find and insert documents into the <strong>Contact</strong> collection.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript"><span style="color:#0000FF">var</span> Contact = <span style="color:#0000FF">new</span> Schema({
+  id: ObjectId,
+  firstname: <span style="color:#0000FF">String</span>,
+  lastname: <span style="color:#0000FF">String</span>,
+  address: <span style="color:#0000FF">String</span>,
+  email: <span style="color:#0000FF">String</span>,
+  _keywords: <span style="color:#0000FF">Array</span>, index: { unique: <span style="color:#0000FF">false</span> }
+});
+
+<span style="color:#0000FF">var</span> ContactModel = mongoose.model(&#39;Contact&#39;, Contact); 
+</code></pre></li>
+<li><p>Open <strong>newContacts.js</strong> from the <strong>routes</strong> folder and locate the <strong>newContact</strong> function. The <code>new self.contactModel()</code> function creates a new contact document and saves it into the collection with the  <code>contact.save()</code> function. Notice that the <strong>_keywords</strong> field stores an array with the first name, last name and email of the contact. This field is then used for retreiving contacts.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">newContact: <span style="color:#0000FF">function</span> (req, res) {
+    <span style="color:#0000FF">var</span> <span style="color:#0000FF">self</span> = <span style="color:#0000FF">this</span>;
+    <span style="color:#0000FF">var</span> item = req.body.item;
+    contact = <span style="color:#0000FF">new</span> <span style="color:#0000FF">self</span>.contactModel({
+      firstname: item.firstname,
+      lastname: item.lastname,
+      address: item.address,
+      email: item.email,
+      _keywords: [ item.firstname.toLowerCase(), item.lastname.toLowerCase(), item.email.toLowerCase() ]
+    });
+
+    contact.save(<span style="color:#0000FF">function</span> (err) {
+      ...
+    });
+</code></pre></li>
+<li><p>Open <strong>contacts.js</strong> from the <strong>routes</strong> folder of the solution and locate the <strong>filterItems</strong> function. Notice the <code>self.contactModel.find()</code> function which retrieves all the contacts documents that matches the search term in the FirstName, LastName or Email fields.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript">filterItems: <span style="color:#0000FF">function</span> (req, res) {
+    <span style="color:#0000FF">var</span> <span style="color:#0000FF">self</span> = <span style="color:#0000FF">this</span>;
+    <span style="color:#0000FF">var</span> search = req.query.search.toLowerCase();
+    <span style="color:#0000FF">self</span>.contactModel.<span style="color:#0000FF">find</span>({_keywords: search}, <span style="color:#0000FF">function</span> (err, contacts) {
+        <span style="color:#0000FF">if</span> (!err) {
+            res.render(&#39;contacts&#39;, { 
+            title: &#39;Contact Manager&#39;, 
+            layout: <span style="color:#0000FF">true</span>, 
+            contactlist: contacts });
+        } <span style="color:#0000FF">else</span> {
+          <span style="color:#0000FF">return</span> console.log(err);
+        }
+    });
+},
+...
+</code></pre></li>
+<li><p>In <strong>server.js</strong>, notice the <code>mongoose.connect()</code> statement which opens a connection to MongoDb with Mongoose. Replace the connection placeholders with the administrator user name and password of your mongo database, previously configured in Task 5 of Exercise 1.</p>
+
+<span class="codelanguage">JavaScript</span><pre><code class="JavaScript"><span style="color:#008000">//</span>
+<span style="color:#008000">//Replace the placeholders with your own database server configuration.</span>
+<span style="color:#008000">//Example connection</span>
+<span style="color:#008000">//db = mongoose.connect(&#39;mongodb://AdminUser:Password!@mongoDBServer1.cloudapp.net:27017/MyDB&#39;, function(err) { if (err) throw err; }); </span>
+<span style="color:#008000">//</span>
+
+db = mongoose.connect(&#39;mongodb:<span style="color:#008000">//[YOUR-ADMIN-USERNAME]:[YOUR-ADMIN-PASSWORD]!@[YOUR-VM-DNS-ADDRESS]:27017/ContactDb&#39;, </span>
+<span style="color:#0000FF">function</span>(err) { <span style="color:#0000FF">if</span> (err) <span style="color:#0000FF">throw</span> err; }); 
+</code></pre></li>
+</ol>
+
+<p><a name="Ex2Task3"></a></p>
+
+<h4 id="Task_3_-_Publishing_the_Nodejs_application_using_GIT">Task 3 - Publishing the Node.js application using GIT</h4>
+
+<ol>
+<li><p>Go back to the Windows Azure Management Portal. Open the site <strong>Dashboard</strong> and under the <strong>quick glance</strong> section, copy the <strong>Git Clone Url</strong> value.</p>
+
+<p><img src="images/copying-the-git-clone-url.png?raw=true" alt="Copying the GIT Clone URL" title="Copying the GIT Clone URL" />
+</p>
+
+<p><em>Copying the Git Clone Url</em></p></li>
+<li><p>In order to publish your local files, open a <strong>Command Prompt</strong>, CD into your application folder (in this case <em>[YOUR-FOLDER]</em>) and run the following commands.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">git init
+git add .
+git commit -m &quot;initial commit&quot;
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> You can learn more about Git commands in the project documentation <a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a>.</p>
+</blockquote></li>
+<li><p>To add the remote Windows Azure repository and push the files, run the following commands. Replace the <em>{Git Clone Url}</em> placeholder with the value obtained from the portal.</p>
+
+<span class="codelanguage">Bash</span><pre><code class="Bash">git remote add azure {Git Clone Url}
+git push azure master
+</code></pre></li>
+<li><p>Enter the deployment credentials when prompted.</p></li>
+<li><p>Go to the site <strong>Dashboard</strong> page and click the <strong>Site Url</strong> link under the <strong>quick glance</strong> section to ensure that the site is running.</p>
+
+<p><img src="images/running-the-nodejs-application.png?raw=true" alt="Running the Node.js application" title="Running the Node.js application" />
+</p>
+
+<p><em>Running the Node.js application</em></p></li>
+<li><p>The Contact Manager web site will open. In the following steps you will perform a brief walkthrough.</p>
+
+<ol>
+<li><p>In the Contact Manager home page you will see the full list of contacts</p>
+
+<p><img src="images/contact-list.png?raw=true" alt="Contact list" title="Contact list" />
+</p>
+
+<p><em>Contact list</em></p></li>
+<li><p>Enter <em>kim</em>  and press <strong>Search</strong> to retrieve all the contacts named Kim.</p>
+
+<p><img src="images/text-search-results-by-first-name.png?raw=true" alt="Text search results by first name" title="Text search results by first name" />
+</p>
+
+<p><em>Text search results by first name</em></p></li>
+<li><p>Now you will search by last name. Enter <em>Harris</em> and press <strong>Search</strong>. The application will retrieve all the contacts with the last name <em>harris</em>.</p>
+
+<p><img src="images/text-search-result-last-name.png?raw=true" alt="Text search results by last name" title="Text search results by last name" />
+</p></li>
+</ol>
+
+<p><em>Text search results by last name</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>In the lab, you created a new virtual machine starting from a Linux image from the Windows Azure Management Portal. Then, you installed and configured a MongoDB server on the virtual machine that can be accessible from an Internet application. Once the server is configured, you published a Node.js application using Windows Azure Web Sites that connected to the database server running in the virtual machine.</p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-WebSitesAndVMsNode/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

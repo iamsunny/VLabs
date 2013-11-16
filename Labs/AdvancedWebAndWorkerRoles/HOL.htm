@@ -1,0 +1,707 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Advanced Web and Worker Roles</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-AdvancedWebWorkerRoles" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-AdvancedWebWorkerRoles" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="HOLTop"></a></p>
+
+<h1 id="Advanced_Web_and_Worker_Roles">Advanced Web and Worker Roles</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>When Windows Azure was first released, there were a few, but significant restrictions in the programming model. Things like Full Trust, Administrative Access, and the full IIS feature-set were initially restricted for security reasons. This impacted the types of applications that could be created in Windows Azure because even small changes to things like configuration settings were often blocked by lack of administrative control over the VM Instances. Over time, those restrictions were lifted - first Full Trust, and now the ultimate control: Administrative access and Full IIS support.</p>
+
+<p>Now, you can choose to run your web sites under IIS7, not in Hosted Web Core as in the past, but in full IIS. This means you can use all the facilities of IIS now like custom modules, multiple websites, VDIR support, application pool isolation, and more.</p>
+
+<p>Additionally, you can now choose two different ways to exercise your administrative control. You can bootstrap the machine as an administrator using something called &quot;Startup Tasks&quot; shown in this lab. This temporarily raises your permissions to administrative and allows you perform small setups, update configuration settings, or other bootstrapping tasks. Once completed, your code will run as a normal, unprivileged user. The second method is that you can now configure your role to simply run as an administrator the entire time. In most cases, the Startup Tasks are the right choice as running your role with administrative permissions the entire time has security implications.</p>
+
+<p>This lab introduces these new capabilities that are unlocked in Windows Azure and allow more advanced application scenarios.</p>
+
+<p><a name="Objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li><p>Use advanced service model features that enable hosting a Web role in IIS.</p></li>
+<li><p>Host multiple sites in a Web role and bind them to the same endpoint using host headers.</p></li>
+<li><p>Create virtual applications and map them to selected sites.</p></li>
+<li><p>Utilize user virtual directories to share common content between sites.</p></li>
+<li><p>Set up the role environment by executing start-up tasks to register a COM.</p></li>
+<li><p>Install complex components required by a web role, such as a scripting language's binary files.</p></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab shows advanced features of Web and Worker roles in Windows Azure; it assumes that you have sufficient knowledge of Windows Azure. If you are beginner in Windows Azure, see the <strong>Introduction to Windows Azure</strong> lab first.</p>
+</blockquote>
+<p><a name="Prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><p>IIS 7 (with ASP.NET, WCF HTTP Activation)</p></li>
+<li><p><a href="http://go.microsoft.com/fwlink/?linkid=186916">Microsoft .NET Framework 4.0</a></p></li>
+<li><p><a href="http://msdn.microsoft.com/vstudio/products">Microsoft Visual Studio 2010</a></p>
+
+<ul>
+<li>Microsoft Visual C++ 2010 (required for Exercise 2 of the lab)</li>
+</ul></li>
+<li><p><a href="http://www.microsoft.com/windowsazure/sdk/">Windows Azure Tools for Microsoft Visual Studio 1.7</a></p></li>
+<li><p><a href="http://www.microsoft.com/express/sql/download/">SQL Server 2012 Express Edition</a></p></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System. </p>
+</blockquote>
+<p><a name="Setup"></a>  </p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</p></li>
+<li><p>Execute the <strong>Setup.cmd</strong> file in this folder with Administration privileges. This setup process will configure your environment and install the Visual Studio code snippets for this lab.</p></li>
+<li><p>If the User Account Control dialog is shown, confirm the action to proceed.</p>
+<blockquote>
+<p><strong>Note:</strong> Make sure you have checked all the dependencies for this lab before running the setup.</p>
+</blockquote></li>
+</ol>
+
+<p><a name="CodeSnippets"></a></p>
+
+<h3 id="Using_the_Code_Snippets">Using the Code Snippets</h3>
+
+<p>Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2010 to avoid having to add it manually.</p>
+
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ul>
+<li><p><a href="#Exercise1">Registering Sites, Applications, and Virtual Directories</a></p></li>
+<li><p><a href="#Exercise2">Using Start-Up Tasks to Register a COM Component</a></p></li>
+<li><p><a href="#Exercise3">Using Start-Up Tasks to Install PHP with the Web Platform Installer</a></p></li>
+</ul>
+
+<p>Estimated time to complete this lab: <strong>60 minutes</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> Each exercise is accompanied by a starting solution located in the Begin folder of the exercise that allows you to follow each exercise independently of the others. Please be aware that the code snippets that are added during an exercise are missing from these starting solutions and that they will not necessarily work until you complete the exercise. Inside the source code for an exercise, you will also find an End folder containing a Visual Studio solution with the code that results from completing the steps in the corresponding exercise. You can use these solutions as guidance if you need additional help as you work through this hands-on lab.</p>
+
+<p>When you first start Visual Studio, you must select one of the predefined settings collections. Every predefined collection is designed to match a particular development style and determines window layouts, editor behavior, IntelliSense code snippets, and dialog box options. The procedures in this lab describe the actions necessary to accomplish a given task in Visual Studio when using the <strong>General Development Settings</strong> collection. If you choose a different settings collection for your development environment, there may be differences in these procedures that you need to take into account.</p>
+</blockquote>
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Registering_Sites_Applications_and_Virtual_Directories">Exercise 1: Registering Sites, Applications, and Virtual Directories</h3>
+
+<p>When hosted in <a href="http://technet.microsoft.com/en-us/library/cc735238(WS.10).aspx">IIS Hosted Web Core (HWC)</a>, Windows Azure Web roles can support a single application bound to no more than a single HTTP and a single HTTPS endpoint. This model is enabled with minimal configuration and was the only one originally supported in Windows Azure when it was first introduced. To use HWC, you only need to specify the HTTP and HTTPS endpoints bound to the Web application in the service model, as shown in the figure below.</p>
+
+<p><img src="images/simplified-service-model-for-hosted-web-core-hosting.png?raw=true" alt="XML Code simplified service model for Hosted Web Core hosting" title="Simplified service model for Hosted Web Core hosting" />
+</p>
+
+<p><em>Simplified service model for Hosted Web Core hosting</em> </p>
+
+<p>While this approach is still valid and you can use it in many scenarios where a single application per role is sufficient or does not require multiple endpoints, more advanced capabilities are now available that provide full access to all IIS features. In this advanced model, applications are hosted in IIS instead, both in Windows Azure and in the compute emulator, allowing each role to support multiple sites, virtual applications and virtual directories, as well as providing support for binding each site to multiple endpoints.</p>
+
+<p>To enable the Full IIS capabilities, the service model defines a <strong>Sites</strong> element that can contain one or more <strong>Site</strong> definitions, where each site is bound to one or more endpoints, as shown in the following figure.</p>
+
+<p><img src="images/advanced-service-model-for-full-iis-hosting.png?raw=true" alt="Advanced service model for Full IIS hosting" title="Advanced service model for Full IIS hosting" />
+</p>
+
+<p><em>Advanced service model for Full IIS hosting</em> </p>
+
+<p>In this exercise, you will learn how to define different sites, applications, and virtual directories within a Web role using a single Web role application, which you will map to multiple sites. To show site customization, you will modify the master page of the application to show the site name on each page. During the exercise, you will create a Virtual Application for a hypothetical CRM application and enable it for selected sites. Additionally, you will use Virtual Directories to share common content between applications.</p>
+<blockquote>
+<p><strong>Note:</strong> To reduce typing, you can right-click where you want to insert source code, select Insert Snippet, select My Code Snippets and then select the entry matching the current exercise step.</p>
+</blockquote>
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Defining_Multiple_Sites_in_a_Web_Role_Using_the_Service_Model">Task 1 - Defining Multiple Sites in a Web Role Using the Service Model</h4>
+
+<p>The service model in Windows Azure is determined by the service definition file, which defines the roles that comprise a service, optional local storage resources, configuration settings, certificates for SSL endpoints, and, as you will see in the following exercise, start-up tasks. </p>
+
+<p>In this task, you edit the service model to define three separate sites that map to the same Web application, namely, <em>Contoso</em>, <em>Fabrikam</em>, and <em>Litware</em>. These sites are all bound to a single endpoint and use host headers to isolate them.</p>
+<blockquote>
+<p><strong>Note:</strong> This task requires the <strong>hosts</strong> file to be updated. If you did not execute the setup instruction for this lab, this exercise will not work. Proceed with the setup instructions before starting with this task.</p>
+</blockquote>
+<ol>
+<li><p>Start Microsoft Visual Studio 2010 with administrator privileges.</p></li>
+<li><p>Open the <strong>Begin</strong> solution located in <strong>Ex1-FullIIS</strong> in the <strong>Source</strong> folder of the lab.</p></li>
+<li><p>In the Windows Azure project, open the service model file, <strong>ServiceDefinition.csdef</strong>. Notice that it defines a single Web role named <strong>SampleWebApp</strong>, which in turn defines a site named <strong>Web</strong>. </p></li>
+<li><p>In the <strong>Sites</strong> element of the <strong>SampleWebApp</strong> Web role, locate the nested <strong>Site</strong> element named <em>Web</em> and change its <strong>name</strong> attribute to <em>Fabrikam</em>. Next, add a <strong>physicalDirectory</strong> attribute to this element that points to &quot;<em>..\SampleWebApp</em>&quot;.</p>
+<blockquote>
+<p><strong>Note:</strong> This step changes the name of the site from its <em>Web</em> default value to <em>Fabrikam</em>. Note that for sites other than the default Web site, you need to specify a physical directory for the site's content. </p>
+</blockquote></li>
+<li><p>Now, locate the single <strong>Binding</strong> element for the <em>Fabrikam</em> site and add a <strong>hostHeader</strong> attribute with a value of &quot;<em><a href="http://www.fabrikam.com">www.fabrikam.com</a></em>&quot;. The updated site definition should appear as shown in the following figure.</p>
+
+<p><img src="images/definition-for-the-fabrikam-site.png?raw=true" alt="Definition for the Fabrikam site" title="Definition for the Fabrikam site" />
+</p>
+
+<p><em>Definition for the Fabrikam site</em> </p>
+<blockquote>
+<p><strong>Note:</strong> The updated endpoint binding ensures that the site only responds to traffic that specifies the appropriate host header, namely requests for <em><a href="http://www.fabrikam.com">www.fabrikam.com</a></em>.</p>
+</blockquote></li>
+<li><p>Next, define a new site for <em>Contoso</em> by inserting the following (highlighted) definition inside the <strong>Sites</strong> element.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex1-01-ContosoSite-XML</em>)</p>
+
+<!-- mark: 8-14    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">WebRole</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Fabrikam&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> <span style="color:#FF0000">endpointName</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> <span style="color:#FF0000">hostHeader</span>=<span style="color:#0000FF">&quot;www.fabrikam.com&quot;</span> <span style="color:#0000FF">/&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Contoso&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">endpointName</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">hostHeader</span>=<span style="color:#0000FF">&quot;www.contoso.com&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">WebRole</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Similarly, create a site for <strong>Litware</strong>, as shown (highlighted) below.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex1-02-LitwareSite-XML</em>)</p>
+
+<!-- mark: 17-23    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">WebRole</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Fabrikam&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> 
+                 <span style="color:#FF0000">endpointName</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> 
+                 <span style="color:#FF0000">hostHeader</span>=<span style="color:#0000FF">&quot;www.fabrikam.com&quot;</span> <span style="color:#0000FF">/&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Contoso&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> 
+                 <span style="color:#FF0000">endpointName</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> 
+                 <span style="color:#FF0000">hostHeader</span>=<span style="color:#0000FF">&quot;www.contoso.com&quot;</span> <span style="color:#0000FF">/&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Litware&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">endpointName</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">hostHeader</span>=<span style="color:#0000FF">&quot;www.litware.com&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">WebRole</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> All three sites are mapped to the same physical directory (&quot;<em>..\SampleWebApp</em>&quot;) and bound to the same HTTP endpoint (<em>HttpIn)</em>. The endpoint binding, however, specifies a different host header value for each site.</p>
+</blockquote></li>
+<li><p>Press <strong>F5</strong> to build and run the Windows Azure project. Wait for the application to launch in the compute emulator and for the browser to open pointing at the default site address. Notice that it shows an error page with a status <strong>HTTP 400 Bad Request</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> By default, the Windows Azure Tools for Visual Studio opens the default Web site in your browser. In this case, however, you have removed the default mapping and there is no longer any site accessible without the use of a host header, which explains the error response.</p>
+</blockquote></li>
+<li><p>Start Internet Information Services (IIS) Manager.</p></li>
+<li><p>Browse to the <strong>Sites</strong> node and notice that three new sites were created for <em>Fabrikam</em>, <em>Contoso</em> and <em>Litware</em>. The name of the site is derived from the Windows Azure deployment ID, the Web role name, the instance ID, and the name of the site in the service model file.</p>
+
+<p><img src="images/iis-manager-showing-the-sites-created-by-the-web-role.png?raw=true" alt="Internet Information Services Manager showing the sites created by the Web role" title="Internet Information Services \(IIS\) Manager showing the sites created by the Web role" />
+</p>
+
+<p><em>Internet Information Services (IIS) Manager showing the sites created by the Web role</em> </p></li>
+<li><p>In the (IIS) Manager, click Contoso node and take note of the <strong>port</strong> where it is hosted. You will find the port number in the right pane, inside <strong>Manage Web Site</strong>. Repeat this action with Fabrikam and Litware nodes. You will use these ports later in this exercise.</p>
+
+<p><img src="images/application-port.png?raw=true" alt="Application Port" title="Application Port" />
+</p>
+
+<p><em>Application Port</em> </p></li>
+<li><p>Now, select the <strong>Application Pools</strong> node and review the pools created to support the applications hosted by the Web role.</p>
+
+<p><img src="images/application-pools-defined-for-the-web-role-sites.png?raw=true" alt="Application pools defined for the Web role sites" title="Application pools defined for the Web role sites" />
+</p>
+
+<p><em>Application pools defined for the Web role sites</em> </p></li>
+<li><p>In the browser window, change the address to that of the <em>Contoso</em> site. Make sure to use the same port number you obtained in the step 11. For example, if the browser is currently showing <a href="http://127.0.0.1:81"><a href="http://127.0.0.1:81">http://127.0.0.1:81</a></a>, set the address to <a href="http://www.contoso.com:82">http://www.contoso.com:82</a>.</p>
+<blockquote>
+<p><strong>Note:</strong> The setup procedure updated the hosts file, adding three new entries for <a href="http://www.contoso.com"><a href="http://www.contoso.com">www.contoso.com</a></a>,  <a href="http://www.fabrikam.com"><a href="http://www.fabrikam.com">www.fabrikam.com</a></a>, and <a href="http://www.litware.com"><a href="http://www.litware.com">www.litware.com</a></a>, all pointing to the loopback address (127.255.0.0).</p>
+</blockquote></li>
+<li><p>Notice that the title shown in the home page is &quot;My ASP.NET Application&quot;.</p></li>
+<li><p>In Visual Studio, open the <strong>Site.Master</strong> file in the <strong>SampleWebApp</strong> project. Inside the body of the page, locate the <strong>h1</strong> element nested inside a <strong>div</strong> element with its <strong>class</strong> set to <em>title</em>. Replace its content, which should be &quot;My ASP.NET Application&quot;, with the following (highlighted) expression.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex1-03-SampleWebAppTitle-HTML</em>)</p>
+
+<!-- mark: 8    -->
+
+<span class="codelanguage">aspx</span><pre><code class="aspx"> ...
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">body</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">form</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;page&quot;</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;header&quot;</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;title&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">          <span style="background-color:#FFFF00; color:Black">&lt;%</span>= System.Text.RegularExpressions.Regex.Match(System.Web.Hosting.HostingEnvironment.ApplicationHost.GetSiteName(), &quot;[^_]+$&quot;).Value<span style="background-color:#FFFF00; color:Black">%&gt;</span></strong>
+     <span style="color:#0000FF">&lt;/</span><span style="color:#800000">h1</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span> <span style="color:#FF0000">class</span>=<span style="color:#0000FF">&quot;loginDisplay&quot;</span><span style="color:#0000FF">&gt;</span>
+    ...
+
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">form</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">body</span><span style="color:#0000FF">&gt;</span>
+...
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The added code retrieves the Web site name using the <strong>ApplicationHost</strong> class in the <strong>System.Web.Hosting.Environment</strong> namespace and then uses a regular expression to extract a friendly name for the site.</p>
+</blockquote></li>
+<li><p>Save the updated file.</p></li>
+<li><p>In the browser window, refresh the page and notice how the title of the page now shows &quot;Contoso&quot; instead of &quot;My ASP.NET Application&quot;.</p>
+<blockquote>
+<p><strong>Note:</strong> Editing the site content while the application is running is a useful technique to use during debugging, allowing you to apply changes without restarting the deployment. Be aware that this requires the role to be hosted in IIS; otherwise, when using the simple service model that uses Hosted Web Core (HWC), changes only become effective after redeploying the service.</p>
+</blockquote></li>
+<li><p>Open a new browser window and navigate to <a href="http://www.litware.coms"><a href="http://www.litware.com">http://www.litware.com</a></a>. Notice that the Web site title in the new window is <strong>Litware</strong>. Similarly, open a third browser window and navigate to <a href="http://www.fabrikam.com"><a href="http://www.fabrikam.com">http://www.fabrikam.com</a></a>. </p>
+<blockquote>
+<p><strong>Note:</strong> Remember to specify the correct port number for each address if the deployment is not using the standard HTTP port (80).</p>
+</blockquote>
+<p><img src="images/multiple-sites-hosted-in-the-Web-role.png?raw=true" alt="Multiple sites hosted in the Web role" title="Multiple sites hosted in the Web role" />
+</p>
+
+<p><em>Multiple sites hosted in the Web role</em> </p>
+<blockquote>
+<p><strong>Note:</strong> In this particular case, all three sites are mapped to the same physical directory but use host headers to identify which site responds to a request. A Web role application can extract the site name from the request, as was shown earlier for the title, and then customize the output to render the pages differently depending on the requested site. You can, of course, map each site to a different physical directory and use different content for each one.</p>
+</blockquote></li>
+<li><p>Close all browser windows.</p></li>
+</ol>
+
+<p><a name="Ex1Task2"></a></p>
+
+<h4 id="Task_2_-_Creating_Virtual_Applications_and_Virtual_Directories">Task 2 - Creating Virtual Applications and Virtual Directories</h4>
+
+<p>In this task, you create a new Virtual Application for an application that you only enable for selected sites. </p>
+
+<ol>
+<li><p>In Visual Studio, add the sample <strong>CRM</strong> application project located in the <strong>Assets</strong> folder of the lab to the solution. </p></li>
+<li><p>Now, in the Windows Azure project, open the service model file <strong>ServiceDefinition.csdef</strong>.</p></li>
+<li><p>Locate to the <strong>Site</strong> element for the <em>Contoso</em> site and insert the <strong>VirtualApplication</strong> definition, as shown (highlighted) below. </p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex1-04-ContosoVirtualApplicationDefinition-XML</em>)</p>
+
+<!-- mark: 7-13   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">WebRole</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Fabrikam&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Contoso&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">VirtualApplication</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;CRM&quot;</span></strong>
+<strong class="markLine">                          <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\..\..\Assets\CRM&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">VirtualDirectory</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Scripts&quot;</span></strong>
+<strong class="markLine">                          <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp\Scripts&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">VirtualDirectory</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Styles&quot;</span></strong>
+<strong class="markLine">                          <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp\Styles&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">VirtualApplication</span><span style="color:#0000FF">&gt;</span></strong>
+     ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Litware&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">WebRole</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The virtual application definition shown above creates a new Web application in the <em>Contoso</em> site and maps it to the <em>CRM</em> path, thus, making it reachable at <em><a href="http://www.contoso.com/CRM"><a href="http://www.contoso.com/CRM">http://www.contoso.com/CRM</a></a></em>.</p>
+
+<p>Because the CRM site shares content with the main site, in particular, its <em>Scripts</em> and <em>Styles</em> folders, these are created as virtual directories under the CRM site and mapped to the corresponding physical directories present in the main site.</p>
+</blockquote></li>
+<li><p>Similarly, enable the CRM application for the <em>Litware</em> site by inserting the following (highlighted) virtual application definition.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex1-05-LitwareVirtualApplicationDefinition-XML</em>)</p>
+
+<!-- mark: 10-16   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">WebRole</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Fabrikam&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Contoso&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+      ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Litware&quot;</span> <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">VirtualApplication</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;CRM&quot;</span></strong>
+<strong class="markLine">                          <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\..\..\Assets\CRM&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">VirtualDirectory</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Scripts&quot;</span></strong>
+<strong class="markLine">                          <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp\Scripts&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">VirtualDirectory</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Styles&quot;</span></strong>
+<strong class="markLine">                          <span style="color:#FF0000">physicalDirectory</span>=<span style="color:#0000FF">&quot;..\SampleWebApp\Styles&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">VirtualApplication</span><span style="color:#0000FF">&gt;</span></strong>
+   ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">WebRole</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>F5</strong> to build and launch the application in the compute emulator.</p></li>
+<li><p>In the browser window, navigate to <a href="http://www.contoso.com"><a href="http://www.contoso.com">http://www.contoso.com</a></a>, making sure that you specify the port number for the running deployment, if this is different from the standard HTTP port (80).</p></li>
+<li><p>Now, navigate to <a href="http://www.contoso.com/CRM"><a href="http://www.contoso.com/CRM">http://www.contoso.com/CRM</a></a> to view the CRM application running in the <em>Contoso</em> site. </p>
+
+<p><img src="images/crm-virtual-application-mapped-to-the-contoso-site.png?raw=true" alt="CRM virtual application mapped to the Contoso site" title="CRM virtual application mapped to the Contoso site" />
+</p>
+
+<p><em>CRM virtual application mapped to the Contoso site</em> </p></li>
+<li><p>Repeat the previous step, only this time visit the same CRM application running in the <em>Litware</em> site. </p></li>
+<li><p>Close the browser window.</p></li>
+</ol>
+
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Using_Start-Up_Tasks_to_Register_a_COM_Component">Exercise 2: Using Start-Up Tasks to Register a COM Component</h3>
+
+<p>A start-up task is a command, either an executable or a script, executed prior to the start of a role instance. The command can perform set up tasks that are required to prepare the environment for the application, such as installing applications, registering COM components, configuring IIS settings, or registering performance counters.</p>
+
+<p>In this exercise, you explore the use of start-up tasks to configure the environment where a service executes. To do this, you will use a sample Web application that requires a COM component to work.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Registering_a_COM_Component">Task 1 - Registering a COM Component</h4>
+
+<p>Many applications today still rely on functionality provided by &quot;legacy&quot; COM components. Moving these applications to the cloud requires that each virtual machine instance hosting the application have the necessary components installed and registered. Registration needs to be carried out upon role start up and requires administrative privileges.</p>
+
+<p>In this task, you create a start-up task that registers the COM component required by the sample application.</p>
+<blockquote>
+<p><strong>Important</strong>: Make sure that you have launched the dependency checker to set up the lab before starting this task. The setup procedure builds the COM component required by the solution from source code in the <strong>Assets</strong> folder. Note that you need to have Visual C++ installed for this purpose.</p>
+
+<p>In addition, to use the COM component, the identity of the process instantiating it must have access to the directory where the component is installed. To ensure this, avoid launching the service from a location inside your user profile folder and instead, copy the project files to a folder with unrestricted permissions.</p>
+</blockquote>
+<ol>
+<li><p>Start Microsoft Visual Studio 2010 as an administrator.</p></li>
+<li><p>Open the <strong>Begin</strong> solution located in <strong>Ex2-StartupTasks</strong> in the <strong>Source</strong> folder of the lab. The solution contains a Windows Azure project and a Web role that makes use of the <strong>LegacyCOM</strong> component.</p>
+<blockquote>
+<p><strong>Note:</strong> The <strong>LegacyCOM</strong> project, located in the <strong>Assets</strong> folder of the lab, implements a very simple COM library using Active Template Library (ATL). The library contains a single component class with a method that receives a name parameter and returns a greeting message. </p>
+</blockquote></li>
+<li><p>Press <strong>F5</strong> to build and run the application. During the build process in Visual Studio, a pre-build event registers the COM component. A message box should notify you when the registration succeeds. Click <strong>OK</strong> to proceed.</p>
+
+<p><img src="images/successful-com-component-registration.png?raw=true" alt="Successful COM component registration" title="Successful COM component registration" />
+</p>
+
+<p><em>Successful COM component registration</em> </p>
+<blockquote>
+<p><strong>Note:</strong> Normally, the Visual C++ development environment takes care of the registration. Here, the automatic registration in the <strong>LegacyCOM</strong> project has been intentionally disabled and instead, a post-build event configured to handle this requirement and to produce an explicit message to notify you when this occurs. Later in this task, you will see that the component, which only needs to be registered to build the solution, will be unregistered by a post-build step.</p>
+</blockquote></li>
+<li><p>Wait for the application to launch in the Compute Emulator and for the Home page to open in your browser. Then, enter your name and then click <strong>Greet me!</strong>. Notice that the application responds with a greeting message generated by the COM component.</p>
+
+<p><img src="images/running-application-showing-the-output-from-t.png?raw=true" alt="Running application showing the output from the COM component" title="Running application showing the output from the COM component" />
+</p>
+
+<p><em>Running application showing the output from the COM component</em> </p></li>
+<li><p>Close the browser window to stop debugging and shut down the application.</p></li>
+<li><p>In the <strong>Build Events</strong> tab of the <strong>SampleWebApp</strong> project's properties, add a post-build event to unregister the COM component after the Web application is built. Use the following command line.</p>
+
+<!-- mark: 1,2    -->
+
+<span class="codelanguage">Post-buildEventCommandLine</span><pre><code class="Post-buildEventCommandLine"><strong class="markLine">IF DEFINED PROCESSOR_ARCHITEW6432 (SET DEV_PLATFORM=%PROCESSOR_ARCHITEW6432%) ELSE (SET DEV_PLATFORM=%PROCESSOR_ARCHITECTURE%)</strong>
+<strong class="markLine">regsvr32.exe /u &quot;$(ProjectDir)\%DEV_PLATFORM%\LegacyCOM.dll&quot;</strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> To build the Web application, the component must be registered on the development machine. However, because you are using the same machine to launch the application in the compute emulator, you need to ensure that the COM component is not registered when you test the startup task; otherwise, you will be unable to determine whether the task succeeded. </p>
+</blockquote></li>
+<li><p>You will now execute the application without the required COM registration. Press <strong>F5</strong> to build and run the application in the compute emulator. Notice that when the solution builds, you first receive a notification that the COM component has been registered, and then, after the build completes, a second notification indicating that the component has been unregistered. Click <strong>OK</strong> to dismiss both message boxes.</p>
+
+<p><img src="images/successful-unregistration-of-the-com-componen.png?raw=true" alt="Successful unregistration of the COM component after the build completes" title="Successful unregistration of the COM component after the build completes" />
+</p>
+
+<p><em>Successful unregistration of the COM component after the build completes</em> </p></li>
+<li><p>Wait for the application to launch in the compute emulator and for the Home page to open in your browser. In the browser window, enter your name and click <strong>Greet me!</strong>. Notice that after submitting the form, an exception is raised and execution halts in the debugger. </p>
+
+<p><img src="images/comexception-raised-when-the-com-component-is.png?raw=true" alt="COMException raised when the COM component is not registered" title="COMException raised when the COM component is not registered" />
+</p>
+
+<p><em>COMException raised when the COM component is not registered</em> </p></li>
+<li><p>Press <strong>F5</strong> to continue execution and allow the exception to be handled by ASP.NET.</p>
+
+<p><img src="images/aspnet-unhandled-exception-handler.png?raw=true" alt="ASP.NET unhandled exception handler" title="ASP.NET unhandled exception handler" />
+</p>
+
+<p><em>ASP.NET unhandled exception handler</em> </p></li>
+<li><p>Close the browser window to stop debugging and shut down the application.</p></li>
+<li><p>Next, define a startup task to set up the role and register the COM component. To do this, open the <strong>ServiceDefinition.csdef</strong> file in the Windows Azure project, locate the <strong>WebRole</strong> element in the service model and inside it, insert a <strong>Startup</strong> element with a single task, as shown below.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex2-01-StartUpTask-XML</em>)</p>
+
+<!-- mark: 18-20    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">ServiceDefinition</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;CloudService&quot;</span> <span style="color:#FF0000">xmlns</span>=<span style="color:#0000FF">&quot;http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">WebRole</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;SampleWebApp&quot;</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Site</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;Web&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+          <span style="color:#0000FF">&lt;</span><span style="color:#800000">Binding</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> <span style="color:#FF0000">endpointName</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> <span style="color:#0000FF">/&gt;</span>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Bindings</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Site</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">ConfigurationSettings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">ConfigurationSettings</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Endpoints</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">InputEndpoint</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;HttpIn&quot;</span> <span style="color:#FF0000">protocol</span>=<span style="color:#0000FF">&quot;http&quot;</span> <span style="color:#FF0000">port</span>=<span style="color:#0000FF">&quot;80&quot;</span> <span style="color:#0000FF">/&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Endpoints</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Imports</span><span style="color:#0000FF">&gt;</span>
+      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Import</span> <span style="color:#FF0000">moduleName</span>=<span style="color:#0000FF">&quot;Diagnostics&quot;</span> <span style="color:#0000FF">/&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Imports</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Startup</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">Task</span> <span style="color:#FF0000">commandLine</span>=<span style="color:#0000FF">&quot;Register.cmd&quot;</span> <span style="color:#FF0000">executionContext</span>=<span style="color:#0000FF">&quot;elevated&quot;</span> <span style="color:#FF0000">taskType</span>=<span style="color:#0000FF">&quot;simple&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Startup</span><span style="color:#0000FF">&gt;</span></strong>
+ <span style="color:#0000FF">&lt;/</span><span style="color:#800000">WebRole</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">ServiceDefinition</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The <strong>Startup</strong> element contains one or more <strong>Tasks</strong> that the role executes during its bootstrapping process. Each task includes a <strong>commandLine</strong> parameter that defines a program or a batch file to execute.</p>
+
+<p>Tasks can specify an <strong>executionContext</strong> that allows them to run in the same security context as the role or with administrative privileges. Because registering a COM component requires writing information to a registry hive that is not accessible to regular users, the registration task uses an elevated execution context.</p>
+
+<p>Additionally, tasks can specify a type that determines how they are scheduled. The following types are available:</p>
+
+<p><strong>Simple:</strong> the startup process launches the task and does not proceed until the task completes.</p>
+
+<p><strong>Background:</strong> the startup process launches the task in the background and then continues.</p>
+
+<p><strong>Foreground:</strong> similar to a background task, but the role cannot shut down until all the foreground tasks have ended.</p>
+</blockquote></li>
+<li><p>Create a new text file in the root of the <strong>SampleWebApp</strong> project and name it <strong>Register.cmd</strong>. This file will contain a script to register the COM component.</p></li>
+<li><p>Add the following content to the <strong>Register.cmd</strong> script. </p>
+
+<!-- mark: 1-2    -->
+
+<span class="codelanguage">Command</span><pre><code class="Command"><strong class="markLine">echo off</strong>
+<strong class="markLine">regsvr32.exe /s &quot;%~dp0%PROCESSOR_ARCHITECTURE%\LegacyCOM.dll&quot;</strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The script shown above registers the COM component using the <strong>regsvr32.exe</strong> utility that is normally present in any Windows distribution and is available in the Windows Azure Guest OS.</p>
+
+<p>It registers the version of the component appropriate to the platform where the role is running. Notice that the path that specifies the component to register uses the <em>%PROCESSOR_ARCHITECTURE%</em> environment variable to select the folder that matches the current platform, either <em>amd64</em> for 64-bit systems or <em>x86</em> for 32-bit systems. This allows you to run the same script locally, during development, if you are working on a 32-bit OS, or in the cloud, when you deploy the application to the 64-bit Windows Azure environment. Note that the lab setup procedure builds the COM component for both platforms.</p>
+
+<p>Normally, during registration, the <strong>regsvr32.exe</strong> utility produces a message box that requires confirmation. When hosted in the compute emulator, you can close the dialog and proceed with the startup process. However, when deploying to Windows Azure, if the task stops to wait for user input, it will block, causing the role to remain in a busy state and never start. For this reason, the registration is performed in silent mode by appending an <strong>/s</strong> parameter to the command line.</p>
+</blockquote></li>
+<li><p>Set the <strong>Copy to Output Directory</strong> property of the script file to <strong>Copy always</strong> and make sure that its <strong>Build Action</strong> property is set to <strong>None</strong>.</p>
+
+<p><img src="images/copying-the-startup-script-to-the-output-dire.png?raw=true" alt="Copying the startup script to the output directory" title="Copying the startup script to the output directory" />
+</p>
+
+<p><em>Copying the startup script to the output directory</em> </p></li>
+<li><p>Once again, press <strong>F5</strong> to build and run the application in the compute emulator. </p></li>
+<li><p>Wait for the application to launch in the Compute Emulator and for the Home page to open in your browser. Then, enter your name and then click <strong>Greet me!</strong>. Notice that the application responds with a greeting message confirming that the start-up task successfully registered the COM component.</p></li>
+<li><p>Close the browser window.</p></li>
+<li><p>Optionally, you may want to deploy the service package to Windows Azure and test the COM registration process in the cloud.</p>
+<blockquote>
+<p><strong>Note:</strong> For this lab, you have access to the source code for the COM component and are able to build and deploy the 64-bit version when deploying to Windows Azure. If you need to register a COM component for which you do not have source code, be aware that 32-bit components cannot be accessed directly by a 64-bit role process, and instead need to be launched in a separate surrogate process. </p>
+</blockquote></li>
+</ol>
+
+<p><a name="Exercise3"></a></p>
+
+<h3 id="Exercise_3_Using_Start-Up_tasks_to_install_PHP_with_the_Web_Platform_Installer">Exercise 3: Using Start-Up tasks to install PHP with the Web Platform Installer</h3>
+
+<p>Applications deployed to the cloud usually have a set of prerequisites that must be installed on the host computer to be able to work correctly. In this kind of scenario, having the capabilities of the <strong>Microsoft Web Platform Installer</strong> (Web PI) at your service can be very handy.</p>
+
+<p>In this exercise, you explore another possible use for start-up tasks in conjunction with the Web Platform Installer. You will learn how to install complex components such as the binary files for a new scripting language. To do this, you will create a simple PHP page, requiring that the PHP script processor be installed in order to work.</p>
+
+<p><a name="Ex3Task1"></a></p>
+
+<h4 id="Task_1_-_Installing_PHP_with_the_Web_Platform_installer">Task 1 - Installing PHP with the Web Platform installer</h4>
+
+<p>In this task, you will use multiple start-up tasks to install the Web Platform Installer and then install PHP using the Web PI.</p>
+
+<ol>
+<li><p>Start Microsoft Visual Studio 2010 as an administrator.</p></li>
+<li><p>Open the <strong>Begin</strong> solution located in <strong>Ex3-InstallPHP</strong> in the <strong>Source</strong> folder of the lab. The solution contains a Windows Azure project and a Web role to which you will add a PHP page.</p></li>
+<li><p>Add a new PHP page at the root of the <strong>PHPWebRole</strong> project named <strong>info</strong>.<strong>php</strong>. To do this, you can select the <strong>Text</strong> <strong>File</strong> template in the <strong>Add</strong> <strong>New</strong> <strong>Item</strong> dialog and type <em>info.php</em> in the <strong>Name</strong> field.</p>
+
+<p><img src="images/creating-the-infophp-page.png?raw=true" alt="Creating the info.php page" title="Creating the info.php page" />
+</p>
+
+<p><em>Creating the info.php page</em> </p></li>
+<li><p>Add the following code to the <strong>info</strong>.<strong>php</strong> file.</p>
+
+<!-- mark: 1-3   -->
+
+<span class="codelanguage">PHP</span><pre><code class="PHP"><strong class="markLine"><span style="color:#0000FF">&lt;?</span>php </strong>
+<strong class="markLine">    <a href="http://www.php.net/phpinfo" style="color:#FFA500">phpinfo</a>();</strong>
+<strong class="markLine"><span style="color:#0000FF">?&gt;</span></strong>
+</code></pre></li>
+<li><p>Now, open the <strong>Web.config</strong> file, locate the <strong>system.webServer</strong> element, and then insert the following <strong>defaultDocument</strong> element to set the default document as <strong>info.php</strong>.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex3-01-DefaultDocument-XML</em>)</p>
+
+<!-- mark: 5-9   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">modules</span> <span style="color:#FF0000">runAllManagedModulesForAllRequests</span>=<span style="color:#0000FF">&quot;true&quot;</span><span style="color:#0000FF">/&gt;</span>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">defaultDocument</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">files</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;info.php&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">files</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">defaultDocument</span><span style="color:#0000FF">&gt;</span></strong>
+ <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Set the <strong>InstallPHP</strong> project as the solution's start-up project.</p></li>
+<li><p>Press <strong>F5</strong> to launch the Web Role and wait for the web browser window to appear, which will indicate that the role has been initialized. As PHP is not installed, you will receive an error message like the one shown in the following figure. If the default document is not shown by default, try browsing to <strong>info.php</strong>.</p>
+
+<p><img src="images/error-when-php-is-not-installed.png?raw=true" alt="Error when PHP is not installed" title="Error when PHP is not installed" />
+</p>
+
+<p><em>Error when PHP is not installed</em> </p></li>
+<li><p>Close the web browser window.</p></li>
+<li><p>In <strong>Solution Explorer</strong>, double-click <strong>InstallPHP.cmd</strong> in the <strong>PHPWebRole</strong> project to examine this script file in the editor.</p>
+
+<p><img src="images/startup-script-to-install-php-using-the-web-p.png?raw=true" alt="Startup script to install PHP using the Web Platform Installer" title="Startup script to install PHP using the Web Platform Installer" />
+</p>
+
+<p><em>Startup script to install PHP using the Web Platform Installer</em> </p>
+<blockquote>
+<p><strong>Note:</strong> The <strong>InstallPHP.cmd</strong> script installs the most recent version of PHP using the Web Platform Installer command line tool <a href="http://msdn.microsoft.com/en-us/library/gg433092.aspx"><a href="http://msdn.microsoft.com/en-us/library/gg433092.aspx">http://msdn.microsoft.com/en-us/library/gg433092.aspx</a></a>. This tool simplifies the installation of the latest components of the Microsoft Web Platform, such as IIS, PHP, and SQL Server Express, among others, and enables you to automate the application and service installation of a Windows Azure role.</p>
+
+<p>The script first enables the Windows Update service to allow the Web Platform Installer to use it for downloading components required by the PHP installation. Next, it launches the Web PI command line tool to install PHP. Once the installation is complete, it stops the Windows Update service and restores its startup mode to disabled.</p>
+
+<p><strong>Important:</strong> All startup script files have their <strong>Build</strong> <strong>Action</strong> set to <strong>None</strong> and <strong>Copy to Output Directory</strong> property set to <strong>Copy always</strong>. </p>
+</blockquote></li>
+<li><p>In Visual Studio, open the <strong>ServiceDefinition.csdef</strong> file in the <strong>InstallPHP</strong> Web role project.</p></li>
+<li><p>Add the (highlighted) <strong>Startup</strong> configuration elements in the following code snippet, below the <strong>ConfigurationSettings</strong> element closing tag. In general, this section defines startup tasks and, in this case, includes the script required to install PHP on a Windows Azure host.</p>
+
+<p>(Code Snippet - <em>AdvancedWebAndWorkerRoles-Ex3-02-StartUpTasks-XML</em>)</p>
+
+<!-- mark: 9-11    -->
+
+<span class="codelanguage">XML</span><pre><code class="XML">...
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">WebRole</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;PHPWebRole&quot;</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Sites</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">ConfigurationSettings</span><span style="color:#0000FF">&gt;</span>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">ConfigurationSettings</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Startup</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">Task</span> <span style="color:#FF0000">commandLine</span>=<span style="color:#0000FF">&quot;InstallPHP.cmd&quot;</span> <span style="color:#FF0000">executionContext</span>=<span style="color:#0000FF">&quot;elevated&quot;</span> <span style="color:#FF0000">taskType</span>=<span style="color:#0000FF">&quot;simple&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Startup</span><span style="color:#0000FF">&gt;</span></strong>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Endpoints</span><span style="color:#0000FF">&gt;</span>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Endpoints</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">Imports</span><span style="color:#0000FF">&gt;</span>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">Imports</span><span style="color:#0000FF">&gt;</span>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">WebRole</span><span style="color:#0000FF">&gt;</span>
+...
+</code></pre></li>
+<li><p>Press <strong>F5</strong> to launch the Web role in the compute emulator. </p></li>
+<li><p>Wait for the role to start and show its default page. While the startup tasks execute to install PHP, Visual Studio may warn you one or more times that the role is taking longer than expected to start. If this happens, click <strong>Yes</strong> to continue waiting.</p>
+
+<p><img src="images/visual-studio-warning-during-the-php-installa.png?raw=true" alt="Visual Studio warning during the PHP installation" title="Visual Studio warning during the PHP installation" />
+</p>
+
+<p><em>Visual Studio warning during the PHP installation</em></p>
+<blockquote>
+<p><strong>Note:</strong> Running the start-up task may take some time. Before continuing with the following steps, you should make sure PHP has been installed. You can check this in the <strong>Programs and Features</strong> list that can be accessed through the <strong>Control Panel</strong>.</p>
+</blockquote></li>
+<li><p>Once the role starts successfully, a page similar to the one shown in the following figure is displayed, confirming that PHP was installed correctly.</p>
+
+<p><img src="images/confirming-that-the-php-installation-was-succ.png?raw=true" alt="Confirming that the PHP installation was successful" title="Confirming that the PHP installation was successful" />
+</p>
+
+<p><em>Confirming that the PHP installation was successful</em></p></li>
+</ol>
+
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>In this Hands-on Lab, you reviewed some advanced Windows Azure service model features. You saw how to enable hosting a Web role in Internet Information Server (IIS) to access its full set of features. By enabling IIS, you were able to host multiple sites in a single Web role and create virtual applications and directories. Additionally, you explored start-up tasks that you can use to prepare the role environment, and how to use them to register a COM component, as well as installing entire binary file sets for a scripting language.</p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-AdvancedWebWorkerRoles/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,1057 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en" class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head id="ContentPlaceHolderDefault_Head1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Windows Azure Training Kit - Migrating ASP.NET Applications to Windows Azure</title>
+    <link rel="Stylesheet" type="text/css" media="all" href="styles/master.css" />
+</head>
+<body id="top" class="page-">
+    <div id="page">
+        <div id="wrapper" class="landingPage getStartedPage">            
+            <div class="header">								
+				<img alt="Windows Azure" src="images/azure-logo.png" />
+				<span class="mainHomepageSubTitle">Training Kit - June 2012 Update</span>								
+			</div>			
+			<div class="nav-menu-header">
+				<nav>
+					<ul>
+						<li class="MenuLink-Selected">
+							<a href="#">Content</a>
+						</li>
+												<li class="MenuLink">
+							<a href="Source">Setup</a>
+						</li>
+											</ul>
+				
+										
+						<span id="github-btn" class="github-btn">
+						  <a id="gh-btn" title="Fork this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-MigratingAspNetApps" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Fork</span>
+						  </a>								  
+						</span>								
+						<span id="github-btn" class="github-btn github-watchers">
+						  <a id="gh-btn" title="Watch this repo in GitHub" href="https://github.com/WindowsAzure-TrainingKit/HOL-MigratingAspNetApps" target="_blank" class="gh-btn">
+							<span class="gh-ico"></span>
+							<span id="gh-text" class="gh-text">Watch</span>
+						  </a>								  
+						</span>
+						
+									
+				</nav>
+			</div>	        
+		</span>
+			<div id="content" class="textpage">
+            <section id="content-container">
+				<div id="content" class="textpage">
+			    <a name="top"></a>
+				
+				
+
+		<div class="content">
+			<?xml version="1.0" encoding="iso-8859-1"?><span><p><a name="HOLTop"></a></p>
+
+<h1 id="Migrating_ASPNET_Applications_to_Windows_Azure">Migrating ASP.NET Applications to Windows Azure</h1>
+
+<hr />
+
+<p><a name="Overview"></a></p>
+
+<h2 id="Overview">Overview</h2>
+
+<p>ASP.NET supports different implementations of the application providers for membership, role, profile and session management. Most providers come with a version that is based on a SQL database, or uses in-memory representations of data managed by the providers.
+The Windows Azure samples include provider implementations that make use of scalable and reliable blob and table storage services. Additionally, the providers deal with the problem of Web applications that are hosted on a variety of different machines inside the Windows Azure fabric.
+When you deploy your Web application in the Windows Azure data centers, the storage services for tables and blobs are readily available and are therefore easily accessible from your application.</p>
+
+<p><a name="objectives"></a></p>
+
+<h3 id="Objectives">Objectives</h3>
+
+<p>In this hands-on lab, you will learn how to:</p>
+
+<ul>
+<li>Migrate ASP.NET Web Form and MVC applications to Windows Azure</li>
+<li>Use Forms Authentication with Windows Azure</li>
+<li>Use Azure ASP.NET providers for membership, role, and session state support</li>
+</ul>
+
+<p>The lab shows how to use these features for both ASP.NET Web Form and ASP.NET MVC applications and has an exercise dedicated to each technology. Since both exercises use the same scenario and cover the same material, choose the one that is most relevant to your needs.</p>
+
+<p><a name="prerequisites"></a></p>
+
+<h3 id="Prerequisites">Prerequisites</h3>
+
+<p>The following is required to complete this hands-on lab:</p>
+
+<ul>
+<li><a href="http://go.microsoft.com/fwlink/?linkid=186916">Microsoft .NET Framework 4.0</a></li>
+<li><a href="http://msdn.microsoft.com/vstudio/products/">Microsoft Visual Studio 2010</a></li>
+<li><a href="http://www.microsoft.com/windowsazure/sdk/">Windows Azure SDK and Windows Azure Tools for Microsoft Visual Studio 1.7</a></li>
+<li><a href="http://www.asp.net/mvc/mvc4/">ASP.NET MVC 4</a></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> This lab was designed to use Windows 7 Operating System.</p>
+</blockquote>
+<p><a name="setup"></a></p>
+
+<h3 id="Setup">Setup</h3>
+
+<p>In order to execute the exercises in this hands-on lab you need to set up your environment.</p>
+
+<ol>
+<li><p>Open a Windows Explorer window and browse to the lab's <strong>Source</strong> folder.</p></li>
+<li><p>Right-click the <strong>Setup.cmd</strong> file and click <strong>Run as administrator</strong>. This will launch the setup process that will configure your environment and install the Visual Studio code snippets for this lab.</p></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> When you first start Visual Studio, you must select one of the predefined settings collections. Every predefined collection is designed to match a particular development style and determines window layouts, editor behavior, IntelliSense code snippets, and dialog box options. The procedures in this lab describe the actions necessary to accomplish a given task in Visual Studio when using the <strong>General Development Settings</strong> collection. If you choose a different settings collection for your development environment, there may be differences in these procedures that you need to take into account.</p>
+</blockquote>
+<p><a name="usingcodesnippets"></a></p>
+
+<h3 id="Using_the_Code_Snippets">Using the Code Snippets</h3>
+
+<p>Throughout the lab document, you will be instructed to insert code blocks. For your convenience, most of that code is provided as Visual Studio Code Snippets, which you can use from within Visual Studio 2010 to avoid having to add it manually.</p>
+
+<hr />
+
+<p><a name="Exercises"></a></p>
+
+<h2 id="Exercises">Exercises</h2>
+
+<p>This hands-on lab includes the following exercises:</p>
+
+<ol>
+<li><a href="#Exercise1">Moving a Web Application to the Cloud</a></li>
+<li><a href="#Exercise2">Using the Azure ASP.NET Providers with MVC Applications</a></li>
+<li><a href="#Exercise3">Using the Azure ASP.NET Providers with Web Form Applications</a></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Each exercise is accompanied by a starting solution located in the Begin folder of the exercise that allows you to follow each exercise independently of the others. Please be aware that the code snippets that are added during an exercise are missing from these starting solutions and that they will not necessarily work until you complete the exercise. Inside the source code for an exercise, you will also find an End folder containing a Visual Studio solution with the code that results from completing the steps in the corresponding exercise. You can use these solutions as guidance if you need additional help as you work through this hands-on lab.</p>
+</blockquote>
+<p>Estimated time to complete this lab: <strong>45 minutes</strong>.</p>
+
+<p><a name="Exercise1"></a></p>
+
+<h3 id="Exercise_1_Moving_a_Web_Application_to_the_Cloud">Exercise 1: Moving a Web Application to the Cloud</h3>
+
+<p>In this exercise, you configure a sample shopping cart application implemented with ASP.NET to run in Windows Azure.</p>
+
+<p><a name="Ex1Task1"></a></p>
+
+<h4 id="Task_1_-_Preparing_the_Application_to_Run_in_Windows_Azure">Task 1 - Preparing the Application to Run in Windows Azure</h4>
+
+<p>The Azure Store is a standard ASP.NET sample that mimics a simple commerce application. It presents a list of products that users can select and add to their shopping cart.</p>
+
+<p>Before you begin, you may wish to build and run the solution and become acquainted with its operation. In its initial state, the application runs outside the compute emulator.</p>
+
+<p>In this task, you create a Windows Azure project in Visual Studio to prepare the application to run in Windows Azure.</p>
+
+<ol>
+<li>Open Visual Studio in elevated administrator mode from <strong>Start | All Programs | Microsoft Visual Studio 2010</strong> by right clicking the <strong>Microsoft Visual Studio 2010</strong> shortcut and choosing <strong>Run as administrator</strong>.</li>
+<li>If the <strong>User Account Control</strong> dialog appears, click <strong>Yes</strong>.</li>
+<li><p>In the <strong>File</strong> menu, choose <strong>Open</strong> and then <strong>Project/Solution</strong>. In the Open Project dialog, browse to <strong>Ex1-MovingMVCAppsToAzure\Begin</strong> or <strong>Ex1-MovingWebAppsToAzure\Begin</strong> in the Source folder of the lab, select <strong>Begin.sln</strong> and click <strong>Open</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> Depending on your needs, you may wish to explore migrating ASP.NET MVC or ASP.NET Web Form applications to Windows Azure. The procedures in this exercise are common to both types of application. Choose the most appropriate solution.</p>
+</blockquote></li>
+<li><p>Next, create a new cloud service project and add it to the solution. In the <strong>File</strong> menu, point to <strong>Add</strong> and select <strong>New Project</strong>. In the <strong>Add New Project</strong> dialog, expand Visual C# in the <strong>Installed Templates</strong> list and select <strong>Cloud</strong>. Choose the <strong>Windows Azure Project</strong> template, set the <strong>Name</strong> of the project to <strong>AzureStoreService</strong>, keep the proposed location in the solution's folder and then click <strong>OK</strong>.</p>
+
+<p><img src="images/configuring-the-application-to-run-in-windows.png?raw=true" alt="Configuring the application to run in Windows Azure" />
+</p>
+
+<p><em>Configuring the application to run in Windows Azure</em></p></li>
+<li><p>In the <strong>New Windows Azure Project</strong> dialog, click <strong>OK</strong> without adding new roles to the solution because you will use the existing application as a web role.</p>
+
+<p><img src="images/no-additional-roles-are-required.png?raw=true" alt="No additional roles are required" />
+</p>
+
+<p><em>No additional roles are required</em></p></li>
+<li><p>Associate the ASP.NET project to the cloud project. In <strong>Solution Explorer</strong>, right-click the <strong>Roles</strong> node in the <strong>AzureStoreService</strong> project, point to <strong>Add</strong> and select <strong>Web Role Project in solution</strong>.</p>
+
+<p><img src="images/associating-the-web-role-project.png?raw=true" alt="Associating the web role project" />
+</p>
+
+<p><em>Associating the web role project</em></p></li>
+<li><p>In the <strong>Associate with Role Project</strong> dialog, select the <strong>AzureStore</strong> project and click <strong>OK</strong>.</p>
+
+<p><img src="images/associating-the-web-role-project2.png?raw=true" alt="Associating the Web Role project2" />
+</p>
+
+<p><em>Associating the web role project</em></p>
+<blockquote>
+<p><strong>Note:</strong> When you associate a new role, Visual Studio updates the <strong>ServiceDefinition.csdef</strong> and the <strong>ServiceConfiguration.cscfg</strong> files. If either of these files is currently open, make sure that you save it to preserve these changes.</p>
+</blockquote></li>
+<li><p>Add a reference to the assemblies required to support the Azure environment. In <strong>Solution Explorer</strong>, right-click the <strong>AzureStore</strong> project, select <strong>Add Reference</strong>, click the <strong>.NET</strong> tab, select the <strong>Microsoft.WindowsAzure.Diagnostics</strong>, <strong>Microsoft.WindowsAzure.ServiceRuntime</strong>, and <strong>Microsoft.WindowsAzure.StorageClient</strong> components and click <strong>OK</strong>.</p>
+
+<p><img src="images/adding-a-reference-to-the-windows-azure-compo.png?raw=true" alt="Adding a reference to the Windows Azure components" />
+</p>
+
+<p><em>Adding a reference to the Windows Azure components</em></p></li>
+<li><p>Configure a <strong>TraceListener</strong> to enable diagnostics logging for the application. To do this, open the <strong>Web.config</strong> file of the <strong>AzureStore</strong> project and insert a <strong>system.diagnostics</strong> section as shown (highlighted) below </p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex1 DiagnosticMonitorTraceListener</em>)</p>
+
+<!--mark: 3-10   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.diagnostics</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">trace</span> <span style="color:#FF0000">autoflush</span>=<span style="color:#0000FF">&quot;false&quot;</span> <span style="color:#FF0000">indentsize</span>=<span style="color:#0000FF">&quot;4&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">listeners</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;AzureDiagnostics&quot;</span> <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.WindowsAzure.Diagnostics.DiagnosticMonitorTraceListener, Microsoft.WindowsAzure.Diagnostics, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">listeners</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">trace</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.diagnostics</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine"></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong>These settings in the <strong>system.diagnostics</strong> section configure a trace listener specific to Windows Azure that allows the application to trace code execution using the classes and methods available in the <a href="http://msdn.microsoft.com/en-us/library/system.diagnostics.trace.aspx">System.Diagnostics.Trace</a> class.
+This step is usually unnecessary for roles created in Visual Studio because they already include the necessary settings in their role templates.</p>
+</blockquote></li>
+<li><p>In the <strong>Global.asax</strong> file of the web role, declare the following namespaces.   </p>
+
+<!--mark: 1,2   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">using</span> Microsoft.WindowsAzure;</strong>
+<strong class="markLine"><span style="color:#0000FF">using</span> Microsoft.WindowsAzure.ServiceRuntime;</strong>
+</code></pre></li>
+<li><p>Next, find the <strong>Application_Start</strong> method and insert the following (highlighted) code at the start of the method to initialize the configuration settings publisher.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex1 SetConfigurationSettingPublisher</em> )</p>
+
+<!--mark: 3-7   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">void</span> Application_Start(<span style="color:#0000FF">object</span> sender, EventArgs e)
+{
+<strong class="markLine">    Microsoft.WindowsAzure.CloudStorageAccount.SetConfigurationSettingPublisher((configName, configSetter) =&gt;</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">        configSetter(RoleEnvironment.GetConfigurationSettingValue(configName));</strong>
+<strong class="markLine">    });</strong>
+<strong class="markLine"></strong>
+  ...
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> A configuration setting publisher simplifies the retrieval of storage account configuration settings. Applications only need to set up the publisher once using <strong>CloudStorageAccount.SetConfigurationSettingPublisher</strong>, and then elsewhere, whenever they require access to a storage account, they only require the name of the corresponding setting to access the storage account using <strong>CloudStorageAccount.FromConfigurationSetting</strong>.</p>
+
+<p>Web roles can define a <strong>WebRole</strong> class with the entry point of the role. This class contains methods that Windows Azure calls at various stages during the role's lifetime, for example, the <strong>OnStart</strong> method is called during role start up. You can use this method to initialize the role. Note, however, that for web roles executing in full IIS mode, Internet Information Server hosts the web application in a separate process (w3wp.exe), while the role entry point executes in a different process (WaIISHost.exe). Consequently, most web role initialization tasks need to be performed in the ASP.NET <strong>Application_Start</strong> method.</p>
+</blockquote></li>
+<li><p>For an <strong>ASP.NET MVC project</strong>, ensure that the <strong>System.Web.MVC</strong> assembly is included in the service package that you deploy to Windows Azure. To do this, expand the <strong>References</strong> node in <strong>Solution Explorer</strong> for the <strong>AzureStore</strong> project, right-click the <strong>System.Web.MVC</strong> assembly and select <strong>Properties</strong>. Change the value of the <strong>Copy Local</strong> setting to <em>True</em>.</p>
+
+<p><img src="images/including-assemblies-in-the-service-package-d.png?raw=true" alt="Including assemblies in the service package deployed to Windows Azure" />
+</p>
+
+<p><em>Including assemblies in the service package deployed to Windows Azure</em></p>
+<blockquote>
+<p><strong>Note:</strong> In general, you need to set <strong>Copy Local</strong> = True for any assembly that is not installed by default in the Windows Azure VMs to ensure that it is deployed with your application.</p>
+</blockquote></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> Depending on the type of application that you chose for the exercise that you have just completed, you may wish to proceed with Exercise 2: Using the Azure ASP.NET Providers with MVC Applications or Exercise 3: Using the Azure ASP.NET Providers with Web Form Applications.</p>
+</blockquote>
+<p><a name="Exercise2"></a></p>
+
+<h3 id="Exercise_2_Using_the_Azure_ASPNET_Providers_with_MVC_Applications">Exercise 2: Using the Azure ASP.NET Providers with MVC Applications</h3>
+
+<p>In this exercise, you modify the ASP.NET MVC application to use the ASP.NET providers from the Windows Azure samples. You start by adding authentication to the site using the membership provider. Next, you implement the role provider to classify users and customize the products that the application offers. Finally, you configure the session state provider to store the contents of the shopping cart.</p>
+
+<p><a name="Ex2Task1"></a></p>
+
+<h4 id="Task_1_-_Configuring_Authenticated_Access_to_the_Application">Task 1 - Configuring Authenticated Access to the Application</h4>
+
+<p>In this task, you configure the application to require authenticated access to the pages that implement the shopping cart. </p>
+
+<ol>
+<li>If necessary, open Visual Studio in elevated administrator mode from <strong>Start | All Programs | Microsoft Visual Studio 2010</strong> by right clicking the <strong>Microsoft Visual Studio 2010</strong> shortcut and choosing <strong>Run as administrator</strong>. </li>
+<li>In the <strong>File</strong> menu, choose <strong>Open</strong> and then <strong>Project/Solution</strong>. In the <strong>Open Project</strong> dialog, browse to <strong>Ex2-UsingAzureProvidersWithMVCApps\Begin</strong> in the <strong>Source</strong> folder of the lab, select <strong>Begin.sln</strong> and click <strong>Open</strong>. Alternatively, you may continue with the solution that you completed during Exercise 1.</li>
+<li><p>In the <strong>Controllers</strong> folder, open <strong>HomeController.cs</strong> and decorate the class with an <strong>Authorize</strong> attribute. This configures the application to require authenticated access for every available action on this controller.</p>
+
+<!--mark: 2   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#">[HandleError] 
+<strong class="markLine">[Authorize]</strong>
+<span style="color:#0000FF">public</span> <span style="color:#0000FF">class</span> HomeController : Controller
+{
+    ...
+}
+</code></pre></li>
+<li><p>Save the <strong>HomeController.cs</strong> file.</p></li>
+</ol>
+
+<p><a name="Ex2Task2"></a></p>
+
+<h4 id="Task_2_-_Configuring_Membership_Support_Using_the_Azure__TableStorageMembershipProvider">Task 2 - Configuring Membership Support Using the Azure  TableStorageMembershipProvider</h4>
+
+<p>In this task, you add and configure the Azure ASP.NET providers for membership, role, and session.</p>
+
+<ol>
+<li><p>Add the Windows Azure ASP.NET Providers project to the solution.  In <strong>Solution Explorer</strong>, right-click the <strong>Begin</strong> solution, point to <strong>Add</strong> and select <strong>Existing Project</strong>. Browse to <strong>Assets\AspProviders</strong> in the <strong>Source</strong> folder of the lab, select the <strong>AspProviders.csproj</strong> project and click <strong>Open</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> The <strong>AspProviders</strong> project is available as a sample. It is included as part of this training kit for your convenience and is based on the original source code found in the <a href="http://code.msdn.microsoft.com/windowsazuresamples">MSDN Code Gallery</a>. The project contains the implementation of ASP.NET application providers for membership, role, profile, and session state.</p>
+</blockquote></li>
+<li><p>Add a reference in the web role to the <strong>AspProviders</strong> project. In <strong>Solution Explorer</strong>, right-click the <strong>AzureStore</strong> project node and click <strong>Add Reference</strong>. In the <strong>Add Reference</strong> dialog, switch to the <strong>Projects</strong> tab, select the <strong>AspProviders</strong> project and click <strong>OK</strong>.</p>
+
+<p><img src="images/adding-a-reference-to-the-sample-azure-aspnet.png?raw=true" alt="Adding a reference to the sample Azure ASP.NET Providers project" />
+</p>
+
+<p><em>Adding a reference to the sample Azure ASP.NET Providers project</em></p></li>
+<li><p>Update the service configuration to include a connection string to the Storage account where the data will be stored. In the <strong>AzureStoreService</strong> project, expand the <strong>Roles</strong> node and double-click the <strong>AzureStore</strong> node to open the properties window for this role. </p></li>
+<li><p>In the <strong>AzureStore[Role]</strong> properties window, select the <strong>Settings</strong> tab and click <strong>Add Setting</strong>. Set the <strong>Name</strong> of the new setting to <em>DataConnectionString</em> and change the <strong>Type</strong> to <em>Connection String</em>. Then, in the <strong>Value</strong> column, click the button labeled with an ellipsis.</p>
+
+<p><img src="images/creating-a-new-configuration-setting-for-the.png?raw=true" alt="Creating a new configuration setting for the role" />
+</p>
+
+<p><em>Creating a new configuration setting for the role</em></p></li>
+<li><p>In the <strong>Storage Account Connection String</strong> dialog, choose the option labeled <strong>Use the storage emulator</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/configuring-a-storage-connection-string.png?raw=true" alt="Configuring a storage connection string" />
+</p>
+
+<p><em>Configuring a storage connection string</em></p></li>
+<li><p>Press <strong>CTRL + S</strong> to save your changes to the role configuration.</p></li>
+<li><p>Open the <strong>Web.config</strong> file located in the root folder of the <strong>AzureStore</strong> project.</p></li>
+<li><p>(Optional) Configure the storage account information required by the ASP.NET providers in the application configuration file. To do this, locate the &lt;<strong>appSettings</strong>&gt; element, which should be empty, and replace it with the following (highlighted) configuration block. If the <strong>appSettings</strong> element is missing, insert it as a direct child of the &lt;<strong>configuration</strong>&gt; element.</p>
+<blockquote>
+<p><strong>Note:</strong> In addition to the service configuration file, you can also configure the Azure providers in the <strong>Web.config</strong> file of the application. This allows you to host the application outside the Azure fabric and still take advantage of the Azure ASP.NET providers and storage. However, when the application runs in the Windows Azure environment, configuration settings in the service configuration file for the ASP.NET providers take precedence over those in the <strong>Web.config</strong> file. By using the Windows Azure settings, you can avoid redeploying the application when changing provider settings.</p>
+</blockquote>
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex2 DataConnectionString</em>)</p>
+
+<!--mark: 3   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+<strong class="markLine">   <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;DataConnectionString&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;UseDevelopmentStorage=true&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>    
+</code></pre></li>
+<li><p>Configure the application to use the membership provider in the <strong>AspProviders</strong> project. To do this, replace the existing &lt;<strong>membership</strong>&gt; section inside the &lt;<strong>system.web</strong>&gt; element with the following (highlighted) configuration. </p>
+<blockquote>
+<p><strong>Note:</strong> The default ASP.NET MVC template in Visual Studio creates the configuration settings for the <strong>AspNetSqlMembershipProvider</strong>, which uses SQL Server for storage.</p>
+</blockquote>
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex2 TableStorageMembershipProvider</em>)</p>
+
+<!--mark: 8-24   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+    ...
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">authentication</span> <span style="color:#FF0000">mode</span>=<span style="color:#0000FF">&quot;Forms&quot;</span><span style="color:#0000FF">&gt;</span>
+      ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">authentication</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">    <span style="color:#008000">&lt;!-- Membership Provider Configuration --&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">membership</span> <span style="color:#FF0000">defaultProvider</span>=<span style="color:#0000FF">&quot;TableStorageMembershipProvider&quot;</span> <span style="color:#FF0000">userIsOnlineTimeWindow</span>=<span style="color:#0000FF">&quot;20&quot;</span> <span style="color:#FF0000">hashAlgorithmType</span>=<span style="color:#0000FF">&quot;HMACSHA256&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;TableStorageMembershipProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.Samples.ServiceHosting.AspProviders.TableStorageMembershipProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">description</span>=<span style="color:#0000FF">&quot;Membership provider using table storage&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">applicationName</span>=<span style="color:#0000FF">&quot;AzureStore&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">enablePasswordRetrieval</span>=<span style="color:#0000FF">&quot;false&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">enablePasswordReset</span>=<span style="color:#0000FF">&quot;true&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">requiresQuestionAndAnswer</span>=<span style="color:#0000FF">&quot;false&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">minRequiredPasswordLength</span>=<span style="color:#0000FF">&quot;1&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">minRequiredNonalphanumericCharacters</span>=<span style="color:#0000FF">&quot;0&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">requiresUniqueEmail</span>=<span style="color:#0000FF">&quot;true&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">passwordFormat</span>=<span style="color:#0000FF">&quot;Hashed&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">membership</span><span style="color:#0000FF">&gt;</span></strong>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Important:</strong> Before you execute the solution, make sure that the startup project and the start-up page are set. 
+To set the startup project, in <strong>Solution Explorer</strong>, right-click the <strong>AzureStoreService</strong> project and select <strong>Set as StartUp Project</strong>. 
+To designate the start page, in <strong>Solution Explorer</strong>, right-click the <strong>AzureStore</strong> project and select <strong>Properties</strong>. In the <strong>Properties</strong> window, select the <strong>Web</strong> tab and in the <strong>Start Action</strong>, select <strong>Specific Page</strong>. For the MVC project, set the value of this field empty.</p>
+</blockquote></li>
+<li><p>Press <strong>F5</strong> to build and run the application. An initialization procedure may be required the first time you execute an application that uses the storage emulator. If this happens, wait until the procedure is complete and review its status. Click <strong>OK</strong> to continue.</p>
+
+<p><img src="images/development-storage-initialization-procedure.png?raw=true" alt="Development storage initialization procedure status" />
+</p>
+
+<p><em>Development storage initialization procedure status</em></p></li>
+<li><p>Notice that the application redirects you to the logon page when it starts because the authorization settings now require authenticated access to the Home controller. The membership database is initially empty, so you first need to create an account before you can proceed. In the login page, click <strong>Register</strong> to access the user registration form.</p>
+
+<p><img src="images/authentication-required-to-proceed.png?raw=true" alt="Authentication required to proceed" />
+</p>
+
+<p><em>Authentication required to proceed</em></p></li>
+<li><p>Fill in the registration form and click <strong>Register</strong> to create your account.</p>
+
+<p><img src="images/creating-a-new-user-account.png?raw=true" alt="Creating a new user account" />
+</p>
+
+<p><em>Creating a new user account</em></p></li>
+<li><p>After creating your account, the system automatically logs you in and displays the products page.  Notice your user name displayed in the upper right corner of the window.</p>
+
+<p><img src="images/products-page-displaying-the-current-user.png?raw=true" alt="Products page displaying the current user" />
+</p>
+
+<p><em>Products page displaying the current user</em></p></li>
+<li><p>Close the browser window to stop the running application.</p></li>
+</ol>
+
+<p><a name="Ex2Task3"></a></p>
+
+<h4 id="Task_3_-_Configuring_Role_Support_Using_the_Azure_TableStorageRoleProvider">Task 3 - Configuring Role Support Using the Azure TableStorageRoleProvider</h4>
+
+<p>In this task, you add role support to the application using the Azure role provider. This requires updating the registration process to capture the role of the user and configuring the settings for the role provider. To demonstrate the use of roles, you update the products page to filter the list of products based on the type of user.</p>
+
+<ol>
+<li><p>Add code to the startup routine to initialize the roles supported by the application. The code creates two roles, <em>Home</em> and <em>Enterprise</em>, which the application uses to classify different types of user. Open <strong>Global.asax.cs</strong> and insert the following (highlighted) code into the <strong>Application_Start</strong> method.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex2 Initialize Roles</em>)</p>
+
+<!--mark: 6-15   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">void</span> Application_Start()
+{
+  ...
+  <span style="color:#0000FF">this</span>.LoadProducts();
+
+<strong class="markLine">  <span style="color:#008000">// Initialize the application roles </span></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (!System.Web.Security.Roles.RoleExists(<span style="color:#8B0000">&quot;Home&quot;</span>))</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    System.Web.Security.Roles.CreateRole(<span style="color:#8B0000">&quot;Home&quot;</span>);</strong>
+<strong class="markLine">  }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (!System.Web.Security.Roles.RoleExists(<span style="color:#8B0000">&quot;Enterprise&quot;</span>))</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    System.Web.Security.Roles.CreateRole(<span style="color:#8B0000">&quot;Enterprise&quot;</span>);</strong>
+<strong class="markLine">  }</strong>
+}
+</code></pre></li>
+<li><p>Change the <strong>Index</strong> action to filter the list of products based on the type of user. In the <strong>Controllers</strong> folder, open the <strong>HomeController.cs</strong> file and insert the following (highlighted) code into the <strong>Index</strong> method immediately below the line that declares and initializes the <strong>filteredProducts</strong> variable.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex2 Filter Products</em>)</p>
+
+<!--mark: 10-14   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">public</span> ActionResult Index()
+{
+  <span style="color:#0000FF">var</span> products = <span style="color:#0000FF">this</span>.HttpContext.Application[<span style="color:#8B0000">&quot;Products&quot;</span>] <span style="color:#0000FF">as</span> List&lt;<span style="color:#0000FF">string</span>&gt;;
+  <span style="color:#0000FF">var</span> itemsInSession = <span style="color:#0000FF">this</span>.Session[<span style="color:#8B0000">&quot;Cart&quot;</span>] <span style="color:#0000FF">as</span> List&lt;<span style="color:#0000FF">string</span>&gt; ?? <span style="color:#0000FF">new</span> List&lt;<span style="color:#0000FF">string</span>&gt;();
+
+  <span style="color:#008000">// add all products currently not in session</span>
+  <span style="color:#0000FF">var</span> filteredProducts = products.Where(item =&gt; !itemsInSession.Contains(item));
+
+  <span style="color:#808080">//// Add additional filters here</span>
+<strong class="markLine">  <span style="color:#008000">// filter product list for home users</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (User.IsInRole(<span style="color:#8B0000">&quot;Home&quot;</span>))</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    filteredProducts = filteredProducts.Where(item =&gt; item.Contains(<span style="color:#8B0000">&quot;Home&quot;</span>));</strong>
+<strong class="markLine">  }</strong>
+
+  <span style="color:#0000FF">return</span> View(filteredProducts);
+}
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The inserted code appends an additional filter for users in the <em>Home</em> role that returns only items containing the text &quot;Home&quot;.</p>
+</blockquote></li>
+<li><p>Configure the application to use the role provider in the <strong>AspProviders</strong> project. In the <strong>Web.config</strong> file, <strong>replace</strong> the existing &lt;<strong>roleManager</strong>&gt; section inside the &lt;<strong>system.web</strong>&gt; element with the following (highlighted) configuration.</p>
+<blockquote>
+<p><strong>Note:</strong> The default ASP.NET MVC template in Visual Studio creates the configuration settings for the <strong>AspNetSqlRoleProvider</strong>, which uses SQL Server for storage, and the <strong>AspNetWindowsTokenRoleProvider</strong>, which uses Windows groups.</p>
+</blockquote>
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex2 TableStorageRoleProvider</em>)</p>
+
+<!--mark: 5-22   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+    ...
+<strong class="markLine">    <span style="color:#008000">&lt;!-- RoleManager Provider Configuration --&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">roleManager</span> <span style="color:#FF0000">enabled</span>=<span style="color:#0000FF">&quot;true&quot;</span></strong>
+<strong class="markLine">                 <span style="color:#FF0000">defaultProvider</span>=<span style="color:#0000FF">&quot;TableStorageRoleProvider&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cacheRolesInCookie</span>=<span style="color:#0000FF">&quot;true&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieName</span>=<span style="color:#0000FF">&quot;.ASPXROLES&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieTimeout</span>=<span style="color:#0000FF">&quot;30&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookiePath</span>=<span style="color:#0000FF">&quot;/&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieRequireSSL</span>=<span style="color:#0000FF">&quot;false&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieSlidingExpiration</span>=<span style="color:#0000FF">&quot;true&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieProtection</span>=<span style="color:#0000FF">&quot;All&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;TableStorageRoleProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.Samples.ServiceHosting.AspProviders.TableStorageRoleProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">description</span>=<span style="color:#0000FF">&quot;Role provider using table storage&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">applicationName</span>=<span style="color:#0000FF">&quot;AzureStore&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">roleManager</span><span style="color:#0000FF">&gt;</span></strong>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>CTRL+F5</strong> to build and run the application without debugging. </p></li>
+<li><p>In the login page, click <strong>Register</strong> to access the user registration form. Notice that the registration wizard now displays a section to specify the role of the customer.  Create a new user and assign it a <em>Home</em> customer profile.</p>
+
+<p><img src="images/registration-page-showing-role-information.png?raw=true" alt="Registration page showing role information" />
+</p>
+
+<p><em>Registration page showing role information</em></p></li>
+<li><p>Logged in as a <em>Home</em> user, proceed to the products page. Notice that the list of products only includes home products.</p>
+
+<p><img src="images/products-page-showing-a-filtered-list-of-prod.png?raw=true" alt="Products page showing a filtered list of products based on role" />
+</p>
+
+<p><em>Products page showing a filtered list of products based on role</em></p></li>
+<li><p>Click the <strong>Logoff</strong> link in the upper right corner of the application window.</p></li>
+<li><p>Register a new account and assign this user an <em>Enterprise profile</em>. Notice that the list of displayed products differs from that seen by a <em>Home</em> user.</p>
+
+<p><img src="images/products-page-showing-enterprise-products.png?raw=true" alt="Products page showing Enterprise products" />
+</p>
+
+<p><em>Products page showing Enterprise products</em></p></li>
+<li><p>Select a product from the list and click <strong>Add item to cart</strong>. You may repeat the process to store additional items in the cart.</p></li>
+<li><p>Click the <strong>Checkout</strong> link to view the contents of the shopping cart. Verify that the items you selected appear on the list.</p>
+
+<p><img src="images/check-out-page-showing-the-contents-of-the-sh.png?raw=true" alt="Check out page showing the contents of the shopping cart" />
+</p>
+
+<p><em>Checkout page showing the contents of the shopping cart</em></p></li>
+<li><p>Do not close the browser window or navigate away from the checkout page.</p></li>
+<li><p>In the task bar, right-click the compute emulator icon and select <strong>Show Compute Emulator UI</strong>. </p></li>
+<li><p>In the <strong>Compute Emulator</strong>, right-click the <strong>AzureStoreService</strong> node and choose <strong>Suspend</strong>.</p>
+
+<p><img src="images/suspending-the-service-role-instance.png?raw=true" alt="Suspending the service role instance" />
+</p>
+
+<p><em>Suspending the service role instance</em></p></li>
+<li><p>Open a command window in elevated administrator mode, from <strong>Start | All Programs | Accessories | Command Prompt</strong> by right clicking the <strong>Command Prompt</strong> shortcut and choosing <strong>Run as administrator</strong>. At the command prompt, type <em>iisreset</em>.</p>
+
+<p><img src="images/restarting-internet-information-server.png?raw=true" alt="Restarting Internet Information Server" />
+</p>
+
+<p><em>Restarting Internet Information Server</em></p>
+<blockquote>
+<p><strong>Note:</strong> The preceding two steps, <em>recycling the role</em> and <em>restarting IIS</em>, simulate what would happen in Windows Azure when a role instance is restarted.</p>
+</blockquote></li>
+<li><p>Go back to the <strong>Compute Emulator</strong> and wait until the service is <strong>destroyed</strong> as indicated by the instance icon turning purple. Now, start the service instance once again. To do this, right-click the <strong>AzureStoreService</strong> node and choose <strong>Run</strong>, then wait for the service to start.</p></li>
+<li><p>Switch back to the browser window showing the checkout page and click <strong>Refresh</strong>. Notice that the order now appears empty.</p>
+<blockquote>
+<p><strong>Note:</strong> The application is currently using inproc session state, which maintains all session state in-memory. When you stop the service instance, it discards all session state including the contents of the shopping cart. In the following task, you will configure the application to store session state in storage, which allows the application to maintain session state in the presence of restarts and across multiple machines hosting the application.</p>
+</blockquote></li>
+<li><p>Close the browser window to stop the application.</p></li>
+</ol>
+
+<p><a name="Ex2Task4"></a></p>
+
+<h4 id="Task_4_-_Configuring_Session_Support_Using_the_Azure_TableStorageSessionProvider">Task 4 - Configuring Session Support Using the Azure TableStorageSessionProvider</h4>
+
+<p>Windows Azure can potentially host a Web role on multiple machines inside the fabric, which makes in-memory session state unsuitable for such an environment. In contrast, the session state provider in the <strong>AspProviders</strong> project uses table storage to store configuration information about the session and blob storage to store the session state itself. 
+In this task, you configure the application to use the Azure session state provider.</p>
+
+<ol>
+<li><p>Configure the application to use the session provider in the <strong>AspProviders</strong> project. To do this, in the <strong>Web.config</strong> file of the <strong>AzureStore</strong> project, insert the following (highlighted) configuration block as a direct child of the &lt;<strong>system.web</strong>&gt; element.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex2 TableStorageSessionStateProvider</em>)</p>
+
+<!--mark: 5-14   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+    ...
+<strong class="markLine">    <span style="color:#008000">&lt;!-- SessionState Provider Configuration --&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">sessionState</span> <span style="color:#FF0000">mode</span>=<span style="color:#0000FF">&quot;Custom&quot;</span></strong>
+<strong class="markLine">                  <span style="color:#FF0000">customProvider</span>=<span style="color:#0000FF">&quot;TableStorageSessionStateProvider&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;TableStorageSessionStateProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.Samples.ServiceHosting.AspProviders.TableStorageSessionStateProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">applicationName</span>=<span style="color:#0000FF">&quot;AzureStore&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">sessionState</span><span style="color:#0000FF">&gt;</span></strong>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>CTRL+F5</strong> to build and run the application without debugging.</p></li>
+<li><p>Log in and navigate to the products page. Select one or more products from the list and click <strong>Add item to cart</strong>. Repeat the process to store additional items in the cart.</p></li>
+<li><p>Click the <strong>Checkout</strong> link to view the contents of the shopping cart. Verify that the items you selected appear on the list.</p></li>
+<li><p>Do not close the browser window or navigate away from the checkout page.</p></li>
+<li><p>In the task bar, right-click the compute emulator icon and select <strong>Show Compute Emulator UI</strong>. </p></li>
+<li><p>In the <strong>Compute Emulator</strong>, right-click the <strong>AzureStoreService</strong> node and choose <strong>Suspend</strong>. Wait until the service is <strong>destroyed</strong> as indicated by the instance icon turning purple. </p></li>
+<li><p>Open a command window in elevated administrator mode, from <strong>Start | All Programs | Accessories | Command Prompt</strong> by right clicking the <strong>Command Prompt</strong> shortcut and choosing <strong>Run as administrator</strong>. At the command prompt, type <em>iisreset</em>.</p></li>
+<li><p>Now, restart the service instance once again. To do this, right-click the <strong>AzureStoreService</strong> node and choose <strong>Run</strong>, then wait for the service to start.</p></li>
+<li><p>Switch back to the browser window showing the checkout page and click <strong>Refresh</strong>. Notice that the order is intact. This confirms that the session state can persist through application restarts when using the Azure provider.</p></li>
+<li><p>Close the browser window to stop the application.</p></li>
+</ol>
+
+<p><a name="Exercise3"></a></p>
+
+<h3 id="Exercise_3_Using_the_Azure_ASPNET_Providers_with_Web_Form_Applications">Exercise 3: Using the Azure ASP.NET Providers with Web Form Applications</h3>
+
+<p>In this exercise, you modify the ASP.NET Web Form application to use the ASP.NET providers from the Windows Azure samples. You start by adding authentication to the site using the membership provider. Next, you implement the role provider to classify users and customize the products that the application offers. Finally, you configure the session state provider to store the contents of the shopping cart.</p>
+
+<p><a name="Ex3Task1"></a></p>
+
+<h4 id="Task_1_-_Configuring_Authenticated_Access_to_the_Application">Task 1 - Configuring Authenticated Access to the Application</h4>
+
+<p>In this task, you configure the application to require authenticated access to the pages that implement the shopping cart. </p>
+
+<ol>
+<li>If necessary, open Visual Studio in elevated administrator mode from <strong>Start | All Programs | Microsoft Visual Studio 2010</strong> by right clicking the <strong>Microsoft Visual Studio 2010</strong> shortcut and choosing <strong>Run as administrator</strong>. </li>
+<li>In the <strong>File</strong> menu, choose <strong>Open</strong> and then <strong>Project/Solution</strong>. In the <strong>Open Project</strong> dialog, browse to <strong>Ex3-UsingAzureProvidersWithWebApps\Begin</strong> in the <strong>Source</strong> folder of the lab, select <strong>Begin.sln</strong> and click <strong>Open</strong>. Alternatively, you may continue with the solution that you completed during Exercise 1.</li>
+<li><p>Configure authorization for the <strong>Store</strong> folder to require authenticated access. Open the <strong>Web.config</strong> file of the <strong>AzureStore</strong> project and insert the following (highlighted) configuration block as a direct child of the &lt;<strong>configuration</strong>&gt; element.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 Configuring Authorization</em>)</p>
+
+<!--mark: 4-11   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;?</span>xml version=&quot;1.0&quot;<span style="color:#0000FF">?&gt;</span>
+<span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">location</span> <span style="color:#FF0000">path</span>=<span style="color:#0000FF">&quot;Store&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span> </strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">authorization</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">deny</span> <span style="color:#FF0000">users</span>=<span style="color:#0000FF">&quot;?&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">allow</span> <span style="color:#FF0000">users</span>=<span style="color:#0000FF">&quot;*&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">authorization</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">location</span><span style="color:#0000FF">&gt;</span></strong>
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>CTRL + S</strong> to save the <strong>Web.config</strong> file.</p></li>
+</ol>
+
+<p><a name="Ex3Task2"></a></p>
+
+<h4 id="Task_2_-_Configuring_Membership_Support_Using_the_Azure_TableStorageMembershipProvider">Task 2 - Configuring Membership Support Using the Azure TableStorageMembershipProvider</h4>
+
+<p>In this task, you add and configure the Azure ASP.NET providers for membership, role, and session.</p>
+
+<ol>
+<li><p>Add the Windows Azure ASP.NET Providers project to the solution.  In <strong>Solution Explorer</strong>, right-click the <strong>Begin</strong> solution, point to <strong>Add</strong> and select <strong>Existing Project</strong>. Browse to <strong>Assets\AspProviders</strong> in the <strong>Source</strong> folder of the lab, select the <strong>AspProviders.csproj</strong> project and click <strong>Open</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> The <strong>AspProviders</strong> project is available as a sample. It is included as part of this training kit for your convenience and is based on the original source code found in the <a href="http://code.msdn.microsoft.com/windowsazuresamples">MSDN Code Gallery</a>. The project contains the implementation of ASP.NET application providers for membership, role, profile, and session state.</p>
+</blockquote></li>
+<li><p>Add a reference in the web role to the <strong>AspProviders</strong> project. In <strong>Solution Explorer</strong>, right-click the <strong>AzureStore</strong> project node and click <strong>Add Reference</strong>. In the <strong>Add Reference</strong> dialog, switch to the <strong>Projects</strong> tab, select the <strong>AspProviders</strong> project and click <strong>OK</strong>.</p>
+
+<p><img src="images/adding-a-reference-to-the-sample-azure-aspnet.png?raw=true" alt="Adding a reference to the sample Azure ASP.NET Providers project" />
+</p>
+
+<p><em>Adding a reference to the sample Azure ASP.NET Providers project</em></p></li>
+<li><p>Update the service configuration to include a connection string to the storage account where the data will be stored. In the <strong>AzureStoreService</strong> project, expand the <strong>Roles</strong> node and double-click the <strong>AzureStore</strong> node to open the properties window for this role. </p></li>
+<li><p>In the <strong>AzureStore[Role]</strong> properties window, select the <strong>Settings</strong> tab and click <strong>Add Setting</strong>. Set the <strong>Name</strong> of the new setting to <em>DataConnectionString</em> and change the <strong>Type</strong> to <em>Connection String</em>. Then, in the <strong>Value</strong> column, click the button labeled with an ellipsis.</p>
+
+<p><img src="images/creating-a-new-configuration-setting-for-the.png?raw=true" alt="Creating a new configuration setting for the role" />
+</p>
+
+<p><em>Creating a new configuration setting for the role</em></p></li>
+<li><p>In the <strong>Storage Account Connection String</strong> dialog, choose the option labeled <strong>Use the Windows Azure storage emulator</strong> and click <strong>OK</strong>.</p>
+
+<p><img src="images/configuring-a-storage-connection-string.png?raw=true" alt="Configuring a storage connection string" />
+</p>
+
+<p><em>Configuring a storage connection string</em></p></li>
+<li><p>Press <strong>CTRL + S</strong> to save your changes to the role configuration.</p></li>
+<li><p>Open the <strong>Web.config</strong> file located in the root folder of the <strong>AzureStore</strong> project.</p></li>
+<li><p>(Optional) Configure the storage account information required by the ASP.NET providers in the application configuration file. To do this, locate the &lt;<strong>appSettings</strong>&gt; element, which should be empty, and replace it with the following (highlighted) configuration block. If the <strong>appSettings</strong> element is missing, insert it as a direct child of the &lt;<strong>configuration</strong>&gt; element.</p>
+<blockquote>
+<p><strong>Note:</strong> In addition to the service configuration file, you can also configure the Azure providers in the <strong>Web.config</strong> file of the application. This allows you to host the application outside the Azure fabric and still take advantage of the Azure ASP.NET providers and storage. However, when the application runs in the Windows Azure environment, configuration settings in the service configuration file for the ASP.NET providers take precedence over those in the <strong>Web.config</strong> file. By using the Windows Azure settings, you can avoid redeploying the application when changing provider settings.</p>
+</blockquote>
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 DataConnectionString</em>)</p>
+
+<!--mark: 3-5   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+<strong class="markLine">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">key</span>=<span style="color:#0000FF">&quot;DataConnectionString&quot;</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;UseDevelopmentStorage=true&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">appSettings</span><span style="color:#0000FF">&gt;</span></strong>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Configure the application to use the membership provider in the <strong>AspProviders</strong> project. To do this, <strong>replace</strong> the existing &lt;<strong>membership</strong>&gt; section inside the &lt;<strong>system.web</strong>&gt; element with the following (highlighted) configuration.</p>
+<blockquote>
+<p><strong>Note:</strong> The default ASP.NET Web Application template in Visual Studio creates the configuration settings for the <strong>AspNetSqlMembershipProvider</strong>, which uses SQL Server for storage.</p>
+</blockquote>
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 TableStorageMembershipProvider</em>)</p>
+
+<!--mark: 9-26   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+    ...
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">authentication</span> <span style="color:#FF0000">mode</span>=<span style="color:#0000FF">&quot;Forms&quot;</span><span style="color:#0000FF">&gt;</span>
+      ...
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">authentication</span><span style="color:#0000FF">&gt;</span>
+
+<strong class="markLine">    <span style="color:#008000">&lt;!-- Membership Provider Configuration --&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">membership</span> <span style="color:#FF0000">defaultProvider</span>=<span style="color:#0000FF">&quot;TableStorageMembershipProvider&quot;</span> <span style="color:#FF0000">userIsOnlineTimeWindow</span>=<span style="color:#0000FF">&quot;20&quot;</span> <span style="color:#FF0000">hashAlgorithmType</span>=<span style="color:#0000FF">&quot;HMACSHA256&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;TableStorageMembershipProvider&quot;</span></strong>
+<strong class="markLine">         <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.Samples.ServiceHosting.AspProviders.TableStorageMembershipProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">description</span>=<span style="color:#0000FF">&quot;Membership provider using table storage&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">applicationName</span>=<span style="color:#0000FF">&quot;AzureStore&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">enablePasswordRetrieval</span>=<span style="color:#0000FF">&quot;false&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">enablePasswordReset</span>=<span style="color:#0000FF">&quot;true&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">requiresQuestionAndAnswer</span>=<span style="color:#0000FF">&quot;false&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">minRequiredPasswordLength</span>=<span style="color:#0000FF">&quot;1&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">minRequiredNonalphanumericCharacters</span>=<span style="color:#0000FF">&quot;0&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">requiresUniqueEmail</span>=<span style="color:#0000FF">&quot;true&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">passwordFormat</span>=<span style="color:#0000FF">&quot;Hashed&quot;</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">membership</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine"></strong>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>Important:</strong> Before you execute the solution, make sure that the start-up project and the start-up page are set. 
+To set the startup project, in <strong>Solution Explorer</strong>, right-click the <strong>AzureStoreService</strong> project and select <strong>Set as StartUp Project</strong>. </p>
+
+<p>To designate the start page, in <strong>Solution Explorer</strong>, right-click the <strong>AzureStore</strong> project and select <strong>Properties</strong>. In the <strong>Properties</strong> window, select the <strong>Web</strong> tab and in the <strong>Start Action</strong>, select <strong>Specific Page</strong>. For the Web Form project, set the value of this field to <strong>Store/Products.aspx</strong>.</p>
+</blockquote></li>
+<li><p>Press <strong>F5</strong> to build and run the application. An initialization procedure may be required the first time you execute an application that uses the storage emulator. If this happens, wait until the procedure is complete and review its status. Click <strong>OK</strong> to continue.</p>
+
+<p><img src="images/development-storage-initialization-procedure.png?raw=true" alt="Development storage initialization procedure status" />
+</p>
+
+<p><em>Development storage initialization procedure status</em></p></li>
+<li><p>Notice that the application redirects you to the log in page when it starts because the authorization settings now require authenticated access to the Home controller. The membership database is initially empty, so you first need to create an account before you can proceed. In the log in page, click <strong>Register</strong> to access the user registration form.</p>
+
+<p><img src="images/authentication-required-to-proceed2.png?raw=true" alt="Authentication required to proceed" />
+</p>
+
+<p><em>Authentication required to proceed</em></p></li>
+<li><p>Fill in the registration form and click <strong>Create User</strong> to register your account.</p>
+
+<p><img src="images/creating-a-new-user-account2.png?raw=true" alt="Creating a new user account" />
+</p>
+
+<p><em>Creating a new user account</em></p></li>
+<li><p>Once you complete the wizard, the application displays a confirmation message. Click <strong>Continue</strong> to proceed to the products page.</p>
+
+<p><img src="images/account-successfully-created2.png?raw=true" alt="Account successfully created" />
+</p>
+
+<p><em>Account successfully created</em></p></li>
+<li><p>After creating your account, the system automatically logs you in and displays the products page.  Notice your user name displayed in the upper right corner of the window.</p>
+
+<p><img src="images/products-page-displaying-the-current-user2.png?raw=true" alt="Products page displaying the current user" />
+</p>
+
+<p><em>Products page displaying the current user</em></p></li>
+<li><p>Close the browser window to stop the running application</p></li>
+</ol>
+
+<p><a name="Ex3Task3"></a></p>
+
+<h4 id="Task_3_-_Configuring_Role_Support_Using_the_Azure_TableStorageRoleProvider">Task 3 - Configuring Role Support Using the Azure TableStorageRoleProvider</h4>
+
+<p>In this task, you add role support to the application using the Azure role provider. This requires updating the registration process to capture the role of the user and configuring the settings for the role provider. To demonstrate the use of roles, you update the products page to filter the list of products based on the type of user.</p>
+
+<ol>
+<li><p>Update the registration process to assign a role to the user. Open <strong>Register.aspx</strong> in the <strong>Account</strong> folder and insert the following (highlighted) markup to add a new step in the <strong>CreateUserWizard</strong> control.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 Role WizardStep</em>)</p>
+
+<!--mark: 3-8   -->
+
+<span class="codelanguage">ASP.NET</span><pre><code class="ASP.NET">    ...
+    <span style="color:#0000FF">&lt;</span><span style="color:#800000">WizardSteps</span><span style="color:#0000FF">&gt;</span>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">WizardStep</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">                Choose a customer profile:<span style="color:#0000FF">&lt;/</span><span style="color:#800000">div</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">            <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">RadioButtonList</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;roles&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span> <span style="color:#FF0000">RepeatDirection</span>=<span style="color:#0000FF">&quot;Vertical&quot;</span> <span style="color:#FF0000">RepeatLayout</span>=<span style="color:#0000FF">&quot;Flow&quot;</span></strong>
+<strong class="markLine">                <span style="color:#FF0000">CssClass</span>=<span style="color:#0000FF">&quot;role&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;/</span><span style="color:#C71585">asp</span>:<span style="color:#800000">WizardStep</span><span style="color:#0000FF">&gt;</span></strong>
+        <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">CreateUserWizardStep</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;CreateUserWizardStep1&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#C71585">asp</span>:<span style="color:#800000">CreateUserWizardStep</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;</span><span style="color:#C71585">asp</span>:<span style="color:#800000">CompleteWizardStep</span> <span style="color:#FF0000">ID</span>=<span style="color:#0000FF">&quot;CompleteWizardStep1&quot;</span> <span style="color:#FF0000">runat</span>=<span style="color:#0000FF">&quot;server&quot;</span><span style="color:#0000FF">&gt;</span>
+        <span style="color:#0000FF">&lt;/</span><span style="color:#C71585">asp</span>:<span style="color:#800000">CompleteWizardStep</span><span style="color:#0000FF">&gt;</span>
+    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">WizardSteps</span><span style="color:#0000FF">&gt;</span>
+    ...
+</code></pre></li>
+<li><p>Add an event handler for the event that fires when the wizard creates the user. Add an <strong>OnCreatedUser</strong> attribute to the <strong>CreateUserWizard</strong> control and set the name of the event handler to <strong>OnCreatedUser</strong>.</p>
+
+<p><img src="images/adding-an-event-handler-for-the-createduser-e.png?raw=true" alt="Adding an event handler for the CreatedUser event" />
+</p>
+
+<p><em>Adding an event handler for the CreatedUser event</em></p></li>
+<li><p>In <strong>Solution Explorer</strong>, right-click <strong>Register.aspx.cs</strong> and then select <strong>View Code</strong> to open its code-behind file. Insert the following code to define the <strong>OnCreatedUser</strong> event handler.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 OnCreatedUser</em>)</p>
+
+<!--mark: 1-8   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><strong class="markLine"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">void</span> OnCreatedUser(<span style="color:#0000FF">object</span> sender, EventArgs e)</strong>
+<strong class="markLine">{</strong>
+<strong class="markLine">  <span style="color:#0000FF">var</span> list =   (RadioButtonList)<span style="color:#0000FF">this</span>.CreateUserWizard1.WizardSteps[0].FindControl(<span style="color:#8B0000">&quot;roles&quot;</span>);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">  System.Web.Security.Roles.AddUserToRole(</strong>
+<strong class="markLine">                             <span style="color:#0000FF">this</span>.CreateUserWizard1.UserName,</strong>
+<strong class="markLine">                             list.SelectedItem.Text);</strong>
+<strong class="markLine">}</strong>
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The code retrieves the role selected in the wizard and then adds the user to this role using the configured role provider.</p>
+</blockquote></li>
+<li><p>Insert the following highlighted code into the body of the <strong>Page_Load</strong> method to initialize the <strong>CreateUserWizard</strong> control using the roles defined by the application.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 Page_Load</em>)</p>
+
+<!--mark: 4-16   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">void</span> Page_Load(<span style="color:#0000FF">object</span> sender, EventArgs e)
+{
+  <span style="color:#0000FF">this</span>.CreateUserWizard1.ContinueDestinationPageUrl = Request.QueryString[<span style="color:#8B0000">&quot;ReturnUrl&quot;</span>];
+<strong class="markLine"></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (!IsPostBack)</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    <span style="color:#0000FF">var</span> list = (RadioButtonList)<span style="color:#0000FF">this</span>.CreateUserWizard1.WizardSteps[0].FindControl(<span style="color:#8B0000">&quot;roles&quot;</span>);</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    list.DataSource = System.Web.Security.Roles.GetAllRoles().OrderByDescending(a =&gt; a);</strong>
+<strong class="markLine">    list.DataBind();</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">    <span style="color:#0000FF">if</span> (list.Items.Count &gt; 0)</strong>
+<strong class="markLine">    {</strong>
+<strong class="markLine">      list.Items[0].Selected = <span style="color:#0000FF">true</span>;</strong>
+<strong class="markLine">    }</strong>
+<strong class="markLine">  }</strong>
+}
+</code></pre></li>
+<li><p>Add code to the start-up routine to initialize the roles supported by the application. The code creates two roles, <em>Home</em> and <em>Enterprise</em>, which the application uses to classify different types of user. Open <strong>Global.asax.cs</strong> and insert the following (highlighted) code into the <strong>Application_Start</strong> method.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 Initialize Roles</em>)</p>
+
+<!--mark: 6-15   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">void</span> Application_Start(<span style="color:#0000FF">object</span> sender, EventArgs e)
+{
+  ...
+  <span style="color:#0000FF">this</span>.LoadProducts();
+
+<strong class="markLine">  <span style="color:#008000">// Initialize the application roles </span></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (!System.Web.Security.Roles.RoleExists(<span style="color:#8B0000">&quot;Home&quot;</span>))</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    System.Web.Security.Roles.CreateRole(<span style="color:#8B0000">&quot;Home&quot;</span>);</strong>
+<strong class="markLine">  }</strong>
+<strong class="markLine"></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (!System.Web.Security.Roles.RoleExists(<span style="color:#8B0000">&quot;Enterprise&quot;</span>))</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    System.Web.Security.Roles.CreateRole(<span style="color:#8B0000">&quot;Enterprise&quot;</span>);</strong>
+<strong class="markLine">  }</strong>
+}
+</code></pre></li>
+<li><p>Change the product page to filter the list of products based on the type of user. Open the  <strong>Products.aspx.cs</strong> code-behind file in the  <strong>Store</strong> folder and insert the following (highlighted) code into the <strong>Page_Init</strong> method, immediately below the line that declares and initializes the <strong>filteredProducts</strong> variable.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 Page_Init</em>)</p>
+
+<!--mark: 10-14   -->
+
+<span class="codelanguage">C#</span><pre><code class="C#"><span style="color:#0000FF">protected</span> <span style="color:#0000FF">void</span> Page_Init(<span style="color:#0000FF">object</span> sender, EventArgs e)
+{
+  <span style="color:#0000FF">var</span> products = <span style="color:#0000FF">this</span>.Application[<span style="color:#8B0000">&quot;Products&quot;</span>] <span style="color:#0000FF">as</span> List&lt;<span style="color:#0000FF">string</span>&gt;;
+  <span style="color:#0000FF">var</span> itemsInSession = <span style="color:#0000FF">this</span>.Session[<span style="color:#8B0000">&quot;Cart&quot;</span>] <span style="color:#0000FF">as</span> List&lt;<span style="color:#0000FF">string</span>&gt; ?? <span style="color:#0000FF">new</span> List&lt;<span style="color:#0000FF">string</span>&gt;();
+
+  <span style="color:#008000">// add all products currently not in session</span>
+  <span style="color:#0000FF">var</span> filteredProducts = products.Where(item =&gt; !itemsInSession.Contains(item));
+
+  <span style="color:#808080">//// Add additional filters here</span>
+<strong class="markLine">  <span style="color:#008000">// filter product list for home users</span></strong>
+<strong class="markLine">  <span style="color:#0000FF">if</span> (User.IsInRole(<span style="color:#8B0000">&quot;Home&quot;</span>))</strong>
+<strong class="markLine">  {</strong>
+<strong class="markLine">    filteredProducts = filteredProducts.Where(item =&gt;  item.Contains(<span style="color:#8B0000">&quot;Home&quot;</span>));</strong>
+<strong class="markLine">  }</strong>
+
+  <span style="color:#0000FF">foreach</span> (<span style="color:#0000FF">var</span> product <span style="color:#0000FF">in</span> filteredProducts)
+  {
+    <span style="color:#0000FF">this</span>.products.Items.Add(product);
+  }
+}
+
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> The inserted code appends an additional filter for users in the <em>Home</em> role that returns only items containing the text <em>&quot;Home&quot;</em>.</p>
+</blockquote></li>
+<li><p>Configure the application to use the role provider in the  <strong>AspProviders</strong> project. In the  <strong>Web.config</strong> file, <strong>replace</strong> the existing  &lt;<strong>roleManager</strong>&gt; section inside the &lt;<strong>system.web</strong>&gt; element with the following (highlighted) configuration.</p>
+<blockquote>
+<p><strong>Note:</strong> The default ASP.NET Web Application template in Visual Studio creates the configuration settings for the  <strong>AspNetSqlRoleProvider</strong>, which uses SQL Server for storage, and the  <strong>AspNetWindowsTokenRoleProvider</strong>, which uses Windows groups.</p>
+</blockquote>
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 TableStorageRoleProvider</em>)</p>
+
+<!--mark: 5-22   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+    ...
+<strong class="markLine">    <span style="color:#008000">&lt;!-- RoleManager Provider Configuration --&gt;</span></strong>
+<strong class="markLine">   <span style="color:#0000FF">&lt;</span><span style="color:#800000">roleManager</span> <span style="color:#FF0000">enabled</span>=<span style="color:#0000FF">&quot;true&quot;</span></strong>
+<strong class="markLine">                 <span style="color:#FF0000">defaultProvider</span>=<span style="color:#0000FF">&quot;TableStorageRoleProvider&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cacheRolesInCookie</span>=<span style="color:#0000FF">&quot;true&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieName</span>=<span style="color:#0000FF">&quot;.ASPXROLES&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieTimeout</span>=<span style="color:#0000FF">&quot;30&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookiePath</span>=<span style="color:#0000FF">&quot;/&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieRequireSSL</span>=<span style="color:#0000FF">&quot;false&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieSlidingExpiration</span>=<span style="color:#0000FF">&quot;true&quot;</span> </strong>
+<strong class="markLine">                 <span style="color:#FF0000">cookieProtection</span>=<span style="color:#0000FF">&quot;All&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;TableStorageRoleProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.Samples.ServiceHosting.AspProviders.TableStorageRoleProvider&quot;</span></strong>
+<strong class="markLine">         <span style="color:#FF0000">description</span>=<span style="color:#0000FF">&quot;Role provider using table storage&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">applicationName</span>=<span style="color:#0000FF">&quot;AzureStore&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">roleManager</span><span style="color:#0000FF">&gt;</span></strong>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>CTRL+F5</strong> to build and run the application without debugging.</p></li>
+<li><p>In the logon page, click  <strong>Register</strong> to access the user registration form. Notice that the registration wizard now displays a section to specify the role of the customer.  Create a new user and assign it a <em>Home</em> customer profile.</p>
+
+<p><img src="images/registration-page-showing-role-information2.png?raw=true" alt="Registration page showing role information" />
+</p>
+
+<p><em>Registration page showing role information</em></p></li>
+<li><p>Logged in as a <em>Home</em> user, proceed to the products page. Notice that the list of products only includes home products.</p>
+
+<p><img src="images/products-page-showing-a-filtered-list-of-prod2.png?raw=true" alt="Products page showing a filtered list of products based on role" />
+</p>
+
+<p><em>Products page showing a filtered list of products based on role</em></p></li>
+<li><p>Click the  <strong>Logout</strong> link in the upper left corner of the application window.</p></li>
+<li><p>Register a new account and assign this user an <em>Enterprise</em> profile. Notice that the list of displayed products differs from that seen by a <em>Home</em> user.</p>
+
+<p><img src="images/products-page-showing-enterprise-products2.png?raw=true" alt="Products page showing Enterprise products" />
+</p>
+
+<p><em>Products page showing Enterprise products</em></p></li>
+<li><p>Select a product from the list and click <strong>Add item to cart</strong>. You may repeat the process to store additional items in the cart.</p></li>
+<li><p>Click the <strong>Checkout</strong> link to view the contents of the shopping cart. Verify that the items you selected appear on the list.</p>
+
+<p><img src="images/check-out-page-showing-the-contents-of-the-sh2.png?raw=true" alt="Check out page showing the contents of the shopping cart" />
+</p>
+
+<p><em>Checkout page showing the contents of the shopping cart</em></p></li>
+<li><p>Do not close the browser window or navigate away from the checkout page.</p></li>
+<li><p>In the task bar, right-click the compute emulator icon and select <strong>Show Compute Emulator UI</strong>. </p></li>
+<li><p>In the <strong>Compute Emulator</strong>, right-click the <strong>AzureStoreService</strong> node and choose <strong>Suspend</strong>.</p>
+
+<p><img src="images/suspending-the-service-role-instance.png?raw=true" alt="Suspending the service role instance" />
+</p>
+
+<p><em>Suspending the service role instance</em>  </p></li>
+<li><p>Open a command window in elevated administrator mode, from <strong>Start | All Programs | Accessories | Command Prompt</strong> by right clicking the <strong>Command Prompt</strong> shortcut and choosing <strong>Run as Administrator</strong>. At the command prompt, type <em>iisreset</em>.</p>
+
+<p><img src="images/restarting-internet-information-server.png?raw=true" alt="Restarting Internet Information Server" />
+</p>
+
+<p><em>Restarting Internet Information Server</em></p>
+<blockquote>
+<p><strong>Note:</strong> These two steps, recycling the role and restarting IIS, simulate what would happen in Windows Azure when a role instance is restarted.</p>
+</blockquote></li>
+<li><p>Go back to the <strong>Compute Emulator</strong> and wait until the service is <strong>destroyed</strong> as indicated by the instance icon turning purple. Now, restart the service instance once again. To do this, right-click the <strong>AzureStoreService</strong> node and choose <strong>Run</strong>, then wait for the service to start.</p></li>
+<li><p>Switch back to the browser window showing the checkout page and click <strong>Refresh</strong>. Notice that the order now appears empty.</p>
+<blockquote>
+<p><strong>Note:</strong> The application is currently using inproc session state, which maintains all session state in-memory. When you stop the service instance, it discards all session state including the contents of the shopping cart. In the following task, you will configure the application to store session state in storage, which allows the application to maintain session state in the presence of restarts and across multiple machines hosting the application.</p>
+</blockquote></li>
+<li><p>Close the browser window to stop the application.</p></li>
+</ol>
+
+<p><a name="Ex3Task4"></a></p>
+
+<h4 id="Task_4_-_Configuring_Session_Support_Using_the_Azure_TableStorageSessionProvider">Task 4 - Configuring Session Support Using the Azure TableStorageSessionProvider</h4>
+
+<p>Windows Azure can potentially host a Web role on multiple machines inside the fabric, which makes in-memory session state unsuitable for such an environment. In contrast, the session state provider in the <strong>AspProviders</strong> project uses table storage to store configuration information about the session and blob storage to store the session state itself. 
+In this task, you configure the application to use the Windows Azure session state provider.</p>
+
+<ol>
+<li><p>Configure the application to use the session provider in the <strong>AspProviders</strong> project. To do this, in the <strong>Web.config</strong> file of the <strong>AzureStore</strong> project, insert the following (highlighted) configuration block as an immediate child of the &lt;<strong>system.web</strong>&gt; element.</p>
+
+<p>(Code Snippet - <em>Migrating ASP.NET Applications  - Ex3 TableStorageSessionStateProvider</em>)</p>
+
+<!--mark: 5-14   -->
+
+<span class="codelanguage">XML</span><pre><code class="XML"><span style="color:#0000FF">&lt;</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+  ...
+  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+    ...
+<strong class="markLine">    <span style="color:#008000">&lt;!-- SessionState Provider Configuration --&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;</span><span style="color:#800000">sessionState</span> <span style="color:#FF0000">mode</span>=<span style="color:#0000FF">&quot;Custom&quot;</span></strong>
+<strong class="markLine">                  <span style="color:#FF0000">customProvider</span>=<span style="color:#0000FF">&quot;TableStorageSessionStateProvider&quot;</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">clear</span><span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">        <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">name</span>=<span style="color:#0000FF">&quot;TableStorageSessionStateProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">type</span>=<span style="color:#0000FF">&quot;Microsoft.Samples.ServiceHosting.AspProviders.TableStorageSessionStateProvider&quot;</span></strong>
+<strong class="markLine">             <span style="color:#FF0000">applicationName</span>=<span style="color:#0000FF">&quot;AzureStore&quot;</span> <span style="color:#0000FF">/&gt;</span></strong>
+<strong class="markLine">      <span style="color:#0000FF">&lt;/</span><span style="color:#800000">providers</span><span style="color:#0000FF">&gt;</span></strong>
+<strong class="markLine">    <span style="color:#0000FF">&lt;/</span><span style="color:#800000">sessionState</span><span style="color:#0000FF">&gt;</span></strong>
+    ...
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.web</span><span style="color:#0000FF">&gt;</span>
+  ...
+<span style="color:#0000FF">&lt;/</span><span style="color:#800000">configuration</span><span style="color:#0000FF">&gt;</span>
+</code></pre></li>
+<li><p>Press <strong>CTRL+F5</strong> to build and run the application without debugging.</p></li>
+<li><p>Log in and navigate to the products page. Select one or more products from the list and click <strong>Add item to cart</strong>. Repeat the process to store additional items in the cart.</p></li>
+<li><p>Click the <strong>Checkout</strong> link to view the contents of the shopping cart. Verify that the items you selected appear on the list.</p></li>
+<li><p>Do not close the browser window or navigate away from the checkout page.</p></li>
+<li><p>In the task bar, right-click the compute emulator icon and select <strong>Show Compute Emulator UI</strong>. </p></li>
+<li><p>In the <strong>Compute Emulator</strong>, right-click the <strong>AzureStoreService</strong>node and choose <strong>Suspend</strong>. Wait until the service is <strong>destroyed</strong> as indicated by the instance icon turning purple. </p></li>
+<li><p>Open a command window in elevated administrator mode, from <strong>Start | All Programs | Accessories | Command Prompt</strong> by right clicking the <strong>Command Prompt</strong> shortcut and choosing <strong>Run as administrator</strong>. At the command prompt, type <em>iisreset</em>.</p></li>
+<li><p>Now, restart the service instance once again. To do this, right-click the <strong>AzureStoreService</strong> node and choose <strong>Run</strong>, then wait for the service to start.</p></li>
+<li><p>Switch back to the browser window showing the checkout page and click <strong>Refresh</strong>. Notice that the order is intact. This confirms that the session state can persist through application restarts when using the Azure provider.</p></li>
+<li><p>Close the browser window to stop the application.</p></li>
+</ol>
+<blockquote>
+<p><strong>Note:</strong> If you want to deploy an ASP.NET Web Forms application in Windows Azure, you need to set up the Start Page in the web role project. To do this, open the Web.Config file and add the following lines at the end of the System.WebServer section:</p>
+
+<span class="codelanguage">XML</span><pre><code class="XML">  <span style="color:#0000FF">&lt;</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span>
+   . . .
+   <span style="color:#0000FF">&lt;</span><span style="color:#800000">defaultDocument</span><span style="color:#0000FF">&gt;</span>
+         <span style="color:#0000FF">&lt;</span><span style="color:#800000">files</span><span style="color:#0000FF">&gt;</span>
+              <span style="color:#0000FF">&lt;</span><span style="color:#800000">add</span> <span style="color:#FF0000">value</span>=<span style="color:#0000FF">&quot;Store/Products.aspx&quot;</span> <span style="color:#0000FF">/&gt;</span>
+         <span style="color:#0000FF">&lt;/</span><span style="color:#800000">files</span><span style="color:#0000FF">&gt;</span>
+   <span style="color:#0000FF">&lt;/</span><span style="color:#800000">defaultDocument</span><span style="color:#0000FF">&gt;</span>
+  <span style="color:#0000FF">&lt;/</span><span style="color:#800000">system.webServer</span><span style="color:#0000FF">&gt;</span>
+</code></pre>
+
+<p>For more information about this issue, please visit this <a href="http://blogs.msdn.com/b/cesardelatorre/archive/2010/07/22/how-to-set-a-default-page-to-a-windows-azure-web-role-app-silverlight-asp-net-etc.aspx">msdn blog</a>.</p>
+</blockquote>
+<hr />
+
+<p><a name="Summary"></a></p>
+
+<h2 id="Summary">Summary</h2>
+
+<p>By completing this hands-on lab, you saw the changes that are necessary to run an existing ASP.NET application in the Windows Azure environment. You explored authentication and how to use membership, role, and session state providers that are based on scalable and reliable blob and table storage services to handle applications running on multiple machines inside the Windows Azure fabric.</p>
+
+</span>
+		</div>
+	<br />
+	<p><a href="#top">top of page</a></p>
+
+
+				</div>
+			</section>
+			<footer>
+				<div class="footer-sitemap" style="border-top:0"></div>
+				<div class="footer-bottom">
+					<ul>
+						<li class="footer-copyright"><a href="http://www.microsoft.com"><img alt="microsoft" src="images/microsoft.png" /></a></li>					
+												<li><a href="https://github.com/WindowsAzure-TrainingKit/HOL-MigratingAspNetApps/issues" target="_new">File an Issue</a></li>
+												<li><a href="mailto:azcfeed@microsoft.com?subject=Windows Azure Training Kit">Contact Us</a></li>						
+						<li><a href=".\">Browse Content</a></li>
+						<li>&copy; 2012 Microsoft</li>
+					</ul>
+				</div>
+			</footer>
+			</div>
+        </div>
+    </div>
+</body>
+</html>
+
